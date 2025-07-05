@@ -23,15 +23,13 @@ let initialState = {
 const dialogsReducer = (state = initialState, action) => {
     switch (action.type) {
         case MESSAGE_TEXT_CHANGE:
-            state.messageText = action.message;
-            return state;
+            return {...state, messageText: action.message};
         case ADD_MESSAGE:
             let newMessage = {
                 message: state.messageText,
             }
-            state.messages.push(newMessage);
-            state.messageText = "";
-            return state;
+
+            return {...state, messages: [...state.messages,newMessage], messageText: ""};
         default:
             return state;
     }
@@ -41,6 +39,5 @@ export const messageTextChangeActionCreator = (text) =>
     ({type: MESSAGE_TEXT_CHANGE, message: text})
 
 export const addMessageActionCreator = () => ({type: ADD_MESSAGE})
-
 
 export default dialogsReducer;

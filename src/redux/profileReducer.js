@@ -24,9 +24,7 @@ const profileReducer = (state = initialState, action) => {
             return {...state, newPostText: "", postData: [...state.postData, newPost]};
         }
         case UPDATE_NEW_POST_TEXT: {
-            let stateCopy = {...state}
-            stateCopy.newPostText = action.postText;
-            return stateCopy;
+            return {...state, newPostText: action.postText};
         }
         case ADD_LIKE_BUTTON: {
             let stateCopy = {...state}
