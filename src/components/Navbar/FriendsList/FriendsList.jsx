@@ -4,7 +4,7 @@ import DialogItem from "../../Dialogs/DialogItem/DialogItem";
 import {NavLink} from "react-router-dom";
 
 const FriendsList = (props) => {
-    let friendsArr = props.state
+    let friendsArr = props.friends
         .map(el => <Friend name={el.name} id={el.id}/>)
 
     return (

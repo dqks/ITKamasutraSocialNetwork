@@ -18,6 +18,3 @@ rerenderEntireTree(store.getState())
 store.subscribe(() => {
     rerenderEntireTree(store.getState());
 })
-
-
-
