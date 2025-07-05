@@ -1,0 +1,57 @@
+.dialogs {
+    display: grid;
+    grid-template-columns: 2fr 10fr;
+    grid-template-rows: 1fr;
+    grid-template-areas: "dialogs messages"
+                            "dialogs input ";
+    padding: 20px 0;
+}
+
+/*.dialogs-items {
+grid-area: dialogs;
+
+}*/
+
+.dialogItems {
+
+    padding: 20px;
+}
+
+.messages {
+    grid-area: messages;
+    padding: 20px;
+}
+
+.messageInput {
+    grid-area: input;
+}
+
+.active {
+    color: gold;
+}
+
+.messageText {
+    font-size: 14px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid gray;
+    margin: 0 5px;
+}
+
+.sendMessage {
+    padding: 10px 20px;
+    border: 1px solid gray;
+    border-radius: 5px;
+    margin: 0 5px;
+    background-color: white;
+}
+
+.sendMessage:hover {
+    background-color: #67BA80;
+    transition: .1s;
+}
+
+.sendMessage:active {
+    transition: 0s;
+    background-color: white;
+}

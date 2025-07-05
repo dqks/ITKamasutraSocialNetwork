@@ -1,0 +1,16 @@
+.item {
+    color: white;
+    text-decoration: none;
+}
+
+.avatar {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+}
+
+.dialog {
+    display: flex;
+    gap: 10px;
+    margin: 10px 0px;
+}

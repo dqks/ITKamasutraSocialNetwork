@@ -1,0 +1,43 @@
+import classes from "./Dialogs.module.css"
+import DialogItem from "./DialogItem/DialogItem";
+import Message from "./Message/Message";
+import React from "react";
+import {messageTextChangeActionCreator, addMessageActionCreator} from "../../redux/dialogsReducer";
+
+
+const Dialogs = (props) => {
+
+    let dialogsArr = props.dialogs
+    .map(el => <DialogItem name={el.name} id={el.id} />)
+
+    let messagesArr = props.messages
+    .map(el => <Message message={el.message} />)
+
+
+    let messageTextChange = (event) => {
+        props.messageTextChange(event.target.value)
+    }
+
+    let addMessage = () => {
+        props.addMessage()
+    }
+
+    return (
+        <div className={classes.dialogs}>
+            <div className={classes.dialogItems}>
+                {dialogsArr}
+            </div>
+
+            <div className={classes.messages}>
+                {messagesArr}
+            </div>
+
+            <div className={classes.messageInput}>
+                <input className={classes.messageText} size={40} onChange={messageTextChange} cols="30" rows="1" value={props.messageText}></input>
+                <button className={classes.sendMessage} onClick={addMessage}>Отправить</button>
+            </div>
+        </div>
+    )
+}
+
+export default Dialogs;

@@ -1,0 +1,45 @@
+.item {
+    color: black;
+    display: flex;
+    gap: 10px;
+}
+
+.info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    margin: 0;
+
+}
+
+.info p, .likeButton  {
+    margin: 5px;
+}
+
+.likeButton{
+    background-color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 5px;
+}
+.likeButton:hover{
+    transition: 0.1s;
+    background-color: #d4cccc;
+}
+.likeButton:active{
+    transition: 0.1s;
+    background-color: white;
+}
+
+.likeIcon {
+    color: red;
+}
+
+.item img {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    object-fit: fill;
+}
+
