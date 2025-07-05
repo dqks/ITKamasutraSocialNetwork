@@ -4,9 +4,9 @@ const ADD_LIKE_BUTTON = "ADD-LIKE-BUTTON"
 
 let initialState = {
     postData: [
-        {id: 1, message: "Hi, how are you?", likeCount: "10"},
-        {id: 2, message: "It's my first post", likeCount: "0"},
-        {id: 3, message: "It", likeCount: "0"},
+        {id: 1, message: "Hi, how are you?", likeCount: 10},
+        {id: 2, message: "It's my first post", likeCount: 0},
+        {id: 3, message: "It", likeCount: 0},
     ],
     newPostText: ""
 }
@@ -21,18 +21,22 @@ const profileReducer = (state = initialState, action) => {
                 id: state.postData
                     [state.postData.length - 1].id + 1, message: state.newPostText, likeCount: "0"
             };
-            state.postData.push(newPost);
-            state.newPostText = "";
-            return state;
+            return {...state, newPostText: "", postData: [...state.postData, newPost]};
         }
         case UPDATE_NEW_POST_TEXT: {
-            state.newPostText = action.postText;
-            return state;
+            let stateCopy = {...state}
+            stateCopy.newPostText = action.postText;
+            return stateCopy;
         }
         case ADD_LIKE_BUTTON: {
-            let post = state.postData.find(x => x.id === action.idPost)
+            let stateCopy = {...state}
+            stateCopy.postData = [...state.postData]
+            for (let i = 0; i < stateCopy.postData.length; i++ ) {
+                stateCopy.postData[i] = {...state.postData[i]}
+            }
+            let post = stateCopy.postData.find(x => x.id === action.idPost)
             post.likeCount++;
-            return state;
+            return stateCopy;
         }
         default:
             return state

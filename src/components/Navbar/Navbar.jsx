@@ -4,8 +4,6 @@ import FriendsList from "./FriendsList/FriendsList"
 import FriendsListContainer from "./FriendsList/FriendsListContainer";
 
 const Navbar = (props) => {
-    debugger
-
     return (
         <nav className={classes.nav}>
             <div className={classes.item}>

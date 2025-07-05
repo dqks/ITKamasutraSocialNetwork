@@ -5,10 +5,7 @@ import {NavLink} from "react-router-dom";
 import FriendsList from "./FriendsList";
 
 const FriendsListContainer = (props) => {
-
-
     let friends = props.store.getState().friendsPage.friends;
-
     return (<FriendsList friends={friends} />)
 }
 
