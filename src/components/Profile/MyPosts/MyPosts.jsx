@@ -15,14 +15,14 @@ const MyPosts = (props) => {
         props.likeButtonClick(id);
     }
 
-    let postArr = props.posts.map(el => <Post likeButtonClick={likeButtonClick} message={el.message} likeCount={el.likeCount} id={el.id} />)
+    let postArr = props.state.postData.map(el => <Post likeButtonClick={likeButtonClick} message={el.message} likeCount={el.likeCount} id={el.id} />)
 
     return (
         <div className={classes.myPosts}>
             <h3>My posts</h3>
             <div>
                 <div>
-                    <input size={40} className={classes.postText} type={"text"} onChange={updateNewPostText}  value={props.newPostText}/>
+                    <input size={40} className={classes.postText} type={"text"} onChange={updateNewPostText}  value={props.state.newPostText}/>
                 </div>
 
                 <div>

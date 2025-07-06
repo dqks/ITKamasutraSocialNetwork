@@ -1,7 +1,5 @@
 import Friend from "./../Friend/Friend"
 import classes from "./FriendsList.module.css";
-import DialogItem from "../../Dialogs/DialogItem/DialogItem";
-import {NavLink} from "react-router-dom";
 
 const FriendsList = (props) => {
     let friendsArr = props.friends
@@ -9,9 +7,7 @@ const FriendsList = (props) => {
 
     return (
         <div className={classes.friendsWrapper}>
-            {friendsArr[0]}
-            {friendsArr[1]}
-            {friendsArr[2]}
+            {friendsArr.slice(0, 3)}
         </div>
     )
 }

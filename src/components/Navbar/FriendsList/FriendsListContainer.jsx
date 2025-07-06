@@ -1,12 +1,16 @@
-import Friend from "./../Friend/Friend"
-import classes from "./FriendsList.module.css";
-import DialogItem from "../../Dialogs/DialogItem/DialogItem";
-import {NavLink} from "react-router-dom";
 import FriendsList from "./FriendsList";
+import {connect} from "react-redux";
 
-const FriendsListContainer = (props) => {
-    let friends = props.store.getState().friendsPage.friends;
-    return (<FriendsList friends={friends} />)
+const mapStateToProps = state => {
+    return {
+        friends: state.friendsPage.friends
+    }
 }
+
+const mapDispatchToProps = dispatch => {
+    return {}
+}
+
+let FriendsListContainer = connect(mapStateToProps, mapDispatchToProps)(FriendsList)
 
 export default FriendsListContainer;

@@ -1,10 +1,16 @@
 import FriendsPage from "./FriendsPage";
+import {connect} from "react-redux";
 
-const FriendsPageContainer = (props) => {
-
-    let state = props.store.getState();
-
-    return (<FriendsPage friends={state.friendsPage.friends} />)
+const mapStateToProps = state => {
+    return {
+        friends:state.friendsPage.friends,
+    }
 }
+
+const mapDispatchToProps = dispatch => {
+    return {};
+}
+
+let FriendsPageContainer = connect(mapStateToProps, mapDispatchToProps)(FriendsPage);
 
 export default FriendsPageContainer;
