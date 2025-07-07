@@ -14,9 +14,9 @@ let mapStateToProps = state => {
 
 let mapDispatchToProps = dispatch => {
     return {
-        likeButtonClick: (id) => dispatch(addLikeButtonActionCreator(id)),
+        likeButtonClick: id => dispatch(addLikeButtonActionCreator(id)),
         addPost: () => dispatch(addPostActionCreator()),
-        updateNewPostText: (text) => dispatch(updateNewPostTextActionCreator(text))
+        updateNewPostText: text => dispatch(updateNewPostTextActionCreator(text))
     }
 }
 

@@ -3,7 +3,7 @@ import classes from "./FriendsList.module.css";
 
 const FriendsList = (props) => {
     let friendsArr = props.friends
-        .map(el => <Friend name={el.name} id={el.id}/>)
+        .map(el => <Friend key={el.id} name={el.name} id={el.id}/>)
 
     return (
         <div className={classes.friendsWrapper}>

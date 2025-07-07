@@ -5,10 +5,10 @@ import React from "react";
 
 const Dialogs = (props) => {
     let dialogsArr = props.dialogsPage.dialogs
-    .map(el => <DialogItem name={el.name} id={el.id} />)
+    .map(el => <DialogItem name={el.name} key={el.id} id={el.id} />)
 
     let messagesArr = props.dialogsPage.messages
-    .map(el => <Message message={el.message} />)
+    .map(el => <Message key={el.id} message={el.message} />)
 
 
     let messageTextChange = (event) => {

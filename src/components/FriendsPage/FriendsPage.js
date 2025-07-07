@@ -3,7 +3,7 @@ import Friend from "../Navbar/Friend/Friend";
 
 const FriendsPage = (props) => {
     let friendArr = props.friends
-        .map(el => <Friend name={el.name} id={el.id} />)
+        .map(el => <Friend key={el.id} name={el.name} id={el.id} />)
 
     return (
         <div className={classes.wrapper}>

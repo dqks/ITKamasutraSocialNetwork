@@ -9,8 +9,9 @@ import {Route, Routes, BrowserRouter} from "react-router-dom";
 import React from "react";
 import DialogsContainer from "./components/Dialogs/DialogsContainer";
 import FriendsPageContainer from "./components/FriendsPage/FriendsPageContainer";
+import UsersContainer from "./components/Users/UsersContainer";
 
-const App = (props) => {
+const App = () => {
     return (
         <BrowserRouter>
             <div className="app-wrapper">
@@ -26,6 +27,8 @@ const App = (props) => {
                         <Route path="/music" element={<Music/>}/>
                         <Route path="/settings" element={<Settings/>}/>
                         <Route path="friends" element={<FriendsPageContainer/>}/>
+                        <Route path="users" element={<UsersContainer/>}/>
+
                     </Routes>
                 </div>
             </div>

@@ -15,7 +15,7 @@ const MyPosts = (props) => {
         props.likeButtonClick(id);
     }
 
-    let postArr = props.state.postData.map(el => <Post likeButtonClick={likeButtonClick} message={el.message} likeCount={el.likeCount} id={el.id} />)
+    let postArr = props.state.postData.map(el => <Post key={el.id} likeButtonClick={likeButtonClick} message={el.message} likeCount={el.likeCount} id={el.id} />)
 
     return (
         <div className={classes.myPosts}>
