@@ -1,5 +1,6 @@
 import classes from './Users.module.css'
 import React from "react";
+import UserItem from "./UserItem/UserItem";
 
 let Users = (props) => {
     if (props.users.length === 0) {
@@ -39,35 +40,15 @@ let Users = (props) => {
         }]);
     }
 
+    let usersArr = props.users.map(el => <UserItem id={el.id} key={el.id} firstName={el.firstName}
+        lastName={el.lastName} avatarUrl={el.avatarUrl} isFollowed={el.isFollowed} description={el.description}
+    location={el.location} follow={props.follow} unfollow={props.unfollow} />)
 
-    return <div>
-        {props.users.map(u => <div key={u.id}>
-
-                     <span>
-                        <div>
-                            <img className={classes.avatar} src={u.avatarUrl} alt=""/>
-                        </div>
-                        <div>
-                            {u.isFollowed ? <button onClick={() => props.unfollow(u.id)}>Unfollow</button> :
-                                <button onClick={() => props.follow(u.id)}>Follow</button>}
-                        </div>
-                     </span>
-
-            <span>
-                        <span>
-                            <div>{u.firstName + " " + u.lastName}</div>
-                            <div>{u.description}</div>
-                        </span>
-                        <span>
-                            <div>{u.location.country}</div>
-                            <div>{u.location.city}</div>
-                        </span>
-                     </span>
-
-        </div>)}
-
-
-    </div>
+    return (
+        <div className={classes.body}>
+            {usersArr}
+        </div>
+    )
 }
 
 export default Users;

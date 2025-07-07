@@ -1,0 +1,50 @@
+.body {
+    display: flex;
+    gap: 30px;
+    margin: 30px;
+}
+
+.leftSide {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 15px;
+}
+
+.avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: fill;
+}
+
+.followButton {
+    justify-self: center;
+    align-self: center;
+    width: 75px;
+    padding: 10px 10px;
+    border: 1px solid gray;
+    border-radius: 5px;
+    margin: 0 5px;
+    background-color: white;
+}
+
+.followButton:hover {
+    background-color: #67BA80;
+    transition: .1s;
+}
+
+.followButton:active {
+    transition: 0s;
+    background-color: white;
+}
+
+.rightSide {
+    width: 70%;
+    border: 2px solid gray;
+    border-radius: 20px;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+}
