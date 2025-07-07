@@ -9,7 +9,6 @@ let initialState = {
 };
 
 let usersReducer = (state = initialState, action) => {
-
     switch (action.type) {
         case FOLLOW_USER:
             return {

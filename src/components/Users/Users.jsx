@@ -4,7 +4,6 @@ import UserItem from "./UserItem/UserItem";
 
 let Users = props => {
     if (props.users.length === 0) {
-        console.log(props.users.length);
         props.setUsers([{
             id: "1",
             firstName: "Dmitry",
@@ -62,15 +61,14 @@ let Users = props => {
                                                    location={el.location} follow={props.follow}
                                                    unfollow={props.unfollow}/>)
 
-    return (
-        <div className={classes.body}>
+    return (<div className={classes.body}>
             {usersArr.slice(0, props.showAmount)}
-
             <div className={classes.showMoreWrapper}>
-                <button onClick={props.showMore} className={classes.showMore}>Show more</button>
+                {usersArr.length > props.showAmount
+                    ? <button onClick={props.showMore} className={classes.showMore}>Show more</button>
+                    : null}
             </div>
-        </div>
-    )
+        </div>)
 }
 
 export default Users;
