@@ -9,7 +9,8 @@ import {
 
 let mapStateToProps = state => {
     return {
-        users: state.usersPage.users
+        users: state.usersPage.users,
+        showAmount: state.usersPage.showAmount
     }
 }
 
