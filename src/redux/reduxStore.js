@@ -4,12 +4,14 @@ import dialogsReducer from "./dialogsReducer";
 import friendsPageReducer from "./friendsPageReducer";
 import profileReducer from "./profileReducer";
 import usersReducer from "./usersReducer";
+import musicReducer from "./musicReducer";
 
 let reducers = combineReducers({
     profilePage: profileReducer,
     dialogsPage: dialogsReducer,
     friendsPage: friendsPageReducer,
-    usersPage: usersReducer
+    usersPage: usersReducer,
+    musicPage: musicReducer
 });
 
 let store = configureStore({reducer: reducers});

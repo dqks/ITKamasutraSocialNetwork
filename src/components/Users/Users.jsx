@@ -62,6 +62,11 @@ let Users = props => {
                                                    unfollow={props.unfollow}/>)
 
     return (<div className={classes.body}>
+        <div className={classes.titleWrapper}>
+            <h1>
+                Users
+            </h1>
+        </div>
             {usersArr.slice(0, props.showAmount)}
             <div className={classes.showMoreWrapper}>
                 {usersArr.length > props.showAmount
