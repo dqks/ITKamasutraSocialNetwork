@@ -1,5 +1,5 @@
 import classes from "./Friend.module.css"
-import avatar from "./../../../img/avatar.jpg"
+import avatar from "../../../assets/avatar.jpg"
 import {NavLink} from "react-router-dom";
 
 

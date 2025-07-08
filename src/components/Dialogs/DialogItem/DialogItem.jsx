@@ -1,6 +1,7 @@
 import classes from "./DialogItem.module.css";
 import { NavLink } from "react-router-dom";
-import img from "../../../img/avatar.jpg"
+import React, {memo} from "react";
+import img from "../../../assets/avatar.jpg"
 
 const DialogItem = (props) => {
     return (
@@ -15,4 +16,4 @@ const DialogItem = (props) => {
     );
 }
 
-export default DialogItem;
+export default memo(DialogItem);

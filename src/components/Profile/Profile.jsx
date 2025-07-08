@@ -1,5 +1,5 @@
-import img from "./../../img/images.jpg";
-import avatar from "./../../img/avatar.jpg";
+import img from "../../assets/images.jpg";
+import avatar from "../../assets/avatar.jpg";
 import ProfileInfo from "./ProfileInfo/ProfileInfo"
 import MyPostsContainer from "./MyPosts/MyPostsContainer";
 import React from "react";

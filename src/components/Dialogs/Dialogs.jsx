@@ -4,10 +4,10 @@ import Message from "./Message/Message";
 import React from "react";
 
 const Dialogs = (props) => {
-    let dialogsArr = props.dialogsPage.dialogs
+    let dialogsArr = props.dialogs
     .map(el => <DialogItem name={el.name} key={el.id} id={el.id} />)
 
-    let messagesArr = props.dialogsPage.messages
+    let messagesArr = props.messages
     .map(el => <Message key={el.id} message={el.message} />)
 
 
@@ -30,11 +30,11 @@ const Dialogs = (props) => {
             </div>
 
             <div className={classes.messageInput}>
-                <input className={classes.messageText} size={40} onChange={messageTextChange} cols="30" rows="1" value={props.dialogsPage.messageText}></input>
+                <input className={classes.messageText} size={40} onChange={messageTextChange} cols="30" rows="1" value={props.messageText}></input>
                 <button className={classes.sendMessage} onClick={addMessage}>Отправить</button>
             </div>
         </div>
     )
 }
 
-export default Dialogs;
+export default React.memo(Dialogs);

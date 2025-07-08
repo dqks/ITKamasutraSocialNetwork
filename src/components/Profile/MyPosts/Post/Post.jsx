@@ -1,5 +1,5 @@
 import classes from "./Post.module.css"
-import avatar from "./../../../../img/avatar.jpg"
+import avatar from "../../../../assets/avatar.jpg"
 
 const Post = (props) => {
     let likeButtonClick = () => {

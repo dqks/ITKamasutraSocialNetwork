@@ -11,11 +11,13 @@ let initialState = {
 let usersReducer = (state = initialState, action) => {
     switch (action.type) {
         case FOLLOW_USER:
+            console.log(3232)
+
             return {
                 ...state,
                 users: state.users.map(el => {
                     if (el.id === action.userId) {
-                        return {...el, isFollowed: true};
+                        return {...el, followed: true};
                     }
                     return el;
                 })
@@ -26,7 +28,7 @@ let usersReducer = (state = initialState, action) => {
                 ...state,
                 users: state.users.map(el => {
                     if (el.id === action.userId) {
-                        return {...el, isFollowed: false};
+                        return {...el, followed: false};
                     }
                     return el;
                 })
