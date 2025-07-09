@@ -2,6 +2,10 @@
     margin: 0 30px;
 }
 
+.selectedPage {
+    font-weight: bold;
+}
+
 .showMoreWrapper {
     width: 90%;
     text-align: center;
