@@ -1,7 +1,7 @@
 .body {
     display: flex;
     gap: 30px;
-    margin: 30px;
+    margin: 30px 0px;
 }
 
 .leftSide {
