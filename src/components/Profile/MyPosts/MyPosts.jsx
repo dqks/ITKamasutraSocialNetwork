@@ -1,28 +1,40 @@
 import classes from "./MyPosts.module.css"
 import Post from "./Post/Post.jsx"
 import React from "react";
+import {useDispatch, useSelector} from "react-redux";
+import {
+    addLikeButtonActionCreator,
+    addPostActionCreator,
+    updateNewPostTextActionCreator
+} from "../../../redux/profileReducer";
 
-const MyPosts = (props) => {
+const MyPosts = () => {
+
+    const posts = useSelector(state => state.profilePage.postData);
+    const newPostText = useSelector(state => state.profilePage.newPostText);
+
+    let dispatch = useDispatch();
+
     let updateNewPostText = (event) => {
-        props.updateNewPostText(event.target.value);
+        dispatch(updateNewPostTextActionCreator(event.target.value))
     }
 
     let addPost = () => {
-        props.addPost()
+        dispatch(addPostActionCreator())
     }
 
     let likeButtonClick = (id) => {
-        props.likeButtonClick(id);
+        dispatch(addLikeButtonActionCreator(id))
     }
 
-    let postArr = props.state.postData.map(el => <Post key={el.id} likeButtonClick={likeButtonClick} message={el.message} likeCount={el.likeCount} id={el.id} />)
+    let postArr = posts.map(el => <Post key={el.id} likeButtonClick={likeButtonClick} message={el.message} likeCount={el.likeCount} id={el.id} />)
 
     return (
         <div className={classes.myPosts}>
             <h3>My posts</h3>
             <div>
                 <div>
-                    <input size={40} className={classes.postText} type={"text"} onChange={updateNewPostText}  value={props.state.newPostText}/>
+                    <input size={40} className={classes.postText} type={"text"} onChange={updateNewPostText}  value={newPostText}/>
                 </div>
 
                 <div>

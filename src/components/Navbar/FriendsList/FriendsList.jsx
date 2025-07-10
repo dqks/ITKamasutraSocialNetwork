@@ -1,13 +1,13 @@
-import Friend from "./../Friend/Friend"
+import Friend from "../../FriendsPage/Friend/Friend"
 import classes from "./FriendsList.module.css";
+import {useSelector} from "react-redux";
 
-const FriendsList = (props) => {
-    let friendsArr = props.friends
-        .map(el => <Friend key={el.id} name={el.name} id={el.id}/>)
+const FriendsList = () => {
+    const friends = useSelector(state => state.friendsPage.friends.slice(0, 3))
 
     return (
-        <div className={classes.friendsWrapper}>
-            {friendsArr.slice(0, 3)}
+        <div className={classes}>
+            {friends.map(el => <Friend key={el.id} name={el.name} id={el.id}/>)}
         </div>
     )
 }

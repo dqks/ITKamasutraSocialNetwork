@@ -1,14 +1,14 @@
 import img from "../../assets/images.jpg";
 import avatar from "../../assets/avatar.jpg";
 import ProfileInfo from "./ProfileInfo/ProfileInfo"
-import MyPostsContainer from "./MyPosts/MyPostsContainer";
 import React from "react";
+import MyPosts from "./MyPosts/MyPosts";
 
-const Profile = (props) => {
+const Profile = () => {
     return (
         <div>
             <ProfileInfo headerImg={img} avatar={avatar}/>
-            <MyPostsContainer />
+            <MyPosts/>
         </div>
     )
 }

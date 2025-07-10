@@ -3,16 +3,16 @@ import avatar from "../../../assets/avatar.jpg"
 import {NavLink} from "react-router-dom";
 
 
-const Friends = (props) => {
+const Friend = (props) => {
     return (
         <NavLink to={"/profile/" + props.id}>
             <div className={classes.item}>
                 <img className={classes.avatar} src={avatar} alt="Friend image"/>
-                <p className={classes.name}>{props.name}</p>
+                <p>{props.name}</p>
             </div>
         </NavLink>
     )
 }
 
-export default Friends;
+export default Friend;
 
