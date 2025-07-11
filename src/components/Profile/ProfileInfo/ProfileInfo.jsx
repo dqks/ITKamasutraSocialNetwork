@@ -1,18 +1,30 @@
 import classes from "./ProfileInfo.module.css"
+import Preloader from "../../Common/Preloader";
+import defaultAvatar from "../../../assets/avatar.jpg";
 
 const ProfileInfo = (props) => {
-    return (
-        <div className={classes.profileInfo}>
-
-            <div className={classes.header}>
-                <img src={props.headerImg} alt="Image" className={classes.headerImg} />
+    if (!props.profile) {
+        return <Preloader />
+    } else {
+        return (
+            <div className={classes.profileInfo}>
+                <div className={classes.header}>
+                    <img src={props.headerImg} alt="Image" className={classes.headerImg} />
+                </div>
+                <div className={classes.profileMain}>
+                    <img src={props.profile.photos.large
+                        ? props.profile.photos.large
+                        : defaultAvatar} alt="Avatar" />
+                    <div>
+                        <p>{props.profile.fullName}</p>
+                        <p>{props.profile.aboutMe}</p>
+                    </div>
+                </div>
             </div>
+        )
+    }
 
-            <div className={classes.profileMain}>
-                <img src={props.avatar} alt="Avatar" />
-            </div>
-        </div>
-    )
+
 }
 
 export default ProfileInfo;

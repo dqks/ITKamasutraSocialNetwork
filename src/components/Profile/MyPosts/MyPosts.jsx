@@ -23,8 +23,8 @@ const MyPosts = () => {
         dispatch(addPostActionCreator())
     }
 
-    let likeButtonClick = (id) => {
-        dispatch(addLikeButtonActionCreator(id))
+    let likeButtonClick = (postId) => {
+        dispatch(addLikeButtonActionCreator(postId))
     }
 
     let postArr = posts.map(el => <Post key={el.id} likeButtonClick={likeButtonClick} message={el.message} likeCount={el.likeCount} id={el.id} />)

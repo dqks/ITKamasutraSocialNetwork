@@ -1,15 +1,17 @@
-const ADD_POST = "ADD-POST"
-const UPDATE_NEW_POST_TEXT = "UPDATE-NEW-POST-TEXT"
-const ADD_LIKE_BUTTON = "ADD-LIKE-BUTTON"
+const ADD_POST = "ADD-POST";
+const UPDATE_NEW_POST_TEXT = "UPDATE-NEW-POST-TEXT";
+const ADD_LIKE_BUTTON = "ADD-LIKE-BUTTON";
+const SET_PROFILE = "SET_PROFILE";
 
 let initialState = {
+    profile: null,
     postData: [
         {id: 1, message: "Hi, how are you?", likeCount: 10},
         {id: 2, message: "It's my first post", likeCount: 0},
         {id: 3, message: "It", likeCount: 0},
     ],
     newPostText: ""
-}
+};
 
 const profileReducer = (state = initialState, action) => {
     switch (action.type) {
@@ -30,35 +32,25 @@ const profileReducer = (state = initialState, action) => {
             return {
                 ...state,
                 postData: state.postData.map(el => {
-                    if (el.id === action.idPost ) {
+                    if (el.id === action.postId ) {
                         return {...el, likeCount: el.likeCount + 1};
                     }
                     return el;
                 })
             };
         }
+        case SET_PROFILE: {
+            return {...state, profile: action.profile};
+        }
         default:
             return state
     }
 }
 
-export const addPostActionCreator = () => ({
-    type: ADD_POST,
-})
-
-
-export const addLikeButtonActionCreator = (id) => (
-    {
-        type: ADD_LIKE_BUTTON,
-        idPost: id
-    }
-)
-
-export const updateNewPostTextActionCreator = (text) => (
-    {
-        type: UPDATE_NEW_POST_TEXT,
-        postText: text
-    }
-)
+//Action creators
+export const addPostActionCreator = () => ({type: ADD_POST})
+export const addLikeButtonActionCreator = postId => ({type: ADD_LIKE_BUTTON, postId})
+export const updateNewPostTextActionCreator = postText => ({type: UPDATE_NEW_POST_TEXT, postText})
+export const setProfileActionCreator = profile => ({type: SET_PROFILE, profile})
 
 export default profileReducer;
