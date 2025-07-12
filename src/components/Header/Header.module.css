@@ -19,3 +19,13 @@
 .loginName {
   color: white;
 }
+
+.photo {
+  width: 60px;
+  height: 60px;
+}
+
+.userInfoWrapper {
+  display: flex;
+  gap: 10px;
+}
