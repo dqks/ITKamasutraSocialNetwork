@@ -1,11 +1,11 @@
 let initialState = {
     friends: [
-        {name: "Andrew", id: "1"},
-        {name: "Sasha", id: "2"},
-        {name: "Sveta", id: "3"},
-        {name: "Maxim", id: "4"},
-        {name: "Alexey", id: "5"},
-        {name: "Anton", id: "6"},
+        {name: "Andrew", id: "2"},
+        {name: "Sasha", id: "3"},
+        {name: "Sveta", id: "4"},
+        {name: "Maxim", id: "5"},
+        {name: "Alexey", id: "6"},
+        {name: "Anton", id: "7"},
     ]
 }
 

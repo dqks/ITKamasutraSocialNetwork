@@ -14,7 +14,7 @@ const Users = (props) => {
                                                                follow={props.follow} unfollow={props.unfollow}/>)
         return (<div className={classes.body}>
             {pages.map(page =>
-                <span onClick={() => props.onPageChanged(page)} className={[props.currentPage === page && classes.selectedPage, classes.pageNumber].join(' ') }>{page}</span>)}
+                <span key={page} onClick={() => props.onPageChanged(page)} className={[props.currentPage === page && classes.selectedPage, classes.pageNumber].join(' ') }>{page}</span>)}
             <div className={classes.titleWrapper}>
                 <h1>
                     Users
