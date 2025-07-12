@@ -8,10 +8,9 @@ const Users = (props) => {
         for (let i = 1; i <= 9; i++) {
             pages.push(i);
         }
-
         let usersArr = props.users.map(el => <UserItem id={el.id} key={el.id} name={el.name} photo={el.photos.small}
                                                                followed={el.followed} status={el.status}
-                                                               follow={props.follow} unfollow={props.unfollow}/>)
+                                                       onFollowButtonClick={props.onFollowButtonClick} onUnfollowButtonClick={props.onUnfollowButtonClick}/>)
         return (<div className={classes.body}>
             {pages.map(page =>
                 <span key={page} onClick={() => props.onPageChanged(page)} className={[props.currentPage === page && classes.selectedPage, classes.pageNumber].join(' ') }>{page}</span>)}

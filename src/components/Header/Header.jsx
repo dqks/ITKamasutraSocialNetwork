@@ -5,7 +5,6 @@ import {useEffect} from "react";
 import axios from "axios";
 import {useDispatch, useSelector} from "react-redux";
 import {setCurrentUserImageActionCreator, setUserDataActionCreator} from "../../redux/authReducer";
-import avatar from "../../assets/avatar.jpg"
 
 const Header = () => {
     const dispatch = useDispatch();
@@ -24,17 +23,11 @@ const Header = () => {
                         .then((response) => {
                             if (response.data.photos.small) {
                                 dispatch(setCurrentUserImageActionCreator(response.data.photos.small));
-                            } else {
-                                dispatch(setCurrentUserImageActionCreator("default"));
                             }
                         })
                 }
             })
     }, []);
-
-    if (photo === "default") {
-        photo = avatar
-    }
 
     return (
         <header className={classes.header}>
@@ -42,7 +35,7 @@ const Header = () => {
             <div className={classes.login}>
                 {isAuth
                     ? <div className={classes.userInfoWrapper}>
-                        <img className={classes.photo} src={photo} alt="Photo"/>
+                        {photo ? <img className={classes.photo} src={photo} alt="Photo"/> : null}
                         <p className={classes.loginName}>{login}</p>
                     </div>
                     : <NavLink className={classes.loginText} to={"/login"}>Login</NavLink>}
