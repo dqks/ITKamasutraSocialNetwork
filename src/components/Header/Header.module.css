@@ -8,3 +8,14 @@
   width: 60px;
   height: 60px;
 }
+
+.login {
+  float: right;
+}
+.loginText {
+  text-decoration: underline;
+}
+
+.loginName {
+  color: white;
+}
