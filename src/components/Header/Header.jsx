@@ -17,6 +17,7 @@ const Header = () => {
             withCredentials: true,
         })
             .then((response) => {
+                console.log(response)
                 if (response.data.resultCode === 0) {
                     dispatch(setUserDataActionCreator(response.data.data));
                     axios.get("https://social-network.samuraijs.com/api/1.0/profile/" + response.data.data.id)
