@@ -17,41 +17,30 @@ class UserContainer extends React.Component {
     componentDidMount() {
         this.props.toggleIsFetching(true);
         usersAPI.getUsers(this.props.currentPage, this.props.pageSize).then(data => {
-                this.props.toggleIsFetching(false);
-                this.props.setUsers(data.items);
-                this.props.setTotalCount(data.totalCount);
-            })
+            this.props.toggleIsFetching(false);
+            this.props.setUsers(data.items);
+            this.props.setTotalCount(data.totalCount);
+        })
     }
 
     onPageChanged = (page) => {
         this.props.toggleIsFetching(true);
         usersAPI.getUsers(page, this.props.pageSize).then(data => {
-                this.props.toggleIsFetching(false);
-                this.props.setUsers(data.items);
-            })
+            this.props.toggleIsFetching(false);
+            this.props.setUsers(data.items);
+        })
         this.props.setCurrentPage(page)
     }
 
     onFollowButtonClick = (id) => {
-        axios.post(`https://social-network.samuraijs.com/api/1.0/follow/` + id, {}, {
-            withCredentials: true,
-            headers: {
-                "API-KEY": `619d1550-449e-46c7-9617-8ba8b6adc130`
-            },
+        usersAPI.followUser(id).then(data => {
+            this.props.follow(id);
         })
-            .then(response => {
-                this.props.follow(id);
-            })
     }
 
     onUnfollowButtonClick = (id) => {
-        axios.delete(`https://social-network.samuraijs.com/api/1.0/follow/` + id, {
-            withCredentials: true,
-            headers: {
-                "API-KEY": `619d1550-449e-46c7-9617-8ba8b6adc130`
-            },
-        })
-            .then(response => {
+        usersAPI.unfollowUser(id)
+            .then(data => {
                 this.props.unfollow(id);
             })
     }

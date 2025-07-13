@@ -6,6 +6,7 @@ import axios from "axios";
 import {useDispatch, useSelector} from "react-redux";
 import {setProfileActionCreator} from "../../redux/profileReducer";
 import {useParams} from "react-router-dom";
+import {profileAPI} from "../../api/api";
 
 const Profile = () => {
     const dispatch = useDispatch();
@@ -16,9 +17,9 @@ const Profile = () => {
         userId = params.userId;
         if (!userId) userId = 2;
 
-        axios.get(`https://social-network.samuraijs.com/api/1.0/profile/` + userId)
-            .then(response => {
-                dispatch(setProfileActionCreator(response.data));
+        profileAPI.getUserProfile(userId)
+            .then(data => {
+                dispatch(setProfileActionCreator(data));
             })
     }, [params]);
 

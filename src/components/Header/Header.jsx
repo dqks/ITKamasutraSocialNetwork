@@ -5,6 +5,7 @@ import {useEffect} from "react";
 import axios from "axios";
 import {useDispatch, useSelector} from "react-redux";
 import {setCurrentUserImageActionCreator, setUserDataActionCreator} from "../../redux/authReducer";
+import {authAPI} from "../../api/api";
 
 const Header = () => {
     const dispatch = useDispatch();
@@ -13,17 +14,14 @@ const Header = () => {
     let photo = useSelector(state => state.auth.userPhoto)
 
     useEffect(() => {
-        axios.get("https://social-network.samuraijs.com/api/1.0/auth/me", {
-            withCredentials: true,
-        })
-            .then((response) => {
-                console.log(response)
-                if (response.data.resultCode === 0) {
-                    dispatch(setUserDataActionCreator(response.data.data));
-                    axios.get("https://social-network.samuraijs.com/api/1.0/profile/" + response.data.data.id)
-                        .then((response) => {
-                            if (response.data.photos.small) {
-                                dispatch(setCurrentUserImageActionCreator(response.data.photos.small));
+        authAPI.checkAuth()
+            .then(data => {
+                if (data.resultCode === 0) {
+                    dispatch(setUserDataActionCreator(data.data));
+                    axios.get("https://social-network.samuraijs.com/api/1.0/profile/" + data.data.id)
+                        .then((data) => {
+                            if (data.data.photos.small) {
+                                dispatch(setCurrentUserImageActionCreator(data.data.photos.small));
                             }
                         })
                 }
