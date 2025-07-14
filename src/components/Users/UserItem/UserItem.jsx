@@ -10,9 +10,9 @@ const UserItem = props => {
                 <NavLink to={"/profile/" + props.id}>
                     <img className={classes.avatar} src={props.photo != null ? props.photo : avatar} alt="Avatar"/>
                 </NavLink>
-                {props.followed ? <button className={classes.followButton}
+                {props.followed ? <button disabled={props.followingInProgress.some(id => id === props.id)} className={classes.followButton}
                                           onClick={() => props.onUnfollowButtonClick(props.id)}>Unfollow</button> :
-                    <button className={classes.followButton} onClick={() => props.onFollowButtonClick(props.id)}>Follow</button>}
+                    <button disabled={props.followingInProgress.some(id => id === props.id)} className={classes.followButton} onClick={() => props.onFollowButtonClick(props.id)}>Follow</button>}
             </div>
             <div className={classes.rightSide}>
                 <div>

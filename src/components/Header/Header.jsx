@@ -2,10 +2,8 @@ import logo from "../../assets/Logo.png"
 import classes from "./Header.module.css"
 import {NavLink} from "react-router-dom";
 import {useEffect} from "react";
-import axios from "axios";
 import {useDispatch, useSelector} from "react-redux";
-import {setCurrentUserImageActionCreator, setUserDataActionCreator} from "../../redux/authReducer";
-import {authAPI} from "../../api/api";
+import {getAuthUser} from "../../redux/authReducer";
 
 const Header = () => {
     const dispatch = useDispatch();
@@ -14,18 +12,7 @@ const Header = () => {
     let photo = useSelector(state => state.auth.userPhoto)
 
     useEffect(() => {
-        authAPI.checkAuth()
-            .then(data => {
-                if (data.resultCode === 0) {
-                    dispatch(setUserDataActionCreator(data.data));
-                    axios.get("https://social-network.samuraijs.com/api/1.0/profile/" + data.data.id)
-                        .then((data) => {
-                            if (data.data.photos.small) {
-                                dispatch(setCurrentUserImageActionCreator(data.data.photos.small));
-                            }
-                        })
-                }
-            })
+        dispatch(getAuthUser())
     }, []);
 
     return (

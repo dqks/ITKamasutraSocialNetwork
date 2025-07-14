@@ -1,3 +1,5 @@
+import {profileAPI} from "../api/api";
+
 const ADD_POST = "ADD-POST";
 const UPDATE_NEW_POST_TEXT = "UPDATE-NEW-POST-TEXT";
 const ADD_LIKE_BUTTON = "ADD-LIKE-BUTTON";
@@ -53,5 +55,16 @@ export const addPostActionCreator = () => ({type: ADD_POST})
 export const addLikeButtonActionCreator = postId => ({type: ADD_LIKE_BUTTON, postId})
 export const updateNewPostTextActionCreator = postText => ({type: UPDATE_NEW_POST_TEXT, postText})
 export const setProfileActionCreator = profile => ({type: SET_PROFILE, profile})
+
+//Thunks
+export const getUserProfile = (userId) => {
+    return dispatch => {
+        profileAPI.getUserProfile(userId)
+            .then(data => {
+                dispatch(setProfileActionCreator(data));
+            })
+    }
+}
+
 
 export default profileReducer;

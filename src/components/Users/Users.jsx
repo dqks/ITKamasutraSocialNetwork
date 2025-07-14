@@ -8,7 +8,7 @@ const Users = (props) => {
         for (let i = 1; i <= 9; i++) {
             pages.push(i);
         }
-        let usersArr = props.users.map(el => <UserItem id={el.id} key={el.id} name={el.name} photo={el.photos.small}
+        let usersArr = props.users.map(el => <UserItem followingInProgress={props.followingInProgress} id={el.id} key={el.id} name={el.name} photo={el.photos.small}
                                                                followed={el.followed} status={el.status}
                                                        onFollowButtonClick={props.onFollowButtonClick} onUnfollowButtonClick={props.onUnfollowButtonClick}/>)
         return (<div className={classes.body}>
