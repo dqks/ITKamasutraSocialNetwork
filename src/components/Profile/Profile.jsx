@@ -4,29 +4,26 @@ import React, {useEffect} from "react";
 import MyPosts from "./MyPosts/MyPosts";
 import {useDispatch, useSelector} from "react-redux";
 import {getUserProfile} from "../../redux/profileReducer";
-import {useNavigate, useParams} from "react-router-dom";
+import {useParams} from "react-router-dom";
+import {useAuth} from "../../hooks/useAuth";
 
 const Profile = () => {
-    let navigate = useNavigate();
-    let isAuth = useSelector(state => state.auth.isAuth);
-    const dispatch = useDispatch();
     const params = useParams();
     const authUserId = useSelector(state => state.auth.id)
-    let userId;
+    const isAuth = useSelector(state => state.auth.isAuth);
+    const profile = useSelector(state => state.profilePage.profile);
+
+    const dispatch = useDispatch();
 
     useEffect(() => {
-        userId = params.userId;
+        let userId = params.userId;
         if (!userId) {
-            if (!isAuth) {
-                return navigate("/login")
-            }
             userId = authUserId;
         }
-
-        dispatch(getUserProfile(userId));
+        if (userId) dispatch(getUserProfile(userId));
     }, [params]);
 
-    const profile = useSelector(state => state.profilePage.profile);
+    useAuth(isAuth)
 
     return (
         <div>

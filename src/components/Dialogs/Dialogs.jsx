@@ -1,19 +1,14 @@
 import classes from "./Dialogs.module.css"
 import DialogItem from "./DialogItem/DialogItem";
 import Message from "./Message/Message";
-import React, {useEffect} from "react";
+import React from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {addMessageActionCreator, messageTextChangeActionCreator} from "../../redux/dialogsReducer";
-import {useNavigate} from "react-router-dom";
+import {useAuth} from "../../hooks/useAuth";
 
 const Dialogs = () => {
-    let navigation = useNavigate();
     let isAuth = useSelector(state => state.auth.isAuth);
-    useEffect(() => {
-        if (!isAuth) {
-           return navigation("/login")
-        }
-    }, []);
+    useAuth(isAuth)
 
     let dialogs = useSelector(state => state.dialogsPage.dialogs);
     let messages = useSelector(state => state.dialogsPage.messages);
