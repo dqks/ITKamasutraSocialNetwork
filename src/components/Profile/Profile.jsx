@@ -2,21 +2,26 @@ import img from "../../assets/images.jpg";
 import ProfileInfo from "./ProfileInfo/ProfileInfo"
 import React, {useEffect} from "react";
 import MyPosts from "./MyPosts/MyPosts";
-import axios from "axios";
 import {useDispatch, useSelector} from "react-redux";
-import {getUserProfile, setProfileActionCreator} from "../../redux/profileReducer";
-import {useParams} from "react-router-dom";
-import {profileAPI} from "../../api/api";
+import {getUserProfile} from "../../redux/profileReducer";
+import {useNavigate, useParams} from "react-router-dom";
 
 const Profile = () => {
+    let navigate = useNavigate();
+    let isAuth = useSelector(state => state.auth.isAuth);
     const dispatch = useDispatch();
     const params = useParams();
-    const authId = useSelector(state => state.auth.id)
+    const authUserId = useSelector(state => state.auth.id)
     let userId;
 
     useEffect(() => {
         userId = params.userId;
-        if (!userId) userId = authId;
+        if (!userId) {
+            if (!isAuth) {
+                return navigate("/login")
+            }
+            userId = authUserId;
+        }
 
         dispatch(getUserProfile(userId));
     }, [params]);

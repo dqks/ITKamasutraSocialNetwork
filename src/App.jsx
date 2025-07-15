@@ -4,12 +4,13 @@ import Navbar from "./components/Navbar/Navbar";
 import Profile from "./components/Profile/Profile";
 import News from "./components/News/News";
 import Settings from "./components/Settings/Settings";
-import {Route, Routes, BrowserRouter} from "react-router-dom";
+import {BrowserRouter, Route, Routes} from "react-router-dom";
 import React from "react";
-import DialogsContainer from "./components/Dialogs/DialogsContainer";
 import UsersContainer from "./components/Users/UsersContainer";
 import MusicsContainer from "./components/Music/MusicsContainer";
 import FriendsPage from "./components/FriendsPage/FriendsPage";
+import Login from "./components/Login/Login";
+import Dialogs from "./components/Dialogs/Dialogs";
 
 const App = () => {
     return (
@@ -22,12 +23,13 @@ const App = () => {
                         <Route path="/profile/:userId?"
                                element={<Profile/>}/>
                         <Route path="/dialogs/*"
-                               element={<DialogsContainer/>}/>
+                               element={<Dialogs/>}/>
                         <Route path="/news" element={<News/>}/>
                         <Route path="/music" element={<MusicsContainer/>}/>
                         <Route path="/settings" element={<Settings/>}/>
                         <Route path="friends" element={<FriendsPage/>}/>
                         <Route path="users" element={<UsersContainer/>}/>
+                        <Route path="login" element={<Login />}/>
                     </Routes>
                 </div>
             </div>

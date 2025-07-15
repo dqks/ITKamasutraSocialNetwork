@@ -1,15 +1,23 @@
 import classes from "./Dialogs.module.css"
 import DialogItem from "./DialogItem/DialogItem";
 import Message from "./Message/Message";
-import React, {useCallback} from "react";
+import React, {useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {addMessageActionCreator, messageTextChangeActionCreator} from "../../redux/dialogsReducer";
+import {useNavigate} from "react-router-dom";
 
-const Dialogs = (props) => {
+const Dialogs = () => {
+    let navigation = useNavigate();
+    let isAuth = useSelector(state => state.auth.isAuth);
+    useEffect(() => {
+        if (!isAuth) {
+           return navigation("/login")
+        }
+    }, []);
 
-    let dialogs = useSelector((state) => state.dialogsPage.dialogs);
-    let messages = useSelector((state) => state.dialogsPage.messages);
-    let messageText = useSelector((state) => state.dialogsPage.messageText);
+    let dialogs = useSelector(state => state.dialogsPage.dialogs);
+    let messages = useSelector(state => state.dialogsPage.messages);
+    let messageText = useSelector(state => state.dialogsPage.messageText);
 
     let dispatch = useDispatch()
 
@@ -19,8 +27,7 @@ const Dialogs = (props) => {
     let messagesArr = messages
     .map(el => <Message key={el.id} message={el.message} />)
 
-
-    let messageTextChange = (event) => {
+    let messageTextChange = event => {
         // props.messageTextChange(event.target.value)
         dispatch(messageTextChangeActionCreator(event.target.value))
     }
@@ -41,7 +48,7 @@ const Dialogs = (props) => {
             </div>
 
             <div className={classes.messageInput}>
-                <input className={classes.messageText} size={40} onChange={messageTextChange} cols="30" rows="1" value={messageText}></input>
+                <input className={classes.messageText} size={40} onChange={messageTextChange} value={messageText}></input>
                 <button className={classes.sendMessage} onClick={addMessage}>Отправить</button>
             </div>
         </div>
