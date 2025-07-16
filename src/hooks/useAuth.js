@@ -5,7 +5,7 @@ export const useAuth = (isAuth) => {
     const navigation = useNavigate();
     useEffect(() => {
         if (!isAuth) {
-            return navigation("/login")
+            navigation("/login")
         }
-    }, []);
+    }, [])
 }

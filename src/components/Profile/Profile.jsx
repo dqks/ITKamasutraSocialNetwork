@@ -25,12 +25,10 @@ const Profile = () => {
 
     useAuth(isAuth)
 
-    return (
-        <div>
+    return <div>
             <ProfileInfo headerImg={img} profile={profile}/>
             <MyPosts/>
         </div>
-    )
 }
 
 export default Profile;

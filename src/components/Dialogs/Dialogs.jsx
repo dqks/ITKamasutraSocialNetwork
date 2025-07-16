@@ -23,12 +23,10 @@ const Dialogs = () => {
     .map(el => <Message key={el.id} message={el.message} />)
 
     let messageTextChange = event => {
-        // props.messageTextChange(event.target.value)
         dispatch(messageTextChangeActionCreator(event.target.value))
     }
 
     let addMessage = () => {
-        // props.addMessage()
         dispatch(addMessageActionCreator())
     }
 
