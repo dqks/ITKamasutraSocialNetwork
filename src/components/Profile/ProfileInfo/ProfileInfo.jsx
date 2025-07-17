@@ -9,17 +9,13 @@ const ProfileInfo = (props) => {
     } else {
         return (
             <div className={classes.profileInfo}>
-                {/*<div className={classes.header}>*/}
-                {/*    <img src={props.headerImg} alt="Image" className={classes.headerImg} />*/}
-                {/*</div>*/}
                 <div className={classes.profileMain}>
-                    <img src={props.profile.photos.large
+                    <img className={classes.avatar} src={props.profile.photos.large
                         ? props.profile.photos.large
                         : defaultAvatar} alt="Avatar" />
                     <div>
                         <p>{props.profile.fullName}</p>
-                        <p>{props.profile.aboutMe}</p>
-                        <ProfileStatus status={"Hello"} />
+                        <ProfileStatus profileId={props.profile.userId} />
                     </div>
                 </div>
             </div>

@@ -4,8 +4,10 @@ const ADD_POST = "ADD-POST";
 const UPDATE_NEW_POST_TEXT = "UPDATE-NEW-POST-TEXT";
 const ADD_LIKE_BUTTON = "ADD-LIKE-BUTTON";
 const SET_PROFILE = "SET_PROFILE";
+const CHANGE_STATUS = "CHANGE_STATUS";
 
 let initialState = {
+    profileStatus: null,
     profile: null,
     postData: [
         {id: 1, message: "Hi, how are you?", likeCount: 10},
@@ -34,7 +36,7 @@ const profileReducer = (state = initialState, action) => {
             return {
                 ...state,
                 postData: state.postData.map(el => {
-                    if (el.id === action.postId ) {
+                    if (el.id === action.postId) {
                         return {...el, likeCount: el.likeCount + 1};
                     }
                     return el;
@@ -43,6 +45,9 @@ const profileReducer = (state = initialState, action) => {
         }
         case SET_PROFILE: {
             return {...state, profile: action.profile};
+        }
+        case CHANGE_STATUS: {
+            return {...state, profileStatus: action.status}
         }
         default:
             return state
@@ -54,6 +59,7 @@ export const addPostActionCreator = () => ({type: ADD_POST})
 export const addLikeButtonActionCreator = postId => ({type: ADD_LIKE_BUTTON, postId})
 export const updateNewPostTextActionCreator = postText => ({type: UPDATE_NEW_POST_TEXT, postText})
 export const setProfileActionCreator = profile => ({type: SET_PROFILE, profile})
+export const changeStatusActionCreator = status => ({type: CHANGE_STATUS, status})
 
 //Thunks
 export const getUserProfile = (userId) => {
@@ -61,6 +67,24 @@ export const getUserProfile = (userId) => {
         profileAPI.getUserProfile(userId)
             .then(data => {
                 dispatch(setProfileActionCreator(data));
+            })
+    }
+}
+
+export const setProfileStatus = (statusText) => {
+    return dispatch => {
+        profileAPI.setProfileStatus(statusText)
+            .then(data => {
+                dispatch(changeStatusActionCreator(statusText));
+            })
+    }
+}
+
+export const getProfileStatus = (userId) => {
+    return dispatch => {
+        profileAPI.getProfileStatus(userId)
+            .then(data => {
+                dispatch(changeStatusActionCreator(data));
             })
     }
 }

@@ -1,7 +1,6 @@
 import axios from "axios";
-import {setProfileActionCreator} from "../redux/profileReducer";
 
-const instance =  axios.create({
+const instance = axios.create({
     baseURL: "https://social-network.samuraijs.com/api/1.0/",
     withCredentials: true,
     headers: {
@@ -10,31 +9,41 @@ const instance =  axios.create({
 });
 
 export const usersAPI = {
-    getUsers (currentPage, pageSize) {
+    getUsers(currentPage, pageSize) {
         return instance.get(`users?page=${currentPage}&count=${pageSize}`)
             .then(response => response.data)
     },
 
-    followUser (id) {
+    followUser(id) {
         return instance.post(`follow/` + id)
             .then(response => response.data)
     },
 
-    unfollowUser (id) {
+    unfollowUser(id) {
         return instance.delete(`follow/` + id)
             .then(response => response.data)
     }
 }
 
 export const authAPI = {
-    checkAuth () {
+    checkAuth() {
         return instance.get(`auth/me`).then(response => response.data)
     }
 }
 
 export const profileAPI = {
-    getUserProfile (userId) {
+    getUserProfile(userId) {
         return instance.get(`profile/` + userId)
+            .then(response => response.data)
+    },
+
+    setProfileStatus(statusText) {
+        return instance.put('profile/status', {status: statusText})
+            .then(response => response.data)
+    },
+
+    getProfileStatus(userId) {
+        return instance.get(`profile/status/${userId}`)
             .then(response => response.data)
     }
 }
