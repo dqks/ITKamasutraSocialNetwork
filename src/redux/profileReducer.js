@@ -74,9 +74,9 @@ export const getUserProfile = (userId) => {
 export const setProfileStatus = (statusText) => {
     return dispatch => {
         profileAPI.setProfileStatus(statusText)
-            .then(data => {
-                dispatch(changeStatusActionCreator(statusText));
-            })
+            // .then(data => {
+            //     dispatch(changeStatusActionCreator(statusText));
+            // })
     }
 }
 

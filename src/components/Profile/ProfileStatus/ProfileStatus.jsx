@@ -6,7 +6,7 @@ const ProfileStatus = (props) => {
     const [editMode, setEditMode] = useState(false)
     const authUserId = useSelector(state => state.auth.id)
     const profileStatus = useSelector(state => state.profilePage.profileStatus)
-    const [status, setStatus] = useState(profileStatus)
+    // const [status, setStatus] = useState(profileStatus)
     const dispatch = useDispatch()
 
     const activateEditMode = () => {
@@ -15,11 +15,12 @@ const ProfileStatus = (props) => {
 
     const deactivateEditMode = () => {
         setEditMode(false)
-        dispatch(setProfileStatus(status))
+        dispatch(setProfileStatus(profileStatus))
     }
 
     const changeStatusText = event => {
-        setStatus(event.target.value)
+        // setStatus(event.target.value)
+        dispatch(changeStatusActionCreator(event.target.value))
     }
 
     return (
@@ -36,21 +37,12 @@ const ProfileStatus = (props) => {
                             </div>
                             : <div>
                                 <input onChange={changeStatusText} autoFocus={true} placeholder={"Status"} onBlur={deactivateEditMode} type="text"
-                                       value={status}/>
+                                       value={profileStatus}/>
                             </div>}
                     </div>
             }
         </div>
     )
 }
-
-// !editMode && props.status
-//     ? <div>
-//         <span onDoubleClick={activateEditMode}>{props.status}</span>
-//     </div>
-//     : <div>
-//         <input onChange={changeStatus} placeholder={"Status"} onBlur={deactivateEditMode} type="text"
-//                value={props.status}/>
-//     </div>
 
 export default ProfileStatus;
