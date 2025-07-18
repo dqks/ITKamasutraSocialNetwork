@@ -20,7 +20,7 @@ const App = () => {
                 <Navbar/>
                 <div className="app-wrapper-content">
                     <Routes>
-                        <Route path="/profile/:userId?"
+                        <Route  path="/profile/:userId?"
                                element={<Profile/>}/>
                         <Route path="/dialogs/*"
                                element={<Dialogs/>}/>

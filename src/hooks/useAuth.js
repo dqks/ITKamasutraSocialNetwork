@@ -1,11 +1,17 @@
 import {useEffect} from "react";
-import {useNavigate} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
+import {useSelector} from "react-redux";
 
-export const useAuth = (isAuth) => {
-    const navigation = useNavigate();
+export const useAuth = () => {
+    const location = useLocation();
+    const auth = useSelector(state => state.auth.isAuth);
+    const navigate = useNavigate();
+
     useEffect(() => {
-        if (!isAuth) {
-            navigation("/login")
+        if (!auth) {
+            navigate("/login");
+        } else {
+            navigate(location)
         }
-    }, [])
+    }, [auth, navigate])
 }

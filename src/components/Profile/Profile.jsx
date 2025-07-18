@@ -9,10 +9,11 @@ import {useAuth} from "../../hooks/useAuth";
 
 const Profile = () => {
     const params = useParams();
+
     const authUserId = useSelector(state => state.auth.id)
-    const isAuth = useSelector(state => state.auth.isAuth);
     const profile = useSelector(state => state.profilePage.profile);
     const dispatch = useDispatch();
+
 
     useEffect(() => {
         let userId = params.userId;
@@ -25,12 +26,13 @@ const Profile = () => {
         }
     }, [params]);
 
-    useAuth(isAuth)
+    useAuth()
 
     return <div>
-        <ProfileInfo headerImg={img} profile={profile}/>
-        <MyPosts/>
-    </div>
+            <ProfileInfo headerImg={img} profile={profile}/>
+            <MyPosts/>
+        </div>
+
 }
 
 export default Profile;

@@ -52,7 +52,7 @@ let usersReducer = (state = initialState, action) => {
                 ...state,
                 followingInProgress: action.isFetching
                     ? [...state.followingInProgress, action.userId]
-                    : state.followingInProgress.filter(id => id != action.userId)
+                    : state.followingInProgress.filter(id => id !== action.userId)
             }
         default:
             return state;
@@ -74,11 +74,17 @@ export const getUsers = (currentPage, pageSize) => {
     return (dispatch) => {
         dispatch(toggleIsFetching(true));
         usersAPI.getUsers(currentPage, pageSize).then(data => {
-            dispatch(toggleIsFetching(false));
-            dispatch(setUsers(data.items));
-            dispatch(setTotalCount(data.totalCount));
-            dispatch(setCurrentPage(currentPage));
+            if (!data.error) {
+                dispatch(toggleIsFetching(false));
+                dispatch(setUsers(data.items));
+                dispatch(setTotalCount(data.totalCount));
+                dispatch(setCurrentPage(currentPage));
+            }
+
         })
+            .catch(error => {
+                console.error("Unable to get users", error)
+            })
     }
 }
 
@@ -92,6 +98,10 @@ export const followUser = (id) => {
                 }
                 dispatch(toggleFollowingInProgress(false, id));
             })
+            .catch(error => {
+                dispatch(toggleFollowingInProgress(false, id));
+                console.error("Failed to follow user", error)
+            })
     }
 }
 
@@ -104,6 +114,10 @@ export const unfollowUser = (id) => {
                     dispatch(unfollow(id));
                 }
                 dispatch(toggleFollowingInProgress(false, id));
+            })
+            .catch((error) => {
+                dispatch(toggleFollowingInProgress(false, id));
+                console.error("Failed to unfollow user", error)
             })
     }
 }

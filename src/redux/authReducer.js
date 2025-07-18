@@ -1,4 +1,4 @@
-import {authAPI, profileAPI} from "../api/api";
+import {authAPI} from "../api/api";
 
 const SET_USER_DATA = "SET_USER_DATA";
 const SET_CURRENT_USER_IMAGE = "SET_CURRENT_USER_IMAGE";
@@ -15,6 +15,7 @@ let initialState = {
 const authReducer = (state = initialState, action) => {
     switch (action.type) {
         case SET_USER_DATA:
+            console.log("data is set")
             return {...state, ...action.data, isAuth: true};
         case SET_CURRENT_USER_IMAGE:
             return {...state, userPhoto: action.userPhoto};
@@ -32,12 +33,12 @@ export const getAuthUser = () => {
             .then(data => {
                 if (data.resultCode === 0) {
                     dispatch(setUserDataActionCreator(data.data));
-                    profileAPI.getUserProfile(data.data.id) // Get user image
-                        .then((data) => {
-                            if (data.photos.small) {
-                                dispatch(setCurrentUserImageActionCreator(data.photos.small));
-                            }
-                        })
+                    // profileAPI.getUserProfile(data.data.id) // Get user image
+                    //     .then((data) => {
+                    //         if (data.photos.small) {
+                    //             dispatch(setCurrentUserImageActionCreator(data.photos.small));
+                    //         }
+                    //     })
                 }
             })
     }

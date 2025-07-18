@@ -65,8 +65,13 @@ export const changeStatusActionCreator = status => ({type: CHANGE_STATUS, status
 export const getUserProfile = (userId) => {
     return dispatch => {
         profileAPI.getUserProfile(userId)
-            .then(data => {
-                dispatch(setProfileActionCreator(data));
+            .then(response => {
+                if (response.status === 200) {
+                    dispatch(setProfileActionCreator(response.data));
+                }
+            })
+            .catch(error => {
+                console.error("Unable to get user profile", error);
             })
     }
 }
@@ -74,9 +79,9 @@ export const getUserProfile = (userId) => {
 export const setProfileStatus = (statusText) => {
     return dispatch => {
         profileAPI.setProfileStatus(statusText)
-            // .then(data => {
-            //     dispatch(changeStatusActionCreator(statusText));
-            // })
+            .then(data => {
+                dispatch(changeStatusActionCreator(statusText));
+            })
     }
 }
 

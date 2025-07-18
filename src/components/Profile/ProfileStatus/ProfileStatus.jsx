@@ -1,13 +1,17 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {changeStatusActionCreator, setProfileStatus} from "../../../redux/profileReducer";
+import {setProfileStatus} from "../../../redux/profileReducer";
 
 const ProfileStatus = (props) => {
     const [editMode, setEditMode] = useState(false)
     const authUserId = useSelector(state => state.auth.id)
     const profileStatus = useSelector(state => state.profilePage.profileStatus)
-    // const [status, setStatus] = useState(profileStatus)
+    const [status, setStatus] = useState(profileStatus)
     const dispatch = useDispatch()
+
+    useEffect(() => {
+        setStatus(profileStatus)
+    }, [props, profileStatus]);
 
     const activateEditMode = () => {
         setEditMode(true)
@@ -15,12 +19,12 @@ const ProfileStatus = (props) => {
 
     const deactivateEditMode = () => {
         setEditMode(false)
-        dispatch(setProfileStatus(profileStatus))
+        dispatch(setProfileStatus(status))
     }
 
     const changeStatusText = event => {
-        // setStatus(event.target.value)
-        dispatch(changeStatusActionCreator(event.target.value))
+        setStatus(event.target.value)
+        // dispatch(changeStatusActionCreator(event.target.value))
     }
 
     return (
@@ -37,7 +41,7 @@ const ProfileStatus = (props) => {
                             </div>
                             : <div>
                                 <input onChange={changeStatusText} autoFocus={true} placeholder={"Status"} onBlur={deactivateEditMode} type="text"
-                                       value={profileStatus}/>
+                                       value={status}/>
                             </div>}
                     </div>
             }
