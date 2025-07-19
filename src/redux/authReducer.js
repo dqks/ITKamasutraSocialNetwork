@@ -15,7 +15,6 @@ let initialState = {
 const authReducer = (state = initialState, action) => {
     switch (action.type) {
         case SET_USER_DATA:
-            console.log("data is set")
             return {...state, ...action.data, isAuth: true};
         case SET_CURRENT_USER_IMAGE:
             return {...state, userPhoto: action.userPhoto};
@@ -40,6 +39,27 @@ export const getAuthUser = () => {
                     //         }
                     //     })
                 }
+            })
+    }
+}
+
+export const loginUser = (email, password, rememberMe) => {
+    return dispatch => {
+        authAPI.login(email, password, rememberMe)
+            .then(response => {
+                if (response.data.resultCode === 0) {
+                    authAPI.checkAuth(response.data.data.userId)
+                        .then(data => {
+                            if (data.resultCode === 0) {
+                                dispatch(setUserDataActionCreator(data.data));
+                            }
+                        })
+                } else {
+                    console.error("Unable to log in", response.data.messages);
+                }
+            })
+            .catch(error => {
+                console.error("Unable to log in", error);
             })
     }
 }

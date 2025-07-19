@@ -1,15 +1,19 @@
 import classes from './Login.module.css';
 import {useSelector} from "react-redux";
-import {useNavigate} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import LoginForm from "./LoginForm/LoginForm";
+import {useEffect} from "react";
 
 const Login = () => {
     const auth = useSelector(state => state.auth.isAuth);
     const navigate = useNavigate();
+    const location = useLocation();
 
-    if (auth) {
-        navigate(-1)
-    }
+    useEffect(() => {
+        if (auth) {
+            navigate(-1)
+        }
+    }, [navigate, auth, location]);
 
     return (
         <div className={classes.body}>

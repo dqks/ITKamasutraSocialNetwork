@@ -13,7 +13,7 @@ const Header = () => {
 
     useEffect(() => {
         dispatch(getAuthUser())
-    }, []);
+    }, [dispatch]);
 
     return (
         <header className={classes.header}>
@@ -21,7 +21,7 @@ const Header = () => {
             <div className={classes.login}>
                 {isAuth
                     ? <div className={classes.userInfoWrapper}>
-                        {photo ? <img className={classes.photo} src={photo} alt="Photo"/> : null}
+                        {photo ? <img className={classes.photo} src={photo} alt="Avatar"/> : null}
                         <p className={classes.loginName}>{login}</p>
                     </div>
                     : <NavLink className={classes.loginText} to={"/login"}>Login</NavLink>}

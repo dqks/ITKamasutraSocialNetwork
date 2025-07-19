@@ -13,5 +13,5 @@ export const useAuth = () => {
         } else {
             navigate(location)
         }
-    }, [auth, navigate])
+    }, [navigate, auth])
 }

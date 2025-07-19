@@ -4,24 +4,13 @@ import React from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {
     addLikeButtonActionCreator,
-    addPostActionCreator,
-    updateNewPostTextActionCreator
 } from "../../../redux/profileReducer";
+import PostForm from "./PostForm/PostForm";
 
 const MyPosts = () => {
-
     const posts = useSelector(state => state.profilePage.postData);
-    const newPostText = useSelector(state => state.profilePage.newPostText);
 
     let dispatch = useDispatch();
-
-    let updateNewPostText = (event) => {
-        dispatch(updateNewPostTextActionCreator(event.target.value))
-    }
-
-    let addPost = () => {
-        dispatch(addPostActionCreator())
-    }
 
     let likeButtonClick = (postId) => {
         dispatch(addLikeButtonActionCreator(postId))
@@ -33,13 +22,7 @@ const MyPosts = () => {
         <div className={classes.myPosts}>
             <h3>My posts</h3>
             <div>
-                <div>
-                    <input size={40} className={classes.postText} type={"text"} onChange={updateNewPostText}  value={newPostText}/>
-                </div>
-
-                <div>
-                    <button className={classes.addPostButton} onClick={addPost}>Add post</button>
-                </div>
+                <PostForm />
             </div>
             <div className={classes.posts}>
                 { postArr }

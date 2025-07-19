@@ -2,33 +2,21 @@ import classes from "./Dialogs.module.css"
 import DialogItem from "./DialogItem/DialogItem";
 import Message from "./Message/Message";
 import React from "react";
-import {useDispatch, useSelector} from "react-redux";
-import {addMessageActionCreator, messageTextChangeActionCreator} from "../../redux/dialogsReducer";
+import {useSelector} from "react-redux";
 import {useAuth} from "../../hooks/useAuth";
+import MessageForm from "./MessageForm/MessageForm";
 
 const Dialogs = () => {
-    let isAuth = useSelector(state => state.auth.isAuth);
-    useAuth(isAuth)
+    useAuth()
 
     let dialogs = useSelector(state => state.dialogsPage.dialogs);
     let messages = useSelector(state => state.dialogsPage.messages);
-    let messageText = useSelector(state => state.dialogsPage.messageText);
-
-    let dispatch = useDispatch()
 
     let dialogsArr = dialogs
-    .map(el => <DialogItem name={el.name} key={el.id} id={el.id} />)
+        .map(el => <DialogItem name={el.name} key={el.id} id={el.id}/>)
 
     let messagesArr = messages
-    .map(el => <Message key={el.id} message={el.message} />)
-
-    let messageTextChange = event => {
-        dispatch(messageTextChangeActionCreator(event.target.value))
-    }
-
-    let addMessage = () => {
-        dispatch(addMessageActionCreator())
-    }
+        .map(el => <Message key={el.id} message={el.message}/>)
 
     return (
         <div className={classes.dialogs}>
@@ -41,8 +29,7 @@ const Dialogs = () => {
             </div>
 
             <div className={classes.messageInput}>
-                <input className={classes.messageText} size={40} onChange={messageTextChange} value={messageText}></input>
-                <button className={classes.sendMessage} onClick={addMessage}>Отправить</button>
+                <MessageForm/>
             </div>
         </div>
     )
