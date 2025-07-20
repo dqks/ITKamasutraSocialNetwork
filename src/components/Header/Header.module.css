@@ -12,12 +12,14 @@
 .login {
   float: right;
 }
+
 .loginText {
   text-decoration: underline;
 }
 
 .loginName {
   color: white;
+  margin: 5px 0;
 }
 
 .photo {
@@ -25,7 +27,27 @@
   height: 60px;
 }
 
+.logoutButton {
+  padding: 5px 10px;
+  border: 1px solid gray;
+  border-radius: 5px;
+  margin: 5px 0px;
+  background-color: white;
+}
+
+.logoutButton:hover {
+  background-color: #f6ff00;
+  transition: .1s;
+}
+
+.logoutButton:active {
+  transition: 0s;
+  background-color: white;
+}
+
 .userInfoWrapper {
   display: flex;
-  gap: 10px;
+  flex-direction: column;
+  align-items: center;
+  gap: 0px;
 }

@@ -1,4 +1,4 @@
-import clases from "./News.module.css"
+import classes from "./News.module.css"
 
 const News = () => {
     return (

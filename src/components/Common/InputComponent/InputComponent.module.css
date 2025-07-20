@@ -1,0 +1,20 @@
+.wrapper {
+    margin: 10px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+
+input {
+    font-size: 14px;
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid gray;
+}
+
+.errorText {
+    color: red;
+    margin: 0;
+}

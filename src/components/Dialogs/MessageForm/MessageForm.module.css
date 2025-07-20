@@ -24,7 +24,6 @@
     background-color: white;
 }
 
-
-.errorText {
-    color: red;
+.errorBorder {
+    border: 2px solid red;
 }

@@ -13,12 +13,17 @@ const MessageForm = () => {
                     dispatch(addMessageActionCreator(values.messageText))
                     actions.resetForm()
                 }}
+                validateOnBlur={false}
+                validateOnChange={true}
                 validationSchema={MessageFormSchema}>
-            <Form>
-                <Field type={"text"} name={"messageText"} className={classes.messageText} size={40}/>
-                <button type={"submit"} className={classes.sendMessage}>Отправить</button>
-                <ErrorMessage className={classes.errorText} name={"messageText"} component={"p"}/>
-            </Form>
+            {({errors}) => {
+                return (
+                    <Form>
+                        <Field type={"text"} name={"messageText"} className={[classes.messageText, errors.messageText ? classes.errorBorder : null].join(" ")} size={40}/>
+                        <button type={"submit"} className={classes.sendMessage}>Отправить</button>
+                    </Form>
+                )
+            }}
         </Formik>
     )
 }

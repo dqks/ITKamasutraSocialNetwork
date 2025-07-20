@@ -36,6 +36,10 @@ export const authAPI = {
             password,
             rememberMe
         })
+    },
+
+    logout () {
+        return instance.post('auth/logout')
     }
 }
 

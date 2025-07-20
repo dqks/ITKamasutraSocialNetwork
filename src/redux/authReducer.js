@@ -1,7 +1,8 @@
 import {authAPI} from "../api/api";
 
 const SET_USER_DATA = "SET_USER_DATA";
-const SET_CURRENT_USER_IMAGE = "SET_CURRENT_USER_IMAGE";
+const DELETE_USER_DATA = "DELETE_USER_DATA";
+// const SET_CURRENT_USER_IMAGE = "SET_CURRENT_USER_IMAGE";
 
 let initialState = {
     id: null,
@@ -16,15 +17,19 @@ const authReducer = (state = initialState, action) => {
     switch (action.type) {
         case SET_USER_DATA:
             return {...state, ...action.data, isAuth: true};
-        case SET_CURRENT_USER_IMAGE:
-            return {...state, userPhoto: action.userPhoto};
+        // case SET_CURRENT_USER_IMAGE:
+        //     return {...state, userPhoto: action.userPhoto};
+        case DELETE_USER_DATA: {
+            return {...state, id: null, email: null, login: null, isAuth: false, userPhoto: null};
+        }
         default:
             return {...state, userPhoto: action.userPhoto};
     }
 }
 
 export const setUserDataActionCreator = data => ({type: SET_USER_DATA, data});
-export const setCurrentUserImageActionCreator = userPhoto => ({type: SET_CURRENT_USER_IMAGE, userPhoto});
+export const deleteUserDataActionCreator = data => ({type: DELETE_USER_DATA})
+// export const setCurrentUserImageActionCreator = userPhoto => ({type: SET_CURRENT_USER_IMAGE, userPhoto});
 
 export const getAuthUser = () => {
     return (dispatch) => {
@@ -60,6 +65,22 @@ export const loginUser = (email, password, rememberMe) => {
             })
             .catch(error => {
                 console.error("Unable to log in", error);
+            })
+    }
+}
+
+export const logoutUser = () => {
+    return dispatch => {
+        authAPI.logout()
+            .then(response => {
+                if (response.data.resultCode === 0) {
+                    dispatch(deleteUserDataActionCreator())
+                } else {
+                    console.error("Unable to log out", response.data.messages);
+                }
+            })
+            .catch(error => {
+                console.error("Unable to log out", error)
             })
     }
 }

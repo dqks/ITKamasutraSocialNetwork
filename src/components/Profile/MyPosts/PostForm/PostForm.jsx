@@ -1,4 +1,4 @@
-import {ErrorMessage, Field, Form, Formik} from "formik";
+import {Field, Form, Formik} from "formik";
 import classes from "./PostForm.module.css";
 import React from "react";
 import PostFormSchema from "../../../FormValidation/PostFormSchema";
@@ -13,18 +13,21 @@ const PostForm = () => {
                     dispatch(addPostActionCreator(value.postText))
                     actions.resetForm();
                 }}
+                validateOnBlur={false}
+                validateOnChange={true}
                 validationSchema={PostFormSchema}>
-            <Form>
-                <div>
-                    <Field size={40} className={classes.postText} type={"text"} name={"postText"}/>
-                </div>
-                <ErrorMessage className={classes.errorText} name={"postText"} component="p"/>
-                <div>
-                    <button type="submit" className={classes.addPostButton}>Add post</button>
-                </div>
-            </Form>
+                {({errors}) => {
+                    return <Form>
+                        <div>
+                            <Field component={"textarea"} className={errors.postText ? classes.errorBorder : null} cols={"40"} rows={3} type={"text"} name={"postText"} />
+                        </div>
+                        <div>
+                            <button type="submit" className={classes.addPostButton}>Add post</button>
+                        </div>
+                    </Form>
+                }}
         </Formik>
     )
 }
-
+// className={errors.messageText ? classes.errorBorder : null}
 export default PostForm;
