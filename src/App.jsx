@@ -5,14 +5,31 @@ import Profile from "./components/Profile/Profile";
 import News from "./components/News/News";
 import Settings from "./components/Settings/Settings";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
-import React from "react";
+import React, {useEffect} from "react";
 import UsersContainer from "./components/Users/UsersContainer";
 import MusicsContainer from "./components/Music/MusicsContainer";
 import FriendsPage from "./components/FriendsPage/FriendsPage";
 import Login from "./components/Login/Login";
 import Dialogs from "./components/Dialogs/Dialogs";
+import {useDispatch, useSelector} from "react-redux";
+import {initializeApp} from "./redux/appReducer";
+import Preloader from "./components/Common/Preloader";
 
 const App = () => {
+    const initialized = useSelector(state => state.app.initialized);
+    const dispatch = useDispatch();
+    useEffect(() => {
+        dispatch(initializeApp())
+    }, [dispatch]);
+
+     if (!initialized) {
+        return (
+            <div className="preloader-wrapper">
+                <Preloader />
+            </div>
+            )
+     }
+
     return (
         <BrowserRouter>
             <div className="app-wrapper">

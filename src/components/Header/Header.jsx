@@ -15,10 +15,6 @@ const Header = () => {
         dispatch(logoutUser())
     }
 
-    useEffect(() => {
-        dispatch(getAuthUser())
-    }, [dispatch]);
-
     return (
         <header className={classes.header}>
             <img className={classes.logo} src={logo} alt="Logo"/>

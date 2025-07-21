@@ -6,6 +6,7 @@ import profileReducer from "./profileReducer";
 import usersReducer from "./usersReducer";
 import musicReducer from "./musicReducer";
 import authReducer from "./authReducer";
+import appReducer from "./appReducer";
 
 let reducers = combineReducers({
     profilePage: profileReducer,
@@ -14,6 +15,7 @@ let reducers = combineReducers({
     usersPage: usersReducer,
     musicPage: musicReducer,
     auth: authReducer,
+    app: appReducer,
 });
 
 let store = configureStore({reducer: reducers});

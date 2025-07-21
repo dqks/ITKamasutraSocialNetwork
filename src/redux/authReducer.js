@@ -28,27 +28,28 @@ const authReducer = (state = initialState, action) => {
 }
 
 export const setUserDataActionCreator = data => ({type: SET_USER_DATA, data});
-export const deleteUserDataActionCreator = data => ({type: DELETE_USER_DATA})
+export const deleteUserDataActionCreator = () => ({type: DELETE_USER_DATA})
 // export const setCurrentUserImageActionCreator = userPhoto => ({type: SET_CURRENT_USER_IMAGE, userPhoto});
+// profileAPI.getUserProfile(data.data.id) // Get user image
+//     .then((data) => {
+//         if (data.photos.small) {
+//             dispatch(setCurrentUserImageActionCreator(data.photos.small));
+//         }
+//     })
+
 
 export const getAuthUser = () => {
     return (dispatch) => {
-        authAPI.checkAuth()
+        return authAPI.checkAuth()
             .then(data => {
                 if (data.resultCode === 0) {
                     dispatch(setUserDataActionCreator(data.data));
-                    // profileAPI.getUserProfile(data.data.id) // Get user image
-                    //     .then((data) => {
-                    //         if (data.photos.small) {
-                    //             dispatch(setCurrentUserImageActionCreator(data.photos.small));
-                    //         }
-                    //     })
                 }
             })
     }
 }
 
-export const loginUser = (email, password, rememberMe) => {
+export const loginUser = (email, password, rememberMe, setFieldValue) => {
     return dispatch => {
         authAPI.login(email, password, rememberMe)
             .then(response => {
@@ -60,6 +61,7 @@ export const loginUser = (email, password, rememberMe) => {
                             }
                         })
                 } else {
+                    setFieldValue("generalError", response.data.messages.join(" "))
                     console.error("Unable to log in", response.data.messages);
                 }
             })

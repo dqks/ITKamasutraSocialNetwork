@@ -14,6 +14,7 @@ const Profile = () => {
     const profile = useSelector(state => state.profilePage.profile);
     const dispatch = useDispatch();
 
+    useAuth()
 
     useEffect(() => {
         let userId = params.userId;
@@ -26,7 +27,6 @@ const Profile = () => {
         }
     }, [params]);
 
-    useAuth()
 
     return <div>
             <ProfileInfo headerImg={img} profile={profile}/>
