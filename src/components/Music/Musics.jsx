@@ -1,8 +1,11 @@
 import classes from "./Musics.module.css"
 import React from "react";
 import MusicItem from "./MusicItem/MusicItem";
+import {useSelector} from "react-redux";
+import {getTracks} from "../../redux/musicSelector";
 
-const Musics = (props) => {
+const Musics = () => {
+    const tracks = useSelector(getTracks)
     return (
         <div className={classes.body}>
             <div>
@@ -12,7 +15,7 @@ const Musics = (props) => {
             </div>
             <div className={classes.musicWrapper}>
                 {
-                    props.tracks.map(track => <MusicItem key={track.id} logo={track.logo} name={track.name}
+                    tracks.map(track => <MusicItem key={track.id} logo={track.logo} name={track.name}
                                                           singer={track.singer} src={track.src}/>)
                 }
             </div>

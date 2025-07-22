@@ -5,12 +5,13 @@ import React from "react";
 import {useSelector} from "react-redux";
 import {useAuth} from "../../hooks/useAuth";
 import MessageForm from "./MessageForm/MessageForm";
+import {getDialogs, getMessages} from "../../redux/dialogsSelectors";
 
 const Dialogs = () => {
     useAuth()
 
-    let dialogs = useSelector(state => state.dialogsPage.dialogs);
-    let messages = useSelector(state => state.dialogsPage.messages);
+    let dialogs = useSelector(getDialogs);
+    let messages = useSelector(getMessages);
 
     let dialogsArr = dialogs
         .map(el => <DialogItem name={el.name} key={el.id} id={el.id}/>)

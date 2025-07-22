@@ -1,9 +1,10 @@
 import Friend from "../../FriendsPage/Friend/Friend"
 import classes from "./FriendsList.module.css";
 import {useSelector} from "react-redux";
+import {getFriends} from "../../../redux/friendsSelectors";
 
 const FriendsList = () => {
-    const friends = useSelector(state => state.friendsPage.friends)
+    const friends = useSelector(getFriends)
 
     return (
         <div className={classes}>

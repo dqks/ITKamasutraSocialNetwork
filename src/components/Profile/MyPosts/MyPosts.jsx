@@ -6,9 +6,10 @@ import {
     addLikeButtonActionCreator,
 } from "../../../redux/profileReducer";
 import PostForm from "./PostForm/PostForm";
+import {getPostData} from "../../../redux/profileSelectors";
 
 const MyPosts = () => {
-    const posts = useSelector(state => state.profilePage.postData);
+    const posts = useSelector(getPostData);
 
     let dispatch = useDispatch();
 
@@ -16,16 +17,17 @@ const MyPosts = () => {
         dispatch(addLikeButtonActionCreator(postId))
     }
 
-    let postArr = posts.map(el => <Post key={el.id} likeButtonClick={likeButtonClick} message={el.message} likeCount={el.likeCount} id={el.id} />)
+    let postArr = posts.map(el => <Post key={el.id} likeButtonClick={likeButtonClick} message={el.message}
+                                        likeCount={el.likeCount} id={el.id}/>)
 
     return (
         <div className={classes.myPosts}>
             <h3>My posts</h3>
             <div>
-                <PostForm />
+                <PostForm/>
             </div>
             <div className={classes.posts}>
-                { postArr }
+                {postArr}
             </div>
         </div>
     )

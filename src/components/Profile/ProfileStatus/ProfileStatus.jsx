@@ -1,11 +1,13 @@
 import {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {setProfileStatus} from "../../../redux/profileReducer";
+import {getAuthUserId} from "../../../redux/authSelectors";
+import {getProfileStatus} from "../../../redux/profileSelectors";
 
 const ProfileStatus = (props) => {
     const [editMode, setEditMode] = useState(false)
-    const authUserId = useSelector(state => state.auth.id)
-    const profileStatus = useSelector(state => state.profilePage.profileStatus)
+    const authUserId = useSelector(getAuthUserId)
+    const profileStatus = useSelector(getProfileStatus)
     const [status, setStatus] = useState(profileStatus)
     const dispatch = useDispatch()
 

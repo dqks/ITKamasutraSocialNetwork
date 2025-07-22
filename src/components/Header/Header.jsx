@@ -1,14 +1,14 @@
 import logo from "../../assets/Logo.png"
 import classes from "./Header.module.css"
 import {NavLink} from "react-router-dom";
-import {useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {getAuthUser, logoutUser} from "../../redux/authReducer";
+import {logoutUser} from "../../redux/authReducer";
+import {getIsAuth, getLogin} from "../../redux/authSelectors";
 
 const Header = () => {
     const dispatch = useDispatch();
-    const isAuth = useSelector(state => state.auth.isAuth)
-    const login = useSelector(state => state.auth.login)
+    const isAuth = useSelector(getIsAuth)
+    const login = useSelector(getLogin)
     // let photo = useSelector(state => state.auth.userPhoto)
 
     const onLogout = () => {
