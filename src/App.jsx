@@ -15,6 +15,7 @@ import {initializeApp} from "./redux/appReducer";
 import Preloader from "./components/Common/Preloader";
 import {getInitialized} from "./redux/appSelectors";
 import Musics from "./components/Music/Musics";
+import UsersContainerFC from "./components/Users/UsersContainerFC";
 
 const App = () => {
     const initialized = useSelector(getInitialized);
@@ -46,7 +47,8 @@ const App = () => {
                         <Route path="/music" element={<Musics/>}/>
                         <Route path="/settings" element={<Settings/>}/>
                         <Route path="friends" element={<FriendsPage/>}/>
-                        <Route path="users" element={<UsersContainer/>}/>
+                        {/*<Route path="users" element={<UsersContainer/>}/>*/}
+                        <Route path="users" element={<UsersContainerFC/>}/>
                         <Route path="login" element={<Login />}/>
                     </Routes>
                 </div>
