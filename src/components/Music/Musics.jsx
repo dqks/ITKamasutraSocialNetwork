@@ -5,6 +5,7 @@ import {useSelector} from "react-redux";
 import {getTracks} from "../../redux/musicSelector";
 
 const Musics = () => {
+    console.log("RENDER")
     const tracks = useSelector(getTracks)
     return (
         <div className={classes.body}>
@@ -24,4 +25,4 @@ const Musics = () => {
     )
 }
 
-export default Musics;
+export default React.memo(Musics);

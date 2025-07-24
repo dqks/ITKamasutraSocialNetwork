@@ -4,6 +4,7 @@ const ADD_POST = "ADD-POST";
 const ADD_LIKE_BUTTON = "ADD-LIKE-BUTTON";
 const SET_PROFILE = "SET_PROFILE";
 const CHANGE_STATUS = "CHANGE_STATUS";
+const DELETE_POST = "DELETE_POST";
 
 let initialState = {
     profileStatus: null,
@@ -17,15 +18,14 @@ let initialState = {
 
 const profileReducer = (state = initialState, action) => {
     switch (action.type) {
-        case ADD_POST: {
+        case ADD_POST:
             let newPost = {
                 id: state.postData[state.postData.length - 1].id + 1,
                 message: action.postText,
                 likeCount: 0
             };
-            return {...state, newPostText: "", postData: [...state.postData, newPost]};
-        }
-        case ADD_LIKE_BUTTON: {
+            return {...state, postData: [...state.postData, newPost]};
+        case ADD_LIKE_BUTTON:
             return {
                 ...state,
                 postData: state.postData.map(el => {
@@ -35,13 +35,13 @@ const profileReducer = (state = initialState, action) => {
                     return el;
                 })
             };
-        }
-        case SET_PROFILE: {
+        case SET_PROFILE:
             return {...state, profile: action.profile};
-        }
-        case CHANGE_STATUS: {
+        case CHANGE_STATUS:
             return {...state, profileStatus: action.status}
-        }
+        case DELETE_POST:
+            return {...state,
+                postData: state.postData.filter(el => el.id !== action.postId)};
         default:
             return state
     }
@@ -49,9 +49,10 @@ const profileReducer = (state = initialState, action) => {
 
 //Action creators
 export const addPostActionCreator = postText => ({type: ADD_POST, postText});
-export const addLikeButtonActionCreator = postId => ({type: ADD_LIKE_BUTTON, postId})
-export const setProfileActionCreator = profile => ({type: SET_PROFILE, profile})
-export const changeStatusActionCreator = status => ({type: CHANGE_STATUS, status})
+export const addLikeButtonActionCreator = postId => ({type: ADD_LIKE_BUTTON, postId});
+export const setProfileActionCreator = profile => ({type: SET_PROFILE, profile});
+export const changeStatusActionCreator = status => ({type: CHANGE_STATUS, status});
+export const deletePost = postId => ({type: DELETE_POST, postId})
 
 //Thunks
 export const getUserProfile = (userId) => {

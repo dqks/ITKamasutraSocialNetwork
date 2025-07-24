@@ -16,6 +16,7 @@ import Preloader from "./components/Common/Preloader";
 import {getInitialized} from "./redux/appSelectors";
 import Musics from "./components/Music/Musics";
 import UsersContainerFC from "./components/Users/UsersContainerFC";
+import {routes} from "./constants/routes";
 
 const App = () => {
     const initialized = useSelector(getInitialized);
@@ -39,17 +40,17 @@ const App = () => {
                 <Navbar/>
                 <div className="app-wrapper-content">
                     <Routes>
-                        <Route  path="/profile/:userId?"
+                        <Route  path={routes.profile}
                                element={<Profile/>}/>
-                        <Route path="/dialogs/*"
+                        <Route path={routes.dialogs}
                                element={<Dialogs/>}/>
-                        <Route path="/news" element={<News/>}/>
-                        <Route path="/music" element={<Musics/>}/>
-                        <Route path="/settings" element={<Settings/>}/>
-                        <Route path="friends" element={<FriendsPage/>}/>
+                        <Route path={routes.news} element={<News/>}/>
+                        <Route path={routes.music} element={<Musics/>}/>
+                        <Route path={routes.settings} element={<Settings/>}/>
+                        <Route path={routes.friends} element={<FriendsPage/>}/>
                         {/*<Route path="users" element={<UsersContainer/>}/>*/}
-                        <Route path="users" element={<UsersContainerFC/>}/>
-                        <Route path="login" element={<Login />}/>
+                        <Route path={routes.users} element={<UsersContainerFC/>}/>
+                        <Route path={routes.login} element={<Login />}/>
                     </Routes>
                 </div>
             </div>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, {memo} from "react";
 import UserItem from "./UserItem/UserItem";
 import classes from './Users.module.css'
 
@@ -24,4 +24,4 @@ const Users = (props) => {
 
 }
 
-export default Users;
+export default memo(Users);

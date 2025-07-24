@@ -1,11 +1,11 @@
 import classes from "./Post.module.css"
 import avatar from "../../../../assets/avatar.jpg"
+import {memo} from "react";
 
 const Post = (props) => {
     let likeButtonClick = () => {
         props.likeButtonClick(props.id)
     }
-
     return (
         <div className={classes.item}>
             <img src={avatar} alt="Logo"/>
@@ -20,4 +20,4 @@ const Post = (props) => {
     )
 }
 
-export default Post;
+export default memo(Post);

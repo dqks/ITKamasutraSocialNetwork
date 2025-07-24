@@ -2,6 +2,7 @@ import classes from "./ProfileInfo.module.css"
 import Preloader from "../../Common/Preloader";
 import defaultAvatar from "../../../assets/avatar.jpg";
 import ProfileStatus from "../ProfileStatus/ProfileStatus";
+import {memo} from "react";
 
 const ProfileInfo = (props) => {
     if (!props.profile) {
@@ -23,4 +24,4 @@ const ProfileInfo = (props) => {
     }
 }
 
-export default ProfileInfo;
+export default memo(ProfileInfo);

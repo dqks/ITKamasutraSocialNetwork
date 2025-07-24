@@ -1,6 +1,6 @@
 import {ErrorMessage, Field, Form, Formik} from "formik";
 import classes from "./MessageForm.module.css"
-import React from "react";
+import React, {memo} from "react";
 import MessageFormSchema from "../../FormValidation/MessageFormSchema";
 import {useDispatch} from "react-redux";
 import {addMessageActionCreator} from "../../../redux/dialogsReducer";
@@ -28,4 +28,4 @@ const MessageForm = () => {
     )
 }
 
-export default MessageForm;
+export default memo(MessageForm);

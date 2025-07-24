@@ -1,11 +1,13 @@
-import classes from "./Mesage.module.css"
+// import classes from "./Mesage.module.css"
+import {memo} from "react";
 
 const Message = (props) => {
+    console.log("rerender")
     return (
-        <div className={classes.message}>
+        <div>
             {props.message}
         </div>
     )
 }
 
-export default Message;
+export default memo(Message);

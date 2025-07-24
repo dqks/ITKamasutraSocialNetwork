@@ -1,4 +1,4 @@
-import {useEffect, useState} from "react";
+import {memo, useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {setProfileStatus} from "../../../redux/profileReducer";
 import {getAuthUserId} from "../../../redux/authSelectors";
@@ -42,7 +42,7 @@ const ProfileStatus = (props) => {
                                 <span onDoubleClick={activateEditMode}>{profileStatus}</span>
                             </div>
                             : <div>
-                                <input onChange={changeStatusText} autoFocus={true} placeholder={"Status"} onBlur={deactivateEditMode} type="text"
+                                <input name="status" onChange={changeStatusText} autoFocus={true} placeholder={"Status"} onBlur={deactivateEditMode} type="text"
                                        value={status}/>
                             </div>}
                     </div>
@@ -51,4 +51,4 @@ const ProfileStatus = (props) => {
     )
 }
 
-export default ProfileStatus;
+export default memo(ProfileStatus);

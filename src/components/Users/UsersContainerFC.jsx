@@ -1,6 +1,6 @@
-import {connect, useDispatch, useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {followUser, requestUsers, unfollowUser} from "../../redux/usersReducer";
-import React, {useEffect} from "react";
+import React, {memo, useEffect} from "react";
 import Users from "./Users";
 import Preloader from "../Common/Preloader";
 import {
@@ -50,4 +50,4 @@ const UserContainerFC = () => {
     )
 }
 
-export default UserContainerFC;
+export default memo(UserContainerFC);

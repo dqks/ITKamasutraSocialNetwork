@@ -1,9 +1,9 @@
 import img from "../../assets/images.jpg";
 import ProfileInfo from "./ProfileInfo/ProfileInfo"
-import React, {useEffect} from "react";
+import React, {memo, useEffect} from "react";
 import MyPosts from "./MyPosts/MyPosts";
 import {useDispatch, useSelector} from "react-redux";
-import {getProfileStatus, getUserProfile} from "../../redux/profileReducer";
+import {getProfileStatus, getUserProfile, setProfileActionCreator} from "../../redux/profileReducer";
 import {useParams} from "react-router-dom";
 import {useAuth} from "../../hooks/useAuth";
 import {getAuthUserId} from "../../redux/authSelectors";
@@ -27,6 +27,10 @@ const Profile = () => {
             dispatch(getUserProfile(userId));
             dispatch(getProfileStatus(userId))
         }
+
+        return () => {
+            dispatch(setProfileActionCreator(null))
+        }
     }, [params]);
 
 
@@ -37,4 +41,4 @@ const Profile = () => {
 
 }
 
-export default Profile;
+export default memo(Profile);

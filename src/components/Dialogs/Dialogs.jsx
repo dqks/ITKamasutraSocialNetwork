@@ -1,7 +1,7 @@
 import classes from "./Dialogs.module.css"
 import DialogItem from "./DialogItem/DialogItem";
 import Message from "./Message/Message";
-import React from "react";
+import {memo} from "react";
 import {useSelector} from "react-redux";
 import {useAuth} from "../../hooks/useAuth";
 import MessageForm from "./MessageForm/MessageForm";
@@ -36,4 +36,4 @@ const Dialogs = () => {
     )
 }
 
-export default React.memo(Dialogs);
+export default memo(Dialogs);
