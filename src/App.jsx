@@ -48,7 +48,6 @@ const App = () => {
                         <Route path={routes.music} element={<Musics/>}/>
                         <Route path={routes.settings} element={<Settings/>}/>
                         <Route path={routes.friends} element={<FriendsPage/>}/>
-                        {/*<Route path="users" element={<UsersContainer/>}/>*/}
                         <Route path={routes.users} element={<UsersContainerFC/>}/>
                         <Route path={routes.login} element={<Login />}/>
                     </Routes>

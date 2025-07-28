@@ -1,0 +1,14 @@
+.pageNumber {
+    font-size: 20px;
+    padding: 0 10px;
+}
+
+.selectedPage {
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+
+.pageNumber:hover {
+    color: aquamarine;
+}

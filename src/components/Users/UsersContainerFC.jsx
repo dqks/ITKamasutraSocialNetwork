@@ -40,12 +40,15 @@ const UserContainerFC = () => {
 
     return (
         <>
-            {isFetching ? <Preloader/> : null}
-            <Users followingInProgress={followingInProgress} users={users}
-                   onFollowButtonClick={onFollowButtonClick}
-                   onUnfollowButtonClick={onUnfollowButtonClick} onPageChanged={onPageChanged}
-                   currentPage={currentPage} totalUsersCount={totalUsersCount}
-                   pageSize={pageSize}/>
+            {isFetching
+                ? <Preloader/>
+                : <Users followingInProgress={followingInProgress} users={users}
+                                                onFollowButtonClick={onFollowButtonClick}
+                                                onUnfollowButtonClick={onUnfollowButtonClick}
+                                                onPageChanged={onPageChanged}
+                                                currentPage={currentPage} totalUsersCount={totalUsersCount}
+                                                pageSize={pageSize}/>}
+
         </>
     )
 }

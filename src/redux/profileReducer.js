@@ -1,10 +1,10 @@
 import {profileAPI} from "../api/api";
 
-const ADD_POST = "ADD-POST";
-const ADD_LIKE_BUTTON = "ADD-LIKE-BUTTON";
-const SET_PROFILE = "SET_PROFILE";
-const CHANGE_STATUS = "CHANGE_STATUS";
-const DELETE_POST = "DELETE_POST";
+const ADD_POST = "profile/ADD_POST";
+const ADD_LIKE_BUTTON = "profile/ADD_LIKE_BUTTON";
+const SET_PROFILE = "profile/SET_PROFILE";
+const CHANGE_STATUS = "profile/CHANGE_STATUS";
+const DELETE_POST = "profile/DELETE_POST";
 
 let initialState = {
     profileStatus: null,
@@ -40,8 +40,10 @@ const profileReducer = (state = initialState, action) => {
         case CHANGE_STATUS:
             return {...state, profileStatus: action.status}
         case DELETE_POST:
-            return {...state,
-                postData: state.postData.filter(el => el.id !== action.postId)};
+            return {
+                ...state,
+                postData: state.postData.filter(el => el.id !== action.postId)
+            };
         default:
             return state
     }
@@ -55,37 +57,32 @@ export const changeStatusActionCreator = status => ({type: CHANGE_STATUS, status
 export const deletePost = postId => ({type: DELETE_POST, postId})
 
 //Thunks
-export const getUserProfile = (userId) => {
-    return dispatch => {
-        profileAPI.getUserProfile(userId)
-            .then(response => {
-                if (response.status === 200) {
-                    dispatch(setProfileActionCreator(response.data));
-                }
-            })
-            .catch(error => {
-                console.error("Unable to get user profile", error);
-            })
+export const getUserProfile = userId => {
+    return async dispatch => {
+        const response = await profileAPI.getUserProfile(userId);
+        if (response.status === 200) {
+            dispatch(setProfileActionCreator(response.data));
+        }
     }
 }
 
-export const setProfileStatus = (statusText) => {
-    return dispatch => {
-        profileAPI.setProfileStatus(statusText)
-            .then(() => {
-                dispatch(changeStatusActionCreator(statusText));
-            })
+export const setProfileStatus = statusText => {
+    return async dispatch => {
+        const response = await profileAPI.setProfileStatus(statusText);
+        debugger;
+        if (response.resultCode === 0) {
+            dispatch(changeStatusActionCreator(statusText));
+        } else {
+            console.error("Unable to change status", response.messages)
+        }
     }
 }
 
-export const getProfileStatus = (userId) => {
-    return dispatch => {
-        profileAPI.getProfileStatus(userId)
-            .then(data => {
-                dispatch(changeStatusActionCreator(data));
-            })
+export const getProfileStatus = userId => {
+    return async dispatch => {
+        const data = await profileAPI.getProfileStatus(userId)
+        dispatch(changeStatusActionCreator(data));
     }
 }
-
 
 export default profileReducer;

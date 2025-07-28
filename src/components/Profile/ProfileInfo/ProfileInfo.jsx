@@ -4,19 +4,19 @@ import defaultAvatar from "../../../assets/avatar.jpg";
 import ProfileStatus from "../ProfileStatus/ProfileStatus";
 import {memo} from "react";
 
-const ProfileInfo = (props) => {
-    if (!props.profile) {
+const ProfileInfo = ({profile}) => {
+    if (!profile) {
         return <Preloader />
     } else {
         return (
             <div className={classes.profileInfo}>
                 <div className={classes.profileMain}>
-                    <img className={classes.avatar} src={props.profile.photos.large
-                        ? props.profile.photos.large
+                    <img className={classes.avatar} src={profile.photos.large
+                        ? profile.photos.large
                         : defaultAvatar} alt="Avatar" />
                     <div>
-                        <p>{props.profile.fullName}</p>
-                        <ProfileStatus profileId={props.profile.userId} />
+                        <p>{profile.fullName}</p>
+                        <ProfileStatus profileId={profile.userId} />
                     </div>
                 </div>
             </div>

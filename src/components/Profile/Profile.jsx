@@ -35,7 +35,7 @@ const Profile = () => {
 
 
     return <div>
-            <ProfileInfo headerImg={img} profile={profile}/>
+            <ProfileInfo profile={profile}/>
             <MyPosts/>
         </div>
 

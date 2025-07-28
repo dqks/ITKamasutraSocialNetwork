@@ -1,4 +1,4 @@
-// const SAVE_MUSIC_TIMECODE = "SAVE-MUSIC-TIMECODE"
+// const SAVE_MUSIC_TIMECODE = "music/SAVE-MUSIC-TIMECODE"
 
 const initialState = {
     tracks: [

@@ -1,6 +1,6 @@
 import {getAuthUser} from "./authReducer";
 
-const INITIALIZED_SUCCESS = "INITIALIZED_INITIALIZED_SUCCESS"
+const INITIALIZED_SUCCESS = "app/INITIALIZED_INITIALIZED_SUCCESS"
 
 const initialState = {
     initialized: false,
@@ -18,12 +18,10 @@ const appReducer = (state = initialState, action) => {
 export const setInitializedActionCreator = () => ({type: INITIALIZED_SUCCESS});
 
 export const initializeApp = () => {
-    return dispatch => {
-        const dispatchResult = dispatch(getAuthUser());
-        dispatchResult.then(() => {
-            dispatch(setInitializedActionCreator());
-        })
+    return async dispatch => {
+        const dispatchResult = await dispatch(getAuthUser());
+        dispatch(setInitializedActionCreator());
     }
 }
 
-export default  appReducer;
+export default appReducer;

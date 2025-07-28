@@ -1,7 +1,7 @@
 import {authAPI} from "../api/api";
 
-const SET_USER_DATA = "SET_USER_DATA";
-const DELETE_USER_DATA = "DELETE_USER_DATA";
+const SET_USER_DATA = "auth/SET_USER_DATA";
+const DELETE_USER_DATA = "auth/DELETE_USER_DATA";
 // const SET_CURRENT_USER_IMAGE = "SET_CURRENT_USER_IMAGE";
 
 let initialState = {
@@ -39,51 +39,42 @@ export const deleteUserDataActionCreator = () => ({type: DELETE_USER_DATA})
 
 
 export const getAuthUser = () => {
-    return (dispatch) => {
-        return authAPI.checkAuth()
-            .then(data => {
-                if (data.resultCode === 0) {
-                    dispatch(setUserDataActionCreator(data.data));
-                }
-            })
+    return async dispatch => {
+        const data = await authAPI.checkAuth();
+        if (data.resultCode === 0) {
+            dispatch(setUserDataActionCreator(data.data));
+        }
     }
 }
 
 export const loginUser = (email, password, rememberMe, setFieldValue) => {
-    return dispatch => {
-        authAPI.login(email, password, rememberMe)
-            .then(response => {
-                if (response.data.resultCode === 0) {
-                    authAPI.checkAuth(response.data.data.userId)
-                        .then(data => {
-                            if (data.resultCode === 0) {
-                                dispatch(setUserDataActionCreator(data.data));
-                            }
-                        })
-                } else {
-                    setFieldValue("generalError", response.data.messages.join(" "))
-                    console.error("Unable to log in", response.data.messages);
-                }
-            })
-            .catch(error => {
-                console.error("Unable to log in", error);
-            })
+    return async dispatch => {
+        const response = await authAPI.login(email, password, rememberMe)
+
+        if (response.data.resultCode === 0) {
+            authAPI.checkAuth(response.data.data.userId)
+                .then(data => {
+                    if (data.resultCode === 0) {
+                        dispatch(setUserDataActionCreator(data.data));
+                    }
+                })
+        } else {
+            setFieldValue("generalError", response.data.messages.join(" "))
+            console.error("Unable to log in", response.data.messages);
+        }
+
     }
 }
 
 export const logoutUser = () => {
-    return dispatch => {
-        authAPI.logout()
-            .then(response => {
-                if (response.data.resultCode === 0) {
-                    dispatch(deleteUserDataActionCreator())
-                } else {
-                    console.error("Unable to log out", response.data.messages);
-                }
-            })
-            .catch(error => {
-                console.error("Unable to log out", error)
-            })
+    return async dispatch => {
+        const response = await authAPI.logout();
+
+        if (response.data.resultCode === 0) {
+            dispatch(deleteUserDataActionCreator())
+        } else {
+            console.error("Unable to log out", response.data.messages);
+        }
     }
 }
 
