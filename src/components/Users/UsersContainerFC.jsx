@@ -14,7 +14,7 @@ import {
     getFirstCurrentPage,
     getFollowingInProgress,
     getIsFetching,
-    getLastCurrentPage,
+    getLastCurrentPage, getPageIncrement,
     getPageSize,
     getTotalUsersCount,
     getUsers
@@ -31,6 +31,7 @@ const UserContainerFC = () => {
     const baseLastCurrentPage = useSelector(getLastCurrentPage)
     const isFetching = useSelector(getIsFetching)
     const followingInProgress = useSelector(getFollowingInProgress)
+    const pageIncrement = useSelector(getPageIncrement);
 
     useEffect(() => {
         dispatch(requestUsers(currentPage, pageSize))
@@ -58,10 +59,11 @@ const UserContainerFC = () => {
                          onPageChanged={onPageChanged}
                          currentPage={currentPage} totalUsersCount={totalUsersCount}
                          pageSize={pageSize}
-                         baseFirstCurrentPage={baseFirstCurrentPage}
-                         baseLastCurrentPage={baseLastCurrentPage}
+                         firstCurrentPage={baseFirstCurrentPage}
+                         lastCurrentPage={baseLastCurrentPage}
                          storeFirstCurrentPage={setFirstCurrentPage}
                          storeLastCurrentPage={setLastCurrentPage}
+                         pageIncrement={pageIncrement}
                 />
             }
 

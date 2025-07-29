@@ -2,50 +2,40 @@ import classes from "./Paginator.module.css";
 import React, {useState} from "react";
 import {useDispatch} from "react-redux";
 
-
 const Paginator = ({
                        onPageChanged,
                        totalUsersCount,
                        pageSize,
                        currentPage,
-                       baseFirstCurrentPage,
-                       baseLastCurrentPage,
+                       firstCurrentPage,
+                       lastCurrentPage,
                        pageIncrement,
                        storeFirstCurrentPage,
                        storeLastCurrentPage,
                    }) => {
     const dispatch = useDispatch();
     let totalPageAmount = Math.ceil(totalUsersCount / pageSize);
-    const [firstCurrentPage, setFirstCurrentPage] = useState(baseFirstCurrentPage);
-    const [lastCurrentPage, setLastCurrentPage] = useState(baseLastCurrentPage);
-    let [memoizedFirstCurrentPage,setMemoizedFirstCurrentPage ] = useState(baseFirstCurrentPage)
-    let [memoizedLastCurrentPage, setMemoizedLastCurrentPage ] = useState(baseLastCurrentPage)
+    //FCP - first current page
+    //LCP - last current page
+    let [memoizedFCP, setMemoizedFCP] = useState(firstCurrentPage)
+    let [memoizedLCP, setMemoizedLCP] = useState(lastCurrentPage)
 
     const onPreviousPageButtonClick = () => {
-        let resultFirstCurrentPage = firstCurrentPage - pageIncrement;
-        let resultLastCurrentPage = lastCurrentPage - pageIncrement;
+        let resultFCP = firstCurrentPage - pageIncrement;
+        let resultLCP = lastCurrentPage - pageIncrement;
 
-        if (resultFirstCurrentPage < 1)
-            resultFirstCurrentPage = 1;
-        if (resultLastCurrentPage < 9)
-            resultLastCurrentPage = 9;
+        if (resultFCP < 1) resultFCP = 1;
+        if (resultLCP < 9) resultLCP = 9;
 
-        debugger
-
-        if (firstCurrentPage !== memoizedFirstCurrentPage && lastCurrentPage !== memoizedLastCurrentPage) {
-            setFirstCurrentPage(memoizedFirstCurrentPage);
-            setLastCurrentPage(memoizedLastCurrentPage);
-            dispatch(storeFirstCurrentPage(memoizedFirstCurrentPage))
-            dispatch(storeLastCurrentPage(memoizedLastCurrentPage))
+        if (firstCurrentPage !== memoizedFCP && lastCurrentPage !== memoizedLCP) {
+            dispatch(storeFirstCurrentPage(memoizedFCP))
+            dispatch(storeLastCurrentPage(memoizedLCP))
             return;
         }
-
-        setFirstCurrentPage(resultFirstCurrentPage);
-        setLastCurrentPage(resultLastCurrentPage);
-        setMemoizedFirstCurrentPage(resultFirstCurrentPage);
-        setMemoizedLastCurrentPage(resultLastCurrentPage);
-        dispatch(storeFirstCurrentPage(resultFirstCurrentPage))
-        dispatch(storeLastCurrentPage(resultLastCurrentPage))
+        setMemoizedFCP(resultFCP);
+        setMemoizedLCP(resultLCP);
+        dispatch(storeFirstCurrentPage(resultFCP))
+        dispatch(storeLastCurrentPage(resultLCP))
     }
 
     const onNextPageButtonClick = () => {
@@ -53,24 +43,19 @@ const Paginator = ({
             return;
         }
 
-        let resultFirstCurrentPage = firstCurrentPage + pageIncrement;
-        let resultLastCurrentPage = lastCurrentPage + pageIncrement;
+        let resultFCP = firstCurrentPage + pageIncrement;
+        let resultLCP = lastCurrentPage + pageIncrement;
 
-        if (resultLastCurrentPage > totalPageAmount) {
-            resultLastCurrentPage = totalPageAmount;
-            setFirstCurrentPage(resultFirstCurrentPage);
-            setLastCurrentPage(resultLastCurrentPage);
-            dispatch(storeFirstCurrentPage(resultFirstCurrentPage))
-            dispatch(storeLastCurrentPage(resultLastCurrentPage))
+        if (resultLCP > totalPageAmount) {
+            resultLCP = totalPageAmount;
+            dispatch(storeFirstCurrentPage(resultFCP))
+            dispatch(storeLastCurrentPage(resultLCP))
             return;
         }
-
-        setFirstCurrentPage(resultFirstCurrentPage);
-        setLastCurrentPage(resultLastCurrentPage);
-        setMemoizedFirstCurrentPage(resultFirstCurrentPage);
-        setMemoizedLastCurrentPage(resultLastCurrentPage);
-        dispatch(storeFirstCurrentPage(resultFirstCurrentPage))
-        dispatch(storeLastCurrentPage(resultLastCurrentPage))
+        setMemoizedFCP(resultFCP);
+        setMemoizedLCP(resultLCP);
+        dispatch(storeFirstCurrentPage(resultFCP))
+        dispatch(storeLastCurrentPage(resultLCP))
     }
 
     let pages = []
@@ -80,13 +65,10 @@ const Paginator = ({
 
     return (
         <div>
-            <button onClick={() => onPreviousPageButtonClick()} className={classes.arrow}>&larr;</button>
-            {
-                pages.map(page =>
-                    <span key={page} onClick={() => onPageChanged(page)}
-                          className={[currentPage === page && classes.selectedPage, classes.pageNumber].join(' ')}>{page}</span>)
-            }
-            <button onClick={() => onNextPageButtonClick()} className={classes.arrow}>&rarr;</button>
+            <button onClick={onPreviousPageButtonClick} className={classes.arrow}>&larr;</button>
+            {pages.map(page => <span key={page} onClick={() => onPageChanged(page)}
+                                     className={[currentPage === page && classes.selectedPage, classes.pageNumber].join(' ')}>{page}</span>)}
+            <button onClick={onNextPageButtonClick} className={classes.arrow}>&rarr;</button>
         </div>
     )
 }

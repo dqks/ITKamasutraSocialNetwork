@@ -10,13 +10,13 @@ const Users = (props) => {
                                                    onFollowButtonClick={props.onFollowButtonClick}
                                                    onUnfollowButtonClick={props.onUnfollowButtonClick}/>)
     return (<div className={classes.body}>
-        <Paginator baseFirstCurrentPage={props.baseFirstCurrentPage}
-                   baseLastCurrentPage={props.baseLastCurrentPage}
+        <Paginator firstCurrentPage={props.firstCurrentPage}
+                   lastCurrentPage={props.lastCurrentPage}
                    totalUsersCount={props.totalUsersCount}
                    pageSize={props.pageSize}
                    currentPage={props.currentPage}
                    onPageChanged={props.onPageChanged}
-                   pageIncrement={9}
+                   pageIncrement={props.pageIncrement}
                    storeFirstCurrentPage={props.storeFirstCurrentPage}
                    storeLastCurrentPage={props.storeLastCurrentPage}
         />

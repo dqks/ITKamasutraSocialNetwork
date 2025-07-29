@@ -35,3 +35,7 @@ export const getFirstCurrentPage = state => {
 export const getLastCurrentPage = state => {
     return state.usersPage.lastCurrentPage;
 }
+
+export const getPageIncrement = state => {
+    return state.usersPage.pageIncrement;
+}

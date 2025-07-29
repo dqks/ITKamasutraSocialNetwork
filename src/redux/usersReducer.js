@@ -20,7 +20,7 @@ let initialState = {
     followingInProgress: [],
     firstCurrentPage: 1,
     lastCurrentPage: 9,
-    pageIncrement: 10,
+    pageIncrement: 9,
 };
 
 let usersReducer = (state = initialState, action) => {
@@ -53,7 +53,6 @@ let usersReducer = (state = initialState, action) => {
         case SET_FIRST_CURRENT_PAGE:
             return {...state, firstCurrentPage: action.currentPage};
         case SET_LAST_CURRENT_PAGE:
-            debugger
             return {...state, lastCurrentPage: action.currentPage};
         default:
             return state;
