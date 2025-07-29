@@ -1,3 +1,22 @@
+.arrow {
+    font-size: 20px;
+    width: 50px;
+    padding: 5px 5px;
+    border: 1px solid gray;
+    border-radius: 5px;
+    margin: 0 5px;
+    background-color: white;
+}
+
+.arrow:hover {
+    background-color: #67BA80;
+    transition: .1s;
+}
+
+.arrow:active {
+    transition: 0s;
+    background-color: white;
+}
 .pageNumber {
     font-size: 20px;
     padding: 0 10px;

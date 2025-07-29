@@ -1,12 +1,18 @@
 import {useDispatch, useSelector} from "react-redux";
-import {followUser, requestUsers, unfollowUser} from "../../redux/usersReducer";
+import {
+    followUser,
+    requestUsers,
+    setNextCurrentPage,
+    setPreviousCurrentPage,
+    unfollowUser
+} from "../../redux/usersReducer";
 import React, {memo, useEffect} from "react";
 import Users from "./Users";
 import Preloader from "../Common/Preloader";
 import {
-    getCurrentPage,
+    getCurrentPage, getFirstCurrentPage,
     getFollowingInProgress,
-    getIsFetching,
+    getIsFetching, getLastCurrentPage,
     getPageSize,
     getTotalUsersCount,
     getUsers
@@ -19,6 +25,8 @@ const UserContainerFC = () => {
     const totalUsersCount = useSelector(getTotalUsersCount)
     const pageSize = useSelector(getPageSize)
     const currentPage = useSelector(getCurrentPage)
+    const firstCurrentPage = useSelector(getFirstCurrentPage)
+    const lastCurrentPage = useSelector(getLastCurrentPage)
     const isFetching = useSelector(getIsFetching)
     const followingInProgress = useSelector(getFollowingInProgress)
 
@@ -38,16 +46,30 @@ const UserContainerFC = () => {
         dispatch(unfollowUser(id));
     }
 
+    const onNextPageButtonClick = () => {
+        dispatch(setNextCurrentPage())
+    }
+
+    const onPreviousPageButtonClick = () => {
+        dispatch(setPreviousCurrentPage())
+    }
+
     return (
         <>
             {isFetching
                 ? <Preloader/>
                 : <Users followingInProgress={followingInProgress} users={users}
-                                                onFollowButtonClick={onFollowButtonClick}
-                                                onUnfollowButtonClick={onUnfollowButtonClick}
-                                                onPageChanged={onPageChanged}
-                                                currentPage={currentPage} totalUsersCount={totalUsersCount}
-                                                pageSize={pageSize}/>}
+                         onFollowButtonClick={onFollowButtonClick}
+                         onUnfollowButtonClick={onUnfollowButtonClick}
+                         onPageChanged={onPageChanged}
+                         currentPage={currentPage} totalUsersCount={totalUsersCount}
+                         pageSize={pageSize}
+                         firstCurrentPage={firstCurrentPage}
+                         lastCurrentPage={lastCurrentPage}
+                         onNextPageButtonClick={onNextPageButtonClick}
+                         onPreviousPageButtonClick={onPreviousPageButtonClick}
+                />
+            }
 
         </>
     )
