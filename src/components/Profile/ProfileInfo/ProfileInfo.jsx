@@ -1,5 +1,5 @@
 import classes from "./ProfileInfo.module.css"
-import Preloader from "../../Common/Preloader";
+import Preloader from "../../Common/Preloader/Preloader";
 import defaultAvatar from "../../../assets/avatar.jpg";
 import ProfileStatus from "../ProfileStatus/ProfileStatus";
 import {memo} from "react";

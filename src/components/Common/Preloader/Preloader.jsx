@@ -1,4 +1,4 @@
-import preloader from "../../assets/tube-spinner.svg";
+import preloader from "../../../assets/tube-spinner.svg";
 import React from "react";
 import classes from "./Preloader.module.css"
 

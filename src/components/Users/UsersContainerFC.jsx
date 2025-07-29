@@ -2,17 +2,19 @@ import {useDispatch, useSelector} from "react-redux";
 import {
     followUser,
     requestUsers,
-    setNextCurrentPage,
-    setPreviousCurrentPage,
+    setFirstCurrentPage,
+    setLastCurrentPage,
     unfollowUser
 } from "../../redux/usersReducer";
 import React, {memo, useEffect} from "react";
 import Users from "./Users";
-import Preloader from "../Common/Preloader";
+import Preloader from "../Common/Preloader/Preloader";
 import {
-    getCurrentPage, getFirstCurrentPage,
+    getCurrentPage,
+    getFirstCurrentPage,
     getFollowingInProgress,
-    getIsFetching, getLastCurrentPage,
+    getIsFetching,
+    getLastCurrentPage,
     getPageSize,
     getTotalUsersCount,
     getUsers
@@ -25,8 +27,8 @@ const UserContainerFC = () => {
     const totalUsersCount = useSelector(getTotalUsersCount)
     const pageSize = useSelector(getPageSize)
     const currentPage = useSelector(getCurrentPage)
-    const firstCurrentPage = useSelector(getFirstCurrentPage)
-    const lastCurrentPage = useSelector(getLastCurrentPage)
+    const baseFirstCurrentPage = useSelector(getFirstCurrentPage)
+    const baseLastCurrentPage = useSelector(getLastCurrentPage)
     const isFetching = useSelector(getIsFetching)
     const followingInProgress = useSelector(getFollowingInProgress)
 
@@ -46,14 +48,6 @@ const UserContainerFC = () => {
         dispatch(unfollowUser(id));
     }
 
-    const onNextPageButtonClick = () => {
-        dispatch(setNextCurrentPage())
-    }
-
-    const onPreviousPageButtonClick = () => {
-        dispatch(setPreviousCurrentPage())
-    }
-
     return (
         <>
             {isFetching
@@ -64,10 +58,10 @@ const UserContainerFC = () => {
                          onPageChanged={onPageChanged}
                          currentPage={currentPage} totalUsersCount={totalUsersCount}
                          pageSize={pageSize}
-                         firstCurrentPage={firstCurrentPage}
-                         lastCurrentPage={lastCurrentPage}
-                         onNextPageButtonClick={onNextPageButtonClick}
-                         onPreviousPageButtonClick={onPreviousPageButtonClick}
+                         baseFirstCurrentPage={baseFirstCurrentPage}
+                         baseLastCurrentPage={baseLastCurrentPage}
+                         storeFirstCurrentPage={setFirstCurrentPage}
+                         storeLastCurrentPage={setLastCurrentPage}
                 />
             }
 

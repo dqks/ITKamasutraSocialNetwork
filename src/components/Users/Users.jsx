@@ -1,4 +1,4 @@
-import React, {memo} from "react";
+import React from "react";
 import UserItem from "./UserItem/UserItem";
 import classes from './Users.module.css'
 import Paginator from "../Common/Paginator/Paginator";
@@ -10,14 +10,15 @@ const Users = (props) => {
                                                    onFollowButtonClick={props.onFollowButtonClick}
                                                    onUnfollowButtonClick={props.onUnfollowButtonClick}/>)
     return (<div className={classes.body}>
-        <Paginator firstCurrentPage={props.firstCurrentPage}
+        <Paginator baseFirstCurrentPage={props.baseFirstCurrentPage}
+                   baseLastCurrentPage={props.baseLastCurrentPage}
                    totalUsersCount={props.totalUsersCount}
                    pageSize={props.pageSize}
                    currentPage={props.currentPage}
                    onPageChanged={props.onPageChanged}
-                   lastCurrentPage={props.lastCurrentPage}
-                   onNextPageButtonClick={props.onNextPageButtonClick}
-                   onPreviousPageButtonClick={props.onPreviousPageButtonClick}
+                   pageIncrement={9}
+                   storeFirstCurrentPage={props.storeFirstCurrentPage}
+                   storeLastCurrentPage={props.storeLastCurrentPage}
         />
         <div>
             <h1>
@@ -29,4 +30,4 @@ const Users = (props) => {
 
 }
 
-export default memo(Users);
+export default Users;
