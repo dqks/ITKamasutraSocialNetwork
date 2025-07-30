@@ -1,74 +1,50 @@
 import classes from "./Paginator.module.css";
-import React, {useState} from "react";
-import {useDispatch} from "react-redux";
+import React, {useEffect, useState} from "react";
 
 const Paginator = ({
                        onPageChanged,
                        totalUsersCount,
                        pageSize,
                        currentPage,
-                       firstCurrentPage,
-                       lastCurrentPage,
-                       pageIncrement,
-                       storeFirstCurrentPage,
-                       storeLastCurrentPage,
-                       baseFirstPage,
-                       baseLastPage,
+                       portionSize
                    }) => {
-    const dispatch = useDispatch();
+    useEffect(() => {
+        setCurrentPortion(Math.ceil(currentPage / portionSize))
+    }, [currentPage]);
+
     let totalPageAmount = Math.ceil(totalUsersCount / pageSize);
-    //FCP - first current page
-    //LCP - last current page
-    let [memoizedFCP, setMemoizedFCP] = useState(firstCurrentPage)
-    let [memoizedLCP, setMemoizedLCP] = useState(lastCurrentPage)
+
+    let portionCount = Math.ceil(totalPageAmount / portionSize);
+
+    let [currentPortion, setCurrentPortion] = useState(1);
+    let currentLeftBorder = (currentPortion - 1) * portionSize + 1;
+    let currentRightBorder = currentPortion * portionSize;
 
     const onPreviousPageButtonClick = () => {
-        let resultFCP = firstCurrentPage - pageIncrement;
-        let resultLCP = lastCurrentPage - pageIncrement;
-
-        if (resultFCP < baseFirstPage) resultFCP = baseFirstPage;
-        if (resultLCP < baseLastPage) resultLCP = baseLastPage;
-
-        if (firstCurrentPage !== memoizedFCP && lastCurrentPage !== memoizedLCP) {
-            dispatch(storeFirstCurrentPage(memoizedFCP))
-            dispatch(storeLastCurrentPage(memoizedLCP))
+        if (currentPortion - 1 < 1) {
             return;
         }
-        setMemoizedFCP(resultFCP);
-        setMemoizedLCP(resultLCP);
-        dispatch(storeFirstCurrentPage(resultFCP))
-        dispatch(storeLastCurrentPage(resultLCP))
+        setCurrentPortion(currentPortion - 1);
     }
 
     const onNextPageButtonClick = () => {
-        if (lastCurrentPage === totalPageAmount) {
+        if (currentPortion === portionCount) {
             return;
         }
-
-        let resultFCP = firstCurrentPage + pageIncrement;
-        let resultLCP = lastCurrentPage + pageIncrement;
-
-        if (resultLCP > totalPageAmount) {
-            resultLCP = totalPageAmount;
-            dispatch(storeFirstCurrentPage(resultFCP))
-            dispatch(storeLastCurrentPage(resultLCP))
-            return;
-        }
-        setMemoizedFCP(resultFCP);
-        setMemoizedLCP(resultLCP);
-        dispatch(storeFirstCurrentPage(resultFCP))
-        dispatch(storeLastCurrentPage(resultLCP))
+        setCurrentPortion(currentPortion + 1);
     }
 
     let pages = []
-    for (let i = firstCurrentPage; i <= lastCurrentPage; i++) {
+    for (let i = currentLeftBorder; i <= currentRightBorder; i++) {
         pages.push(i);
     }
 
     return (
         <div>
             <button onClick={onPreviousPageButtonClick} className={classes.arrow}>&larr;</button>
-            {pages.map(page => <span key={page} onClick={() => onPageChanged(page)}
+            {pages
+                .filter((page) => page <= totalPageAmount)
+                .map(page => <span key={page} onClick={() => onPageChanged(page)}
                                      className={[currentPage === page && classes.selectedPage, classes.pageNumber].join(' ')}>{page}</span>)}
             <button onClick={onNextPageButtonClick} className={classes.arrow}>&rarr;</button>
         </div>

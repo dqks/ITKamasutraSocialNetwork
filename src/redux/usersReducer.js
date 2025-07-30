@@ -8,8 +8,6 @@ const SET_CURRENT_PAGE = "users/SET_CURRENT_PAGE";
 const SET_TOTAL_COUNT = "users/SET_TOTAL_COUNT";
 const TOGGLE_IS_FETCHING = "users/TOGGLE_IS_FETCHING";
 const FOLLOWING_IN_PROGRESS = "users/FOLLOWING_IN_PROGRESS";
-const SET_FIRST_CURRENT_PAGE = "users/SET_FIRST_CURRENT_PAGE";
-const SET_LAST_CURRENT_PAGE = "users/SET_LAST_CURRENT_PAGE";
 
 let initialState = {
     users: [],
@@ -50,10 +48,6 @@ let usersReducer = (state = initialState, action) => {
                     ? [...state.followingInProgress, action.userId]
                     : state.followingInProgress.filter(id => id !== action.userId)
             };
-        case SET_FIRST_CURRENT_PAGE:
-            return {...state, firstCurrentPage: action.currentPage};
-        case SET_LAST_CURRENT_PAGE:
-            return {...state, lastCurrentPage: action.currentPage};
         default:
             return state;
     }
@@ -67,8 +61,6 @@ export const setCurrentPage = pageNumber => ({type: SET_CURRENT_PAGE, pageNumber
 export const setTotalCount = totalCount => ({type: SET_TOTAL_COUNT, totalCount: totalCount});
 export const toggleIsFetching = (isFetching) => ({type: TOGGLE_IS_FETCHING, isFetching})
 export const toggleFollowingInProgress = (isFetching, userId) => ({type: FOLLOWING_IN_PROGRESS, isFetching, userId})
-export const setFirstCurrentPage = currentPage => ({type: SET_FIRST_CURRENT_PAGE, currentPage})
-export const setLastCurrentPage = currentPage => ({type: SET_LAST_CURRENT_PAGE, currentPage})
 
 //thunks
 export const requestUsers = (currentPage, pageSize) => {

@@ -26,7 +26,6 @@ const ProfileStatus = (props) => {
 
     const changeStatusText = event => {
         setStatus(event.target.value)
-        // dispatch(changeStatusActionCreator(event.target.value))
     }
 
     return (
@@ -39,10 +38,10 @@ const ProfileStatus = (props) => {
                     : <div>
                         {!editMode
                             ? <div>
-                                <span onDoubleClick={activateEditMode}>{profileStatus}</span>
+                                <span data-testid="status" onDoubleClick={activateEditMode}>{profileStatus}</span>
                             </div>
                             : <div>
-                                <input name="status" onChange={changeStatusText} autoFocus={true} placeholder={"Status"} onBlur={deactivateEditMode} type="text"
+                                <input className={"inputTest"} name="status" onChange={changeStatusText} autoFocus={true} placeholder={"Status"} onBlur={deactivateEditMode} type="text"
                                        value={status}/>
                             </div>}
                     </div>
