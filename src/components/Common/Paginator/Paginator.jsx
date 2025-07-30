@@ -12,6 +12,8 @@ const Paginator = ({
                        pageIncrement,
                        storeFirstCurrentPage,
                        storeLastCurrentPage,
+                       baseFirstPage,
+                       baseLastPage,
                    }) => {
     const dispatch = useDispatch();
     let totalPageAmount = Math.ceil(totalUsersCount / pageSize);
@@ -24,8 +26,8 @@ const Paginator = ({
         let resultFCP = firstCurrentPage - pageIncrement;
         let resultLCP = lastCurrentPage - pageIncrement;
 
-        if (resultFCP < 1) resultFCP = 1;
-        if (resultLCP < 9) resultLCP = 9;
+        if (resultFCP < baseFirstPage) resultFCP = baseFirstPage;
+        if (resultLCP < baseLastPage) resultLCP = baseLastPage;
 
         if (firstCurrentPage !== memoizedFCP && lastCurrentPage !== memoizedLCP) {
             dispatch(storeFirstCurrentPage(memoizedFCP))

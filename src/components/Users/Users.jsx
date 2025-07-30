@@ -19,6 +19,8 @@ const Users = (props) => {
                    pageIncrement={props.pageIncrement}
                    storeFirstCurrentPage={props.storeFirstCurrentPage}
                    storeLastCurrentPage={props.storeLastCurrentPage}
+                   baseFirstPage={1}
+                   baseLastPage={9}
         />
         <div>
             <h1>
