@@ -2,7 +2,6 @@
 import {memo} from "react";
 
 const Message = (props) => {
-    console.log("rerender")
     return (
         <div>
             {props.message}

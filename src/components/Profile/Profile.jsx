@@ -1,4 +1,3 @@
-import img from "../../assets/images.jpg";
 import ProfileInfo from "./ProfileInfo/ProfileInfo"
 import React, {memo, useEffect} from "react";
 import MyPosts from "./MyPosts/MyPosts";
