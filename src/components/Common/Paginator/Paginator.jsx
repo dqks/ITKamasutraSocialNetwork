@@ -41,12 +41,17 @@ const Paginator = ({
 
     return (
         <div>
-            <button onClick={onPreviousPageButtonClick} className={classes.arrow}>&larr;</button>
+            {currentPortion === 1
+                ? null
+                : <button onClick={onPreviousPageButtonClick} className={classes.arrow}>&larr;</button>}
             {pages
                 .filter((page) => page <= totalPageAmount)
                 .map(page => <span key={page} onClick={() => onPageChanged(page)}
                                      className={[currentPage === page && classes.selectedPage, classes.pageNumber].join(' ')}>{page}</span>)}
-            <button onClick={onNextPageButtonClick} className={classes.arrow}>&rarr;</button>
+            {currentPortion === portionCount
+                ? null
+                : <button onClick={onNextPageButtonClick} className={classes.arrow}>&rarr;</button>}
+
         </div>
     )
 }
