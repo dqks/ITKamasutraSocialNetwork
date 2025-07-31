@@ -1,0 +1,25 @@
+.avatarInput {
+    padding: 15px;
+}
+
+.errorBorder {
+    border: 2px solid red;
+}
+
+.uploadPhoto {
+    padding: 10px 20px;
+    border: 1px solid gray;
+    border-radius: 5px;
+    margin: 0 5px;
+    background-color: white;
+}
+
+.uploadPhoto:hover {
+    background-color: #67BA80;
+    transition: .1s;
+}
+
+.uploadPhoto:active {
+    transition: 0s;
+    background-color: white;
+}

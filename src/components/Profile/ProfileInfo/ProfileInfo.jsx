@@ -3,21 +3,25 @@ import Preloader from "../../Common/Preloader/Preloader";
 import defaultAvatar from "../../../assets/avatar.jpg";
 import ProfileStatus from "../ProfileStatus/ProfileStatus";
 import {memo} from "react";
+import AvatarForm from "../AvatarForm/AvatarForm";
 
 const ProfileInfo = ({profile}) => {
     if (!profile) {
-        return <Preloader />
+        return <Preloader/>
     } else {
         return (
             <div className={classes.profileInfo}>
                 <div className={classes.profileMain}>
                     <img className={classes.avatar} src={profile.photos.large
                         ? profile.photos.large
-                        : defaultAvatar} alt="Avatar" />
+                        : defaultAvatar} alt="Avatar"/>
                     <div>
                         <p>{profile.fullName}</p>
-                        <ProfileStatus profileId={profile.userId} />
+                        <ProfileStatus profileId={profile.userId}/>
                     </div>
+                </div>
+                <div className={classes.avatarWrapper}>
+                    <AvatarForm/>
                 </div>
             </div>
         )

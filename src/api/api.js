@@ -56,5 +56,14 @@ export const profileAPI = {
     getProfileStatus(userId) {
         return instance.get(`profile/status/${userId}`)
             .then(response => response.data)
+    },
+
+    setProfilePhoto(image) {
+        return instance.post(`profile/photo`, image, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        }).then(response => response.data)
+
     }
 }

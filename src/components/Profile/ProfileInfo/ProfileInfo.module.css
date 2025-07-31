@@ -7,3 +7,7 @@
 .avatar {
     width: 250px;
 }
+
+.avatarWrapper {
+    padding: 20px;
+}

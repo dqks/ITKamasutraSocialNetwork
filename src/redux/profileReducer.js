@@ -5,6 +5,7 @@ const ADD_LIKE_BUTTON = "profile/ADD_LIKE_BUTTON";
 const SET_PROFILE = "profile/SET_PROFILE";
 const CHANGE_STATUS = "profile/CHANGE_STATUS";
 const DELETE_POST = "profile/DELETE_POST";
+const UPDATE_PROFILE_PHOTO = "profile/UPDATE_PROFILE_PHOTO";
 
 let initialState = {
     profileStatus: null,
@@ -44,6 +45,17 @@ const profileReducer = (state = initialState, action) => {
                 ...state,
                 postData: state.postData.filter(el => el.id !== action.postId)
             };
+        case UPDATE_PROFILE_PHOTO:
+            return {
+                ...state,
+                profile: {
+                    ...state.profile,
+                    photos: {
+                        large: action.photoURL,
+                        small: action.photoURL
+                    }
+                }
+            }
         default:
             return state
     }
@@ -55,6 +67,7 @@ export const addLikeButtonActionCreator = postId => ({type: ADD_LIKE_BUTTON, pos
 export const setProfileActionCreator = profile => ({type: SET_PROFILE, profile});
 export const changeStatusActionCreator = status => ({type: CHANGE_STATUS, status});
 export const deletePost = postId => ({type: DELETE_POST, postId})
+export const updateProfilePhoto = photoURL => ({type: UPDATE_PROFILE_PHOTO, photoURL})
 
 //Thunks
 export const getUserProfile = userId => {
@@ -69,7 +82,6 @@ export const getUserProfile = userId => {
 export const setProfileStatus = statusText => {
     return async dispatch => {
         const response = await profileAPI.setProfileStatus(statusText);
-        debugger;
         if (response.resultCode === 0) {
             dispatch(changeStatusActionCreator(statusText));
         } else {
@@ -82,6 +94,13 @@ export const getProfileStatus = userId => {
     return async dispatch => {
         const data = await profileAPI.getProfileStatus(userId)
         dispatch(changeStatusActionCreator(data));
+    }
+}
+
+export const setProfilePhoto = photo => {
+    return async dispatch => {
+        const response = await profileAPI.setProfilePhoto(photo);
+        dispatch(updateProfilePhoto(response.data.photos.large));
     }
 }
 
