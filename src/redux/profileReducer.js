@@ -100,7 +100,11 @@ export const getProfileStatus = userId => {
 export const setProfilePhoto = photo => {
     return async dispatch => {
         const response = await profileAPI.setProfilePhoto(photo);
-        dispatch(updateProfilePhoto(response.data.photos.large));
+        if (response.resultCode === 0) {
+            dispatch(updateProfilePhoto(response.data.photos.large));
+        } else {
+            console.error("Unable to change photo", response.messages)
+        }
     }
 }
 

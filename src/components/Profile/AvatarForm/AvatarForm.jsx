@@ -9,11 +9,11 @@ const AvatarForm = () => {
     const dispatch = useDispatch();
     return (
         <Formik initialValues={{photo: ""}}
-                onSubmit={(values, actions) => {
+                onSubmit={(values, {setFieldValue}) => {
                     let formData = new FormData();
                     formData.append("image", values.photo);
                     dispatch(setProfilePhoto(formData))
-                    actions.resetForm();
+                    setFieldValue('photo', undefined)
                 }}
                 validateOnBlur={false}
                 validateOnChange={true}
@@ -22,12 +22,13 @@ const AvatarForm = () => {
                 return (
                     <Form encType="multipart/form-data">
                         <input accept="image/png, image/jpeg, image/jpg"
-                            className={[classes.avatarInput, errors.photo ? classes.errorBorder : null].join(" ")}
-                               type="file" name="photo" onChange={(event) => {
-                            const file = event.currentTarget.files?.[0];
-                            setFieldValue('photo', file);
-                        }}/>
-                        {/*<Field accept="image/png, image/jpeg, image/jpg" type={"file"} name={"photo"} className={[classes.avatarInput, errors.photo ? classes.errorBorder : null].join(" ")}/>*/}
+                               className={[classes.avatarInput, errors.photo ? classes.errorBorder : null].join(" ")}
+                               type="file" name="photo"
+                               // onClick={(e) => console.log(e.currentTarget.files[0])}
+                               onChange={(event) => {
+                                   console.log(event.target.files[0]);
+                                   setFieldValue('photo', event.currentTarget.files?.[0]);
+                               }}/>
                         <button type={"submit"} className={classes.uploadPhoto}>Добавить</button>
                     </Form>
                 )
