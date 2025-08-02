@@ -1,4 +1,4 @@
-import {ErrorMessage, Field, Form, Formik} from "formik";
+import {Field, Form, Formik} from "formik";
 import classes from "./MessageForm.module.css"
 import React, {memo} from "react";
 import MessageFormSchema from "../../FormValidation/MessageFormSchema";
@@ -19,7 +19,9 @@ const MessageForm = () => {
             {({errors}) => {
                 return (
                     <Form>
-                        <Field type={"text"} name={"messageText"} className={[classes.messageText, errors.messageText ? classes.errorBorder : null].join(" ")} size={40}/>
+                        <Field type={"text"} name={"messageText"}
+                               className={[classes.messageText, errors.messageText ? classes.errorBorder : null].join(" ")}
+                               size={40}/>
                         <button type={"submit"} className={classes.sendMessage}>Отправить</button>
                     </Form>
                 )

@@ -59,11 +59,17 @@ export const profileAPI = {
     },
 
     setProfilePhoto(image) {
-        return instance.post(`profile/photo`, image, {
+        let formData = new FormData();
+        formData.append("image", image);
+        return instance.post(`profile/photo`, formData, {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }
         }).then(response => response.data)
 
+    },
+    saveProfileData(profile) {
+        return instance.put('/profile', profile)
+            .then(response => response.data)
     }
 }

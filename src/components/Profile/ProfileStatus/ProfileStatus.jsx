@@ -33,12 +33,13 @@ const ProfileStatus = (props) => {
             {
                 authUserId !== props.profileId
                     ? (<div>
-                        <span>{profileStatus}</span>
+                        <span><b>Status:</b> {profileStatus}</span>
                     </div>)
                     : <div>
                         {!editMode
                             ? <div>
-                                <span data-testid="status" onDoubleClick={activateEditMode}>{profileStatus}</span>
+                                <span data-testid="status"
+                                      onDoubleClick={activateEditMode}><b>Status:</b> {profileStatus}</span>
                             </div>
                             : <div>
                                 <input className={"inputTest"} name="status" onChange={changeStatusText} autoFocus={true} placeholder={"Status"} onBlur={deactivateEditMode} type="text"

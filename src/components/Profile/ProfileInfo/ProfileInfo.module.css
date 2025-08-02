@@ -4,8 +4,13 @@
     gap: 20px;
 }
 
+.fullName {
+    margin: 0;
+}
+
 .avatar {
-    width: 250px;
+    width: 300px;
+    height: 300px;
 }
 
 .avatarWrapper {

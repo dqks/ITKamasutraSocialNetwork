@@ -3,7 +3,7 @@ import {Field, Form, Formik} from "formik";
 import LoginFormSchema from "../../FormValidation/LoginFormSchema";
 import {loginUser} from "../../../redux/authReducer";
 import {useDispatch} from "react-redux";
-import InputComponent from "../../Common/InputComponent/InputComponent";
+import BlockInputComponent from "../../Common/BlockInputComponent/BlockInputComponent";
 
 const LoginForm = () => {
     const dispatch = useDispatch();
@@ -26,8 +26,8 @@ const LoginForm = () => {
             {({values}) => {
                 return (
                     <Form>
-                        <Field labelText={"E-mail"} component={InputComponent} type="text" name="email" id="email" size={30}/>
-                        <Field labelText={"Password"} component={InputComponent} type="password" name="password" id="password"
+                        <Field labelText={"E-mail"} component={BlockInputComponent} type="text" name="email" id="email" size={30}/>
+                        <Field labelText={"Password"} component={BlockInputComponent} type="password" name="password" id="password"
                                size={30}/>
                         <div>
                             <Field type="checkbox" name="rememberMe" id="rememberMe"/>

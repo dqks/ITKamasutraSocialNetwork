@@ -1,0 +1,17 @@
+.editButton {
+    padding: 10px 20px;
+    border: 1px solid gray;
+    border-radius: 5px;
+    margin: 0 5px;
+    background-color: white;
+}
+
+.editButton:hover {
+    background-color: #67BA80;
+    transition: .1s;
+}
+
+.editButton:active {
+    transition: 0s;
+    background-color: white;
+}

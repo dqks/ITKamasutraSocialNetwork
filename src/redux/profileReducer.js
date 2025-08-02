@@ -108,4 +108,32 @@ export const setProfilePhoto = photo => {
     }
 }
 
+export const saveProfileData = data => {
+    return async (dispatch, getState) => {
+        const payload = {
+            fullName: data.fullName,
+            lookingForAJob: data.lookingForAJob,
+            lookingForAJobDescription: data.lookingForAJobDescription,
+            aboutMe: data.aboutMe,
+            contacts: {
+                facebook: data.facebook,
+                website: data.website,
+                vk: data.vk,
+                twitter: data.twitter,
+                instagram: data.instagram,
+                youtube: data.youtube,
+                github: data.github,
+                mainLink: data.mainLink,
+            }
+        }
+        const response = await profileAPI.saveProfileData(payload);
+        if (response.resultCode === 0) {
+            const userId = getState().auth.id;
+            dispatch(getUserProfile(userId));
+        } else {
+            console.error("Unable to change data", response.messages)
+        }
+    }
+}
+
 export default profileReducer;

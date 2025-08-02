@@ -1,7 +1,7 @@
 import classes from "./InputComponent.module.css";
 import {ErrorMessage} from "formik";
 
-const InputComponent = ({
+const BlockInputComponent = ({
                             field,
                             form: {touched, errors},
                             ...props
@@ -13,4 +13,4 @@ const InputComponent = ({
     </div>
 );
 
-export default InputComponent;
+export default BlockInputComponent;

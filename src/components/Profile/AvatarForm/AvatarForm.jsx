@@ -1,5 +1,5 @@
 import {useDispatch} from "react-redux";
-import {Field, Form, Formik} from "formik";
+import {Form, Formik} from "formik";
 import React from "react";
 import avatarFormSchema from "../../FormValidation/AvatarFormSchema";
 import classes from "./AvatarForm.module.css"
@@ -9,11 +9,9 @@ const AvatarForm = () => {
     const dispatch = useDispatch();
     return (
         <Formik initialValues={{photo: ""}}
-                onSubmit={(values, {setFieldValue}) => {
-                    let formData = new FormData();
-                    formData.append("image", values.photo);
-                    dispatch(setProfilePhoto(formData))
-                    setFieldValue('photo', undefined)
+                onSubmit={(values, actions) => {
+                    dispatch(setProfilePhoto(values.photo))
+                    actions.resetForm();
                 }}
                 validateOnBlur={false}
                 validateOnChange={true}
