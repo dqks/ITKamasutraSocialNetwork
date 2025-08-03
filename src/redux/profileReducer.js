@@ -108,7 +108,7 @@ export const setProfilePhoto = photo => {
     }
 }
 
-export const saveProfileData = data => {
+export const saveProfileData = (data, setFieldValue, setEditModeFalse) => {
     return async (dispatch, getState) => {
         const payload = {
             fullName: data.fullName,
@@ -130,7 +130,9 @@ export const saveProfileData = data => {
         if (response.resultCode === 0) {
             const userId = getState().auth.id;
             dispatch(getUserProfile(userId));
+            setEditModeFalse()
         } else {
+            setFieldValue("errorMessage", response.messages.join(" "))
             console.error("Unable to change data", response.messages)
         }
     }

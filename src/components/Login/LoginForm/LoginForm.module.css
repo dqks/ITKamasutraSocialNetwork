@@ -2,6 +2,10 @@
     color: red;
 }
 
+.captchaWrapper {
+    padding: 15px 0;
+}
+
 .loginButton {
     padding: 10px 20px;
     border: 1px solid gray;

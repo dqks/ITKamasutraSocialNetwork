@@ -1,5 +1,5 @@
 import classes from "./ProfileDataForm.module.css"
-import {Field, Form, Formik} from "formik";
+import {ErrorMessage, Field, Form, Formik} from "formik";
 import React from "react";
 import profileDataFormSchema from "../../../FormValidation/ProfileDataFormSchema";
 import {useDispatch} from "react-redux";
@@ -11,12 +11,13 @@ const InlineInputComponent = ({
                                   ...props
                               }) => (
     <div className={classes.fieldWrapper}>
-        <b><label htmlFor={field.name}>{props.labelText}</label></b>
+        <b><label htmlFor={field.name}>{props.labeltext}</label></b>
         <input {...field} {...props} />
-        {/*<ErrorMessage className={classes.errorText} name={field.name} component="p"/>*/}
+        {/*{values.errorMessage ? <p className={classes.errorMessage}>{values.errorMessage}</p> : null}*/}
     </div>
 );
 
+const propHelper = prop => !prop ? "" : prop
 
 const ProfileDataForm = ({profile, setEditModeFalse}) => {
     const dispatch = useDispatch();
@@ -24,45 +25,45 @@ const ProfileDataForm = ({profile, setEditModeFalse}) => {
         <Formik initialValues={{
             fullName: profile.fullName,
             lookingForAJob: profile.lookingForAjob,
-            lookingForAJobDescription: !profile.lookingForAJobDescription ? "" : profile.lookingForAJobDescription,
-            aboutMe: !profile.aboutMe ? "" : profile.aboutMe,
-            facebook: !profile.contacts.facebook ? "" : profile.contacts.facebook,
-            website: !profile.contacts.website ? "" : profile.contacts.website,
-            vk: !profile.contacts.vk ? "" : profile.contacts.vk,
-            twitter: !profile.contacts.twitter ? "" : profile.contacts.twitter,
-            instagram: !profile.contacts.instagram ? "" : profile.contacts.instagram,
-            youtube: !profile.contacts.youtube ? "" : profile.contacts.youtube,
-            github: !profile.contacts.github ? "" : profile.contacts.github,
-            mainLink: !profile.contacts.mainLink ? "" : profile.contacts.mainLink,
+            lookingForAJobDescription: propHelper(profile.lookingForAJobDescription),
+            aboutMe: propHelper(profile.aboutMe),
+            facebook: propHelper(profile.contacts.facebook),
+            website: propHelper(profile.contacts.website),
+            vk: propHelper(profile.contacts.vk),
+            twitter: propHelper(profile.contacts.twitter),
+            instagram:propHelper(profile.contacts.instagram),
+            youtube: propHelper(profile.contacts.youtube),
+            github: propHelper(profile.contacts.github),
+            mainLink: propHelper(profile.contacts.mainLink),
+            errorMessage: "",
         }}
-                onSubmit={(values, actions) => {
-                    dispatch(saveProfileData(values));
-                    setEditModeFalse()
-                    actions.resetForm();
+                onSubmit={(values, {setFieldValue}) => {
+                    dispatch(saveProfileData(values, setFieldValue, setEditModeFalse));
                 }}
                 validateOnBlur={false}
                 validateOnChange={true}
                 validationSchema={profileDataFormSchema}>
-            {({errors}) => {
+            {({errors, values}) => {
                 return (
                     <Form>
-                        <Field labelText={"Name:"} component={InlineInputComponent} type="text" name="fullName"/>
+                        <Field labeltext={"Name:"} component={InlineInputComponent} type="text" name="fullName"/>
                         <div className={classes.fieldWrapper}>
                             <b><label htmlFor="lookingForAJob">Looking for a job: </label></b>
                             <Field type="checkbox" name="lookingForAJob"/>
                         </div>
-                        <Field labelText={"Stack: "} component={InlineInputComponent} type="text"
+                        <Field labeltext={"Stack: "} component={InlineInputComponent} type="text"
                                name="lookingForAJobDescription"/>
-                        <Field labelText={"About me: "} component={InlineInputComponent} type="text" name="aboutMe"/>
+                        <Field labeltext={"About me: "} component={InlineInputComponent} type="text" name="aboutMe"/>
                         <p><b>Contacts:</b></p>
-                        <Field labelText={"facebook: "} component={InlineInputComponent} type="text" name="facebook"/>
-                        <Field labelText={"website: "} component={InlineInputComponent} type="text" name="website"/>
-                        <Field labelText={"vk: "} component={InlineInputComponent} type="text" name="vk"/>
-                        <Field labelText={"twitter: "} component={InlineInputComponent} type="text" name="twitter"/>
-                        <Field labelText={"instagram: "} component={InlineInputComponent} type="text" name="instagram"/>
-                        <Field labelText={"youtube: "} component={InlineInputComponent} type="text" name="youtube"/>
-                        <Field labelText={"github: "} component={InlineInputComponent} type="text" name="github"/>
-                        <Field labelText={"mainLink: "} component={InlineInputComponent} type="text" name="mainLink"/>
+                        <Field labeltext={"facebook: "} component={InlineInputComponent} type="text" name="facebook"/>
+                        <Field labeltext={"website: "} component={InlineInputComponent} type="text" name="website"/>
+                        <Field labeltext={"vk: "} component={InlineInputComponent} type="text" name="vk"/>
+                        <Field labeltext={"twitter: "} component={InlineInputComponent} type="text" name="twitter"/>
+                        <Field labeltext={"instagram: "} component={InlineInputComponent} type="text" name="instagram"/>
+                        <Field labeltext={"youtube: "} component={InlineInputComponent} type="text" name="youtube"/>
+                        <Field labeltext={"github: "} component={InlineInputComponent} type="text" name="github"/>
+                        <Field labeltext={"mainLink: "} component={InlineInputComponent} type="text" name="mainLink"/>
+                        {values.errorMessage ? <p className={classes.errorMessage}>{values.errorMessage}</p> : null}
                         <button type={"submit"} className={classes.saveData}>Save</button>
                     </Form>
                 )

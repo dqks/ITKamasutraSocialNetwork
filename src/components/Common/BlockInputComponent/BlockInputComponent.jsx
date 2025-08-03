@@ -7,7 +7,7 @@ const BlockInputComponent = ({
                             ...props
                         }) => (
     <div className={classes.wrapper}>
-        <label htmlFor={field.name}>{props.labelText}</label>
+        <label htmlFor={field.name}>{props.labeltext}</label>
         <input {...field} {...props} />
         <ErrorMessage className={classes.errorText} name={field.name} component="p"/>
     </div>

@@ -2,6 +2,10 @@
     margin: 5px 0;
 }
 
+.errorMessage {
+    color: red;
+}
+
 .saveData {
     padding: 10px 20px;
     border: 1px solid gray;
