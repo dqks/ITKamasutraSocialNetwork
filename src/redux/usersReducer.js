@@ -66,27 +66,35 @@ export const toggleFollowingInProgress = (isFetching, userId) => ({type: FOLLOWI
 export const requestUsers = (currentPage, pageSize) => {
     return async dispatch => {
         dispatch(toggleIsFetching(true));
-        const data = await usersAPI.getUsers(currentPage, pageSize);
-        if (!data.error) {
-            dispatch(toggleIsFetching(false));
-            dispatch(setUsers(data.items));
-            dispatch(setTotalCount(data.totalCount));
-            dispatch(setCurrentPage(currentPage));
-        } else {
-            console.error("Unable to get users", data.error)
+        try {
+            const data = await usersAPI.getUsers(currentPage, pageSize);
+            if (!data.error) {
+                dispatch(toggleIsFetching(false));
+                dispatch(setUsers(data.items));
+                dispatch(setTotalCount(data.totalCount));
+                dispatch(setCurrentPage(currentPage));
+            } else {
+                console.error("Unable to get users", data.error)
+            }
+        } catch (error) {
+            console.error("Unable to get users", error)
         }
     }
 }
 
 const followUnfollowUser = async (dispatch, userId, apiMethod, actionCreator) => {
     dispatch(toggleFollowingInProgress(true, userId));
-    const data = await apiMethod(userId)
-    if (data.resultCode === 0) {
-        dispatch(actionCreator(userId));
-    } else {
-        console.error("Unable to follow user")
+    try {
+        const data = await apiMethod(userId)
+        if (data.resultCode === 0) {
+            dispatch(actionCreator(userId));
+        } else {
+            console.error("Unable to follow user")
+        }
+        dispatch(toggleFollowingInProgress(false, userId));
+    } catch (error) {
+        console.error("Unable to follow user", error)
     }
-    dispatch(toggleFollowingInProgress(false, userId));
 }
 
 export const followUser = userId => {

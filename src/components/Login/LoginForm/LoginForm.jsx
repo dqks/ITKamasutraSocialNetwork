@@ -31,11 +31,7 @@ const LoginForm = () => {
                 return errors;
             }}
             onSubmit={(values, {setFieldValue}) => {
-                if (!captchaURL) {
-                    dispatch(loginUser(values.email, values.password, values.rememberMe, setFieldValue));
-                } else {
-                    dispatch(loginUser(values.email, values.password, values.rememberMe, setFieldValue, captchaValue));
-                }
+                dispatch(loginUser(values.email, values.password, values.rememberMe, setFieldValue, captchaValue));
             }}
             validationSchema={LoginFormSchema}>
             {({values}) => {
@@ -60,14 +56,9 @@ const LoginForm = () => {
                             </button>
                         </div>
                         {captchaURL && (
-                            // <Captcha captchaURL={captchaURL} />
-                            <div className={classes.captchaWrapper}>
-                                <img src={captchaURL} alt="captcha"/>
-                                <div>
-                                    <input onChange={onCaptchaInputChange} value={captchaValue} type="text"
-                                           name="captchaText" placeholder={"Captcha"}/>
-                                </div>
-                            </div>
+                            <Captcha captchaURL={captchaURL}
+                                     captchaValue={captchaValue}
+                                     onCaptchaInputChange={onCaptchaInputChange}/>
                         )}
                     </Form>
                 )

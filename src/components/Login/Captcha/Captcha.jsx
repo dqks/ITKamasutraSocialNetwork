@@ -1,18 +1,12 @@
 import classes from "./Captcha.module.css"
-import {useState} from "react";
 
-const Captcha = ({captchaURL}) => {
-    const [captchaValue, setCaptchaValue] = useState("");
-
-    const onCaptchaInputChange = (event) => {
-        setCaptchaValue(event.target.value);
-    };
-
+const Captcha = ({captchaURL,captchaValue, onCaptchaInputChange}) => {
     return (
-        <div className={classes.wrapper}>
+        <div className={classes.captchaWrapper}>
             <img src={captchaURL} alt="captcha"/>
             <div>
-                <input onChange={onCaptchaInputChange} value={captchaValue} type="text" name="captchaText" placeholder={"Captcha"} />
+                <input onChange={onCaptchaInputChange} value={captchaValue} type="text"
+                       name="captchaText" placeholder={"Captcha"}/>
             </div>
         </div>
     )

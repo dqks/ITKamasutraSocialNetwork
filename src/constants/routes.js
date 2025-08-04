@@ -6,5 +6,6 @@ export const routes = {
     settings: "/settings",
     friends: "/friends",
     users: "/users",
-    login: "/login"
+    login: "/login",
+    notFound: "*"
 }

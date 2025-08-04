@@ -1,11 +1,17 @@
-import {authAPI} from "../api/api";
+import {authAPI, securityAPI} from "../api/api";
 
 const SET_USER_DATA = "auth/SET_USER_DATA";
 const DELETE_USER_DATA = "auth/DELETE_USER_DATA";
 const SET_CAPTCHA_URL = "auth/SET_CAPTCHA_URL";
 
 let initialState = {
-    id: null, email: null, login: null, isFetching: false, isAuth: false, userPhoto: null, captchaURL: null,
+    id: null,
+    email: null,
+    login: null,
+    isFetching: false,
+    isAuth: false,
+    userPhoto: null,
+    captchaURL: null,
 };
 
 const authReducer = (state = initialState, action) => {
@@ -17,7 +23,7 @@ const authReducer = (state = initialState, action) => {
         case SET_CAPTCHA_URL:
             return {...state, captchaURL: action.url}
         default:
-            return {...state, userPhoto: action.userPhoto};
+            return state;
     }
 }
 
@@ -37,79 +43,50 @@ export const getAuthUser = () => {
 export const loginUser = (email, password, rememberMe, setFieldValue, captchaValue = "") => {
     return async (dispatch, getState) => {
         const hasCaptcha = getState().auth.captchaURL;
-        const response = await authAPI.login(email, password, rememberMe, captchaValue)
+        try {
+            const response = await authAPI.login(email, password, rememberMe, captchaValue)
 
-        if (response.data.resultCode === 0) {
-            if (hasCaptcha) {
+            if (response.data.resultCode === 0) {
                 authAPI.checkAuth(response.data.data.userId)
                     .then(data => {
                         if (data.resultCode === 0) {
                             dispatch(setUserDataActionCreator(data.data));
-                            dispatch(setCaptchaURL(null));
+                            if (hasCaptcha) dispatch(setCaptchaURL(null));
                         }
                     })
             } else {
-                authAPI.checkAuth(response.data.data.userId)
-                    .then(data => {
-                        if (data.resultCode === 0) {
-                            dispatch(setUserDataActionCreator(data.data));
-                        }
-                    })
+                if (response.data.resultCode === 10) {
+                    dispatch(getCaptchaURL());
+                }
+                setFieldValue("generalError", response.data.messages.join(" "))
+                console.error("Unable to log in", response.data.messages);
             }
-        } else {
-            dispatch(getCaptchaURL());
-            setFieldValue("generalError", response.data.messages.join(" "))
-            console.error("Unable to log in", response.data.messages);
+        } catch (error) {
+            console.error("Unable to log in", error);
         }
     }
 }
 
 export const logoutUser = () => {
     return async dispatch => {
-        const response = await authAPI.logout();
-        if (response.data.resultCode === 0) {
-            dispatch(deleteUserDataActionCreator())
-        } else {
-            console.error("Unable to log out", response.data.messages);
+        try {
+            const response = await authAPI.logout();
+            if (response.data.resultCode === 0) {
+                dispatch(deleteUserDataActionCreator())
+            } else {
+                console.error("Unable to log out", response.data.messages);
+            }
+        } catch (error) {
+            console.error("Unable to log out", error);
         }
     }
 }
 
 export const getCaptchaURL = () => {
     return async dispatch => {
-        const captchaURL = await authAPI.getCaptchaURL();
-        dispatch(setCaptchaURL(captchaURL.url));
+        const response = await securityAPI.getCaptchaURL();
+        dispatch(setCaptchaURL(response.url));
     }
 }
 
 export default authReducer;
-
-
-// if (hasCaptcha) {
-//     if (response.data.resultCode === 0) {
-//         authAPI.checkAuth(response.data.data.userId)
-//             .then(data => {
-//                 if (data.resultCode === 0) {
-//                     dispatch(setUserDataActionCreator(data.data));
-//                     dispatch(setCaptchaURL(null));
-//                 }
-//             })
-//     } else {
-//         dispatch(getCaptchaURL());
-//         setFieldValue("generalError", response.data.messages.join(" "))
-//         console.error("Unable to log in", response.data.messages);
-//     }
-// } else {
-//     if (response.data.resultCode === 0) {
-//         authAPI.checkAuth(response.data.data.userId)
-//             .then(data => {
-//                 if (data.resultCode === 0) {
-//                     dispatch(setUserDataActionCreator(data.data));
-//                 }
-//             })
-//     } else {
-//         dispatch(getCaptchaURL());
-//         setFieldValue("generalError", response.data.messages.join(" "))
-//         console.error("Unable to log in", response.data.messages);
-//     }
-//}

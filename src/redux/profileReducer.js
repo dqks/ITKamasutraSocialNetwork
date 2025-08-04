@@ -81,11 +81,16 @@ export const getUserProfile = userId => {
 
 export const setProfileStatus = statusText => {
     return async dispatch => {
-        const response = await profileAPI.setProfileStatus(statusText);
-        if (response.resultCode === 0) {
-            dispatch(changeStatusActionCreator(statusText));
-        } else {
-            console.error("Unable to change status", response.messages)
+        try {
+            const response = await profileAPI.setProfileStatus(statusText);
+            if (response.resultCode === 0) {
+                dispatch(changeStatusActionCreator(statusText));
+            } else {
+                console.error("Unable to change status", response.messages)
+            }
+        } catch (error) {
+            //dispatch
+            console.error("Unable to change status")
         }
     }
 }

@@ -3,7 +3,7 @@ import Header from "./components/Header/Header";
 import Navbar from "./components/Navbar/Navbar";
 import News from "./components/News/News";
 import Settings from "./components/Settings/Settings";
-import {BrowserRouter, Route, Routes} from "react-router-dom";
+import {BrowserRouter, Navigate, Route, Routes} from "react-router-dom";
 import React, {Suspense, useEffect} from "react";
 import FriendsPage from "./components/FriendsPage/FriendsPage";
 import Login from "./components/Login/Login";
@@ -39,22 +39,22 @@ const App = () => {
                     <Navbar/>
                     <div className="app-wrapper-content">
                         <Routes>
+                            <Route path="/" element={<Navigate to="/profile" />} />
                             <Route  path={routes.profile}
                                     element={<Suspense fallback={<div><Preloader /></div>}>
                                         <Profile/>
                                     </Suspense>}/>
-
                             <Route path={routes.dialogs}
                                    element={<Suspense fallback={<div><Preloader /></div>}>
                                        <Dialogs/>
                                    </Suspense>}/>
-
                             <Route path={routes.news} element={<News/>}/>
                             <Route path={routes.music} element={<Musics/>}/>
                             <Route path={routes.settings} element={<Settings/>}/>
                             <Route path={routes.friends} element={<FriendsPage/>}/>
                             <Route path={routes.users} element={<UsersContainerFC/>}/>
                             <Route path={routes.login} element={<Login />}/>
+                            <Route path={routes.notFound} element={<div>404</div>}/>
                         </Routes>
                     </div>
                 </div>
