@@ -1,4 +1,4 @@
-import React, {memo} from "react"
+import React from "react"
 import classes from "./UserItem.module.css"
 import avatar from "../../../assets/avatar.jpg"
 import {NavLink} from "react-router-dom";
@@ -30,4 +30,4 @@ const UserItem = props => {
     )
 }
 
-export default memo(UserItem);
+export default UserItem;

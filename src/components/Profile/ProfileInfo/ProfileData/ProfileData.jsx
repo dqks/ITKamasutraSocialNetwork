@@ -1,5 +1,6 @@
 import Contact from "./Contact/Contact";
 import classes from "./ProfileData.module.css"
+import {memo, useEffect} from "react";
 
 const ProfileData = ({profile, isOwner, setEditModeTrue}) => {
     return (

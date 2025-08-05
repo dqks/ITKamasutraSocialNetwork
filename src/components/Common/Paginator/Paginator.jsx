@@ -1,5 +1,5 @@
 import classes from "./Paginator.module.css";
-import React, {useEffect, useState} from "react";
+import React, {memo, useEffect, useState} from "react";
 
 const Paginator = ({
                        onPageChanged,
@@ -56,4 +56,4 @@ const Paginator = ({
     )
 }
 
-export default Paginator;
+export default memo(Paginator);

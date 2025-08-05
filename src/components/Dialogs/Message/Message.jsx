@@ -1,11 +1,9 @@
 // import classes from "./Mesage.module.css"
-import {memo, useEffect} from "react";
+import {memo} from "react";
 
 const Message = (props) => {
-    useEffect(() => {
-        console.log("render");
-    })
-    // console.log(props);
+    console.log("Message rerender")
+    debugger
     return (
         <div>
             {props.message}

@@ -2,18 +2,16 @@ import classes from "./MyPosts.module.css"
 import Post from "./Post/Post.jsx"
 import React from "react";
 import {useDispatch, useSelector} from "react-redux";
-import {
-    addLikeButtonActionCreator,
-} from "../../../redux/profileReducer";
+import {addLikeButtonActionCreator,} from "../../../redux/profileReducer";
 import PostForm from "./PostForm/PostForm";
 import {getPostData} from "../../../redux/profileSelectors";
 
 const MyPosts = () => {
     const posts = useSelector(getPostData);
 
-    let dispatch = useDispatch();
+    const dispatch = useDispatch();
 
-    let likeButtonClick = (postId) => {
+    const likeButtonClick = (postId) => {
         dispatch(addLikeButtonActionCreator(postId))
     }
 

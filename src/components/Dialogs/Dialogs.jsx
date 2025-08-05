@@ -8,8 +8,7 @@ import MessageForm from "./MessageForm/MessageForm";
 import {getDialogs, getMessages} from "../../redux/dialogsSelectors";
 
 const Dialogs = () => {
-    useAuth()
-
+    useAuth();
     let dialogs = useSelector(getDialogs);
     let messages = useSelector(getMessages);
 
@@ -18,6 +17,7 @@ const Dialogs = () => {
 
     let messagesArr = messages
         .map(el => <Message key={el.id} message={el.message}/>)
+    // debugger
 
     return (
         <div className={classes.dialogs}>

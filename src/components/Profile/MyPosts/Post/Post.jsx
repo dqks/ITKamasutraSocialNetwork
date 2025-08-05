@@ -20,4 +20,4 @@ const Post = (props) => {
     )
 }
 
-export default memo(Post);
+export default Post;

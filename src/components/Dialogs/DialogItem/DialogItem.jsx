@@ -4,10 +4,6 @@ import React, {memo, useEffect} from "react";
 import img from "../../../assets/avatar.jpg"
 
 const DialogItem = (props) => {
-    // console.log(props);
-    // useEffect(() => {
-    //     console.log("render");
-    // })
     return (
         <div>
             <NavLink to={"/dialogs/" + props.id} className={classes.item}>

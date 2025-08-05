@@ -22,9 +22,7 @@ const AvatarForm = () => {
                         <input accept="image/png, image/jpeg, image/jpg"
                                className={[classes.avatarInput, errors.photo ? classes.errorBorder : null].join(" ")}
                                type="file" name="photo"
-                               // onClick={(e) => console.log(e.currentTarget.files[0])}
                                onChange={(event) => {
-                                   console.log(event.target.files[0]);
                                    setFieldValue('photo', event.currentTarget.files?.[0]);
                                }}/>
                         <button type={"submit"} className={classes.uploadPhoto}>Добавить</button>

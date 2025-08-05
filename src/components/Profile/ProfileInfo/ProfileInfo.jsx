@@ -17,7 +17,7 @@ const ProfileInfo = ({profile}) => {
     } else {
         const isOwner = authUserId === profile.userId;
         return (
-            <div className={classes.profileInfo}>
+            <div>
                 <div className={classes.profileMain}>
                     <img className={classes.avatar} src={profile.photos.large
                         ? profile.photos.large
@@ -27,7 +27,9 @@ const ProfileInfo = ({profile}) => {
                         <ProfileStatus profileId={profile.userId}/>
                         {editMode
                             ? <ProfileDataForm setEditModeFalse={() => setEditMode(false)} profile={profile}/>
-                            : <ProfileData profile={profile} isOwner={isOwner} setEditModeTrue={() => setEditMode(true)}/>}
+                            : <ProfileData profile={profile} isOwner={isOwner} setEditModeTrue={() => {
+                                    setEditMode(true)
+                                }}/>}
                     </div>
                 </div>
                 {

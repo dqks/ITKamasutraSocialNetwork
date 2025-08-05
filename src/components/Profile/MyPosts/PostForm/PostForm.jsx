@@ -29,5 +29,5 @@ const PostForm = () => {
         </Formik>
     )
 }
-// className={errors.messageText ? classes.errorBorder : null}
+
 export default PostForm;

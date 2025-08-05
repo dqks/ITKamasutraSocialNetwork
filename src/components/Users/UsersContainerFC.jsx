@@ -4,7 +4,7 @@ import {
     requestUsers,
     unfollowUser
 } from "../../redux/usersReducer";
-import React, {memo, useEffect} from "react";
+import React, {memo, useCallback, useEffect} from "react";
 import Users from "./Users";
 import Preloader from "../Common/Preloader/Preloader";
 import {
@@ -31,9 +31,17 @@ const UserContainerFC = () => {
         dispatch(requestUsers(currentPage, pageSize))
     }, []);
 
-    const onPageChanged = (page) => {
+    const onPageChanged = useCallback(page => {
         dispatch(requestUsers(page, pageSize));
-    }
+    }, [currentPage])
+
+    // const onFollowButtonClick = useCallback(id => {
+    //     dispatch(followUser(id));
+    // }, [currentPage])
+    //
+    // const onUnfollowButtonClick = useCallback(id => {
+    //     dispatch(unfollowUser(id));
+    // }, [currentPage])
 
     const onFollowButtonClick = (id) => {
         dispatch(followUser(id));
