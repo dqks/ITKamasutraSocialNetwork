@@ -1,6 +1,5 @@
 import {Field, Form, Formik} from "formik";
 import classes from "./PostForm.module.css";
-import React from "react";
 import PostFormSchema from "../../../FormValidation/PostFormSchema";
 import {useDispatch} from "react-redux";
 import {addPostActionCreator} from "../../../../redux/profileReducer";

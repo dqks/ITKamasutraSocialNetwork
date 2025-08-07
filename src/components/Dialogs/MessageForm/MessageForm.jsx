@@ -30,4 +30,4 @@ const MessageForm = () => {
     )
 }
 
-export default memo(MessageForm);
+export default MessageForm;

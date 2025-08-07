@@ -17,7 +17,6 @@ const Dialogs = () => {
 
     let messagesArr = messages
         .map(el => <Message key={el.id} message={el.message}/>)
-    // debugger
 
     return (
         <div className={classes.dialogs}>
