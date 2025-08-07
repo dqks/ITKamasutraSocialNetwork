@@ -4,8 +4,8 @@ import dialogsReducer from "./dialogsReducer";
 import friendsPageReducer from "./friendsPageReducer";
 import profileReducer from "./profileReducer";
 import usersReducer from "./usersReducer";
-import musicReducer from "./musicReducer";
 import authReducer from "./authReducer";
+import musicReducer from "./musicReducer";
 import appReducer from "./appReducer";
 
 let reducers = combineReducers({
@@ -18,8 +18,16 @@ let reducers = combineReducers({
     app: appReducer,
 });
 
-let store = configureStore({reducer: reducers});
+export const store = () => {
+    return configureStore({
+        reducer: reducers
+    });
+}
 
-window.store = store;
+export type RootState = ReturnType<typeof reducers>;
+export type AppStore = ReturnType<typeof store>;
+export type AppDispatch = AppStore['dispatch'];
+
+// window.store = store;
 
 export default store;

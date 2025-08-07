@@ -1,38 +1,70 @@
 import {authAPI, securityAPI} from "../api/api";
+import {AppDispatch, RootState} from "./reduxStore";
 
 const SET_USER_DATA = "auth/SET_USER_DATA";
 const DELETE_USER_DATA = "auth/DELETE_USER_DATA";
 const SET_CAPTCHA_URL = "auth/SET_CAPTCHA_URL";
 
-let initialState = {
+type InitialStateType = {
+    id: number | null,
+    email: string | null,
+    login: string | null,
+    isFetching: boolean,
+    isAuth: boolean,
+    captchaUrl: string | null
+}
+
+let initialState: InitialStateType = {
     id: null,
     email: null,
     login: null,
     isFetching: false,
     isAuth: false,
-    userPhoto: null,
-    captchaURL: null,
+    captchaUrl: null,
 };
 
-const authReducer = (state = initialState, action) => {
+const authReducer = (state = initialState, action: any): InitialStateType => {
     switch (action.type) {
         case SET_USER_DATA:
             return {...state, ...action.data, isAuth: true};
         case DELETE_USER_DATA:
-            return {...state, id: null, email: null, login: null, isAuth: false, userPhoto: null};
+            return {...state, id: null, email: null, login: null, isAuth: false};
         case SET_CAPTCHA_URL:
-            return {...state, captchaURL: action.url}
+            return {...state, captchaUrl: action.url}
         default:
             return state;
     }
 }
 
-export const setUserDataActionCreator = data => ({type: SET_USER_DATA, data});
-export const deleteUserDataActionCreator = () => ({type: DELETE_USER_DATA})
-export const setCaptchaURL = (url) => ({type: SET_CAPTCHA_URL, url})
+type UserDataType = {
+    id: number,
+    login: string,
+    email: string
+}
+
+type SetUserDataType = {
+    type: typeof SET_USER_DATA
+    data: UserDataType
+}
+
+type DeleteUserDataType = {
+    type: typeof DELETE_USER_DATA
+}
+
+type SetCaptchaDataType = {
+    type: typeof SET_CAPTCHA_URL
+    url: string
+}
+
+export const setUserDataActionCreator = (data: UserDataType)
+    : SetUserDataType => ({type: SET_USER_DATA, data});
+export const deleteUserDataActionCreator = ()
+    : DeleteUserDataType => ({type: DELETE_USER_DATA})
+export const setCaptchaURL = (url: string)
+    : SetCaptchaDataType => ({type: SET_CAPTCHA_URL, url})
 
 export const getAuthUser = () => {
-    return async dispatch => {
+    return async (dispatch: AppDispatch) => {
         const data = await authAPI.checkAuth();
         if (data.resultCode === 0) {
             dispatch(setUserDataActionCreator(data.data));
@@ -40,18 +72,18 @@ export const getAuthUser = () => {
     }
 }
 
-export const loginUser = (email, password, rememberMe, setFieldValue, captchaValue = "") => {
-    return async (dispatch, getState) => {
-        const hasCaptcha = getState().auth.captchaURL;
+export const loginUser = (email: string, password: string, rememberMe: boolean, setFieldValue: any, captchaValue = "") => {
+    return async (dispatch: AppDispatch, getState: () => RootState) => {
+        const hasCaptcha = getState().auth.captchaUrl;
         try {
             const response = await authAPI.login(email, password, rememberMe, captchaValue)
 
             if (response.data.resultCode === 0) {
-                authAPI.checkAuth(response.data.data.userId)
+                authAPI.checkAuth()
                     .then(data => {
                         if (data.resultCode === 0) {
                             dispatch(setUserDataActionCreator(data.data));
-                            if (hasCaptcha) dispatch(setCaptchaURL(null));
+                            if (hasCaptcha) dispatch(setCaptchaURL(""));
                         }
                     })
             } else {
@@ -68,7 +100,7 @@ export const loginUser = (email, password, rememberMe, setFieldValue, captchaVal
 }
 
 export const logoutUser = () => {
-    return async dispatch => {
+    return async (dispatch: AppDispatch) => {
         try {
             const response = await authAPI.logout();
             if (response.data.resultCode === 0) {
@@ -83,7 +115,7 @@ export const logoutUser = () => {
 }
 
 export const getCaptchaURL = () => {
-    return async dispatch => {
+    return async (dispatch: AppDispatch) => {
         const response = await securityAPI.getCaptchaURL();
         dispatch(setCaptchaURL(response.url));
     }

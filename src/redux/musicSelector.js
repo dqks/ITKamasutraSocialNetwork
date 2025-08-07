@@ -1,1 +1,0 @@
-export const getTracks = state => state.musicPage.tracks;

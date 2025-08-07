@@ -1,6 +1,18 @@
 // const SAVE_MUSIC_TIMECODE = "music/SAVE-MUSIC-TIMECODE"
 
-const initialState = {
+type Track = {
+    id: string
+    logo: string
+    name: string
+    singer: string
+    src: string
+}
+
+type InitialStateType = {
+    tracks: Array<Track>,
+}
+
+const initialState : InitialStateType = {
     tracks: [
         {
             id: "1",
@@ -19,7 +31,7 @@ const initialState = {
     ],
 };
 
-const musicReducer = (state = initialState, action) => {
+const musicReducer = (state = initialState, action: any) => {
     switch (action.type) {
         default:
             return state;

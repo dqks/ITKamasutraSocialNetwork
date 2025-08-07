@@ -2,7 +2,7 @@ import {findByRole, fireEvent, getByRole, render, screen} from '@testing-library
 import ProfileStatus from './ProfileStatus';
 import {Provider} from "react-redux";
 import { act } from 'react';
-import store from "./../../../redux/reduxStore"
+import store from "../../../redux/reduxStore"
 
 test("status from props should be in the local state", async () => {
     const handleChange = jest.fn()

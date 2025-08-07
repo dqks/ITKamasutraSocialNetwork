@@ -1,4 +1,5 @@
 import {profileAPI} from "../api/api";
+import {AppDispatch, RootState} from "./reduxStore";
 
 const ADD_POST = "profile/ADD_POST";
 const ADD_LIKE_BUTTON = "profile/ADD_LIKE_BUTTON";
@@ -7,9 +8,61 @@ const CHANGE_STATUS = "profile/CHANGE_STATUS";
 const DELETE_POST = "profile/DELETE_POST";
 const UPDATE_PROFILE_PHOTO = "profile/UPDATE_PROFILE_PHOTO";
 
-let initialState = {
-    profileStatus: null,
-    profile: null,
+type Post = {
+    id: number,
+    message: string
+    likeCount: number
+}
+
+type Profile = {
+    fullName: string,
+    lookingForAJob: boolean,
+    lookingForAJobDescription: string,
+    aboutMe: string,
+    contacts: {
+        facebook: string,
+        website: string,
+        vk: string,
+        twitter: string,
+        instagram: string,
+        youtube: string,
+        github: string,
+        mainLink: string,
+    }
+    photos : {
+        small: string
+        large: string
+    }
+}
+
+type InitialStateType = {
+    profileStatus: string
+    profile: Profile
+    postData: Array<Post>
+}
+
+let initialState: InitialStateType = {
+    profileStatus: '',
+    profile: {
+        fullName: "",
+        lookingForAJob: false,
+        lookingForAJobDescription: "",
+        aboutMe: "",
+        contacts: {
+            facebook: "",
+            website: "",
+            vk: "",
+            twitter: '',
+            instagram: '',
+            youtube: "",
+            github: "",
+            mainLink: "",
+        },
+        photos : {
+            small: "",
+            large: ""
+        }
+    },
     postData: [
         {id: 1, message: "Hi, how are you?", likeCount: 10},
         {id: 2, message: "It's my first post", likeCount: 0},
@@ -17,7 +70,7 @@ let initialState = {
     ],
 };
 
-const profileReducer = (state = initialState, action) => {
+const profileReducer = (state = initialState, action: any) => {
     switch (action.type) {
         case ADD_POST:
             let newPost = {
@@ -62,16 +115,16 @@ const profileReducer = (state = initialState, action) => {
 }
 
 //Action creators
-export const addPostActionCreator = postText => ({type: ADD_POST, postText});
-export const addLikeButtonActionCreator = postId => ({type: ADD_LIKE_BUTTON, postId});
-export const setProfileActionCreator = profile => ({type: SET_PROFILE, profile});
-export const changeStatusActionCreator = status => ({type: CHANGE_STATUS, status});
-export const deletePost = postId => ({type: DELETE_POST, postId})
-export const updateProfilePhoto = photoURL => ({type: UPDATE_PROFILE_PHOTO, photoURL})
+export const addPostActionCreator = (postText: string) => ({type: ADD_POST, postText});
+export const addLikeButtonActionCreator = (postId: number) => ({type: ADD_LIKE_BUTTON, postId});
+export const setProfileActionCreator = (profile: Profile) => ({type: SET_PROFILE, profile});
+export const changeStatusActionCreator = (status : string) => ({type: CHANGE_STATUS, status});
+export const deletePost = (postId : number) => ({type: DELETE_POST, postId})
+export const updateProfilePhoto = (photoURL : string) => ({type: UPDATE_PROFILE_PHOTO, photoURL})
 
 //Thunks
-export const getUserProfile = userId => {
-    return async dispatch => {
+export const getUserProfile = (userId : number | null) => {
+    return async (dispatch : AppDispatch) => {
         const response = await profileAPI.getUserProfile(userId);
         if (response.status === 200) {
             dispatch(setProfileActionCreator(response.data));
@@ -79,8 +132,8 @@ export const getUserProfile = userId => {
     }
 }
 
-export const setProfileStatus = statusText => {
-    return async dispatch => {
+export const setProfileStatus = (statusText : string) => {
+    return async (dispatch : AppDispatch) => {
         try {
             const response = await profileAPI.setProfileStatus(statusText);
             if (response.resultCode === 0) {
@@ -95,15 +148,15 @@ export const setProfileStatus = statusText => {
     }
 }
 
-export const getProfileStatus = userId => {
-    return async dispatch => {
+export const getProfileStatus = (userId : number) => {
+    return async (dispatch : AppDispatch) => {
         const data = await profileAPI.getProfileStatus(userId)
         dispatch(changeStatusActionCreator(data));
     }
 }
 
-export const setProfilePhoto = photo => {
-    return async dispatch => {
+export const setProfilePhoto = (photo : string) => {
+    return async (dispatch : AppDispatch) => {
         const response = await profileAPI.setProfilePhoto(photo);
         if (response.resultCode === 0) {
             dispatch(updateProfilePhoto(response.data.photos.large));
@@ -113,8 +166,8 @@ export const setProfilePhoto = photo => {
     }
 }
 
-export const saveProfileData = (data, setFieldValue, setEditModeFalse) => {
-    return async (dispatch, getState) => {
+export const saveProfileData = (data : any, setFieldValue : any, setEditModeFalse : any) => {
+    return async (dispatch : AppDispatch, getState : () => RootState) => {
         const payload = {
             fullName: data.fullName,
             lookingForAJob: data.lookingForAJob,
