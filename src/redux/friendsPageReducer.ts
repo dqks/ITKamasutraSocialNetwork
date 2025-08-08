@@ -1,6 +1,6 @@
 type Friend = {
     name: string,
-    id: string,
+    id: number,
 }
 
 type InitialStateType = {
@@ -9,12 +9,12 @@ type InitialStateType = {
 
 let initialState : InitialStateType = {
     friends: [
-        {name: "Andrew", id: "2"},
-        {name: "Sasha", id: "3"},
-        {name: "Sveta", id: "4"},
-        {name: "Maxim", id: "5"},
-        {name: "Alexey", id: "6"},
-        {name: "Anton", id: "7"},
+        {name: "Andrew", id: 2},
+        {name: "Sasha", id: 3},
+        {name: "Sveta", id: 4},
+        {name: "Maxim", id: 5},
+        {name: "Alexey", id: 6},
+        {name: "Anton", id: 7},
     ]
 }
 

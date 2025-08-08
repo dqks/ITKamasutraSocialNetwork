@@ -1,10 +1,14 @@
 // import classes from "./Mesage.module.css"
 import {memo} from "react";
 
-const Message = (props) => {
+interface MessageProps {
+    message: string
+}
+
+const Message = ({message} : MessageProps) => {
     return (
         <div>
-            {props.message}
+            {message}
         </div>
     )
 }

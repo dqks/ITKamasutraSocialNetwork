@@ -1,10 +1,12 @@
 import classes from "./FriendsPage.module.css";
 import Friend from "./Friend/Friend";
-import {useSelector} from "react-redux";
 import {getFriends} from "../../redux/friendsSelectors";
+import {useAppSelector} from "../../hooks/redux";
 
-const FriendsPage = () => {
-    const friends = useSelector(getFriends)
+interface FriendsPageProps {}
+
+const FriendsPage = ({} : FriendsPageProps) => {
+    const friends = useAppSelector(getFriends)
     return (
         <div className={classes.wrapper}>
             <h2>Friends</h2>

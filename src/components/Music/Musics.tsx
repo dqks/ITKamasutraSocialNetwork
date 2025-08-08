@@ -1,11 +1,13 @@
 import classes from "./Musics.module.css"
 import React from "react";
 import MusicItem from "./MusicItem/MusicItem";
-import {useSelector} from "react-redux";
 import {getTracks} from "../../redux/musicSelector";
+import {useAppSelector} from "../../hooks/redux";
 
-const Musics = () => {
-    const tracks = useSelector(getTracks)
+interface MusicProps {}
+
+const Musics = ({} : MusicProps) => {
+    const tracks = useAppSelector(getTracks)
     return (
         <div className={classes.body}>
             <div>

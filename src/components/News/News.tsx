@@ -1,6 +1,8 @@
 import classes from "./News.module.css"
 
-const News = () => {
+interface NewsProps {}
+
+const News = ({} : NewsProps) => {
     return (
         <div>
             News

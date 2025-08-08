@@ -1,5 +1,6 @@
 import {profileAPI} from "../api/api";
 import {AppDispatch, RootState} from "./reduxStore";
+import {PhotosType} from "../types/types";
 
 const ADD_POST = "profile/ADD_POST";
 const ADD_LIKE_BUTTON = "profile/ADD_LIKE_BUTTON";
@@ -8,61 +9,41 @@ const CHANGE_STATUS = "profile/CHANGE_STATUS";
 const DELETE_POST = "profile/DELETE_POST";
 const UPDATE_PROFILE_PHOTO = "profile/UPDATE_PROFILE_PHOTO";
 
-type Post = {
+type PostType = {
     id: number,
     message: string
     likeCount: number
 }
 
-type Profile = {
+type ContactsType = {
+    facebook: string,
+    website: string,
+    vk: string,
+    twitter: string,
+    instagram: string,
+    youtube: string,
+    github: string,
+    mainLink: string,
+}
+
+type ProfileType = {
     fullName: string,
     lookingForAJob: boolean,
     lookingForAJobDescription: string,
     aboutMe: string,
-    contacts: {
-        facebook: string,
-        website: string,
-        vk: string,
-        twitter: string,
-        instagram: string,
-        youtube: string,
-        github: string,
-        mainLink: string,
-    }
-    photos : {
-        small: string
-        large: string
-    }
+    contacts: ContactsType
+    photos : PhotosType
 }
 
 type InitialStateType = {
     profileStatus: string
-    profile: Profile
-    postData: Array<Post>
+    profile: ProfileType | null
+    postData: Array<PostType>
 }
 
 let initialState: InitialStateType = {
     profileStatus: '',
-    profile: {
-        fullName: "",
-        lookingForAJob: false,
-        lookingForAJobDescription: "",
-        aboutMe: "",
-        contacts: {
-            facebook: "",
-            website: "",
-            vk: "",
-            twitter: '',
-            instagram: '',
-            youtube: "",
-            github: "",
-            mainLink: "",
-        },
-        photos : {
-            small: "",
-            large: ""
-        }
-    },
+    profile: null,
     postData: [
         {id: 1, message: "Hi, how are you?", likeCount: 10},
         {id: 2, message: "It's my first post", likeCount: 0},
@@ -114,13 +95,49 @@ const profileReducer = (state = initialState, action: any) => {
     }
 }
 
+type AddPostType = {
+    type: typeof ADD_POST
+    postText: string
+}
+
+type AddLikeButtonType = {
+    type: typeof ADD_LIKE_BUTTON
+    postId: number
+}
+
+type SetProfileType = {
+    type: typeof SET_PROFILE
+    profile: ProfileType | null
+}
+
+type ChangeStatusType = {
+    type: typeof CHANGE_STATUS
+    status: string
+}
+
+type DeletePostType = {
+    type: typeof DELETE_POST
+    postId: number
+}
+
+type UpdateProfilePhotoType = {
+    type: typeof UPDATE_PROFILE_PHOTO
+    photoUrl: string
+}
+
 //Action creators
-export const addPostActionCreator = (postText: string) => ({type: ADD_POST, postText});
-export const addLikeButtonActionCreator = (postId: number) => ({type: ADD_LIKE_BUTTON, postId});
-export const setProfileActionCreator = (profile: Profile) => ({type: SET_PROFILE, profile});
-export const changeStatusActionCreator = (status : string) => ({type: CHANGE_STATUS, status});
-export const deletePost = (postId : number) => ({type: DELETE_POST, postId})
-export const updateProfilePhoto = (photoURL : string) => ({type: UPDATE_PROFILE_PHOTO, photoURL})
+export const addPostActionCreator = (postText: string)
+    : AddPostType => ({type: ADD_POST, postText});
+export const addLikeButtonActionCreator = (postId: number)
+    : AddLikeButtonType => ({type: ADD_LIKE_BUTTON, postId});
+export const setProfileActionCreator = (profile: ProfileType)
+    : SetProfileType => ({type: SET_PROFILE, profile});
+export const changeStatusActionCreator = (status : string)
+    : ChangeStatusType => ({type: CHANGE_STATUS, status});
+export const deletePost = (postId : number)
+    : DeletePostType => ({type: DELETE_POST, postId})
+export const updateProfilePhoto = (photoUrl : string)
+    : UpdateProfilePhotoType => ({type: UPDATE_PROFILE_PHOTO, photoUrl})
 
 //Thunks
 export const getUserProfile = (userId : number | null) => {

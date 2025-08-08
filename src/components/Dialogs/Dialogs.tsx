@@ -1,21 +1,22 @@
 import classes from "./Dialogs.module.css"
 import DialogItem from "./DialogItem/DialogItem";
 import Message from "./Message/Message";
-import {memo} from "react";
-import {useSelector} from "react-redux";
 import {useAuth} from "../../hooks/useAuth";
 import MessageForm from "./MessageForm/MessageForm";
 import {getDialogs, getMessages} from "../../redux/dialogsSelectors";
+import {useAppSelector} from "../../hooks/redux";
 
-const Dialogs = () => {
+interface DialogProps {}
+
+const Dialogs = ({} : DialogProps) => {
     useAuth();
-    let dialogs = useSelector(getDialogs);
-    let messages = useSelector(getMessages);
+    const dialogs = useAppSelector(getDialogs);
+    const messages = useAppSelector(getMessages);
 
-    let dialogsArr = dialogs
+    const dialogsArr = dialogs
         .map(el => <DialogItem name={el.name} key={el.id} id={el.id}/>)
 
-    let messagesArr = messages
+    const messagesArr = messages
         .map(el => <Message key={el.id} message={el.message}/>)
 
     return (
@@ -35,4 +36,4 @@ const Dialogs = () => {
     )
 }
 
-export default memo(Dialogs);
+export default Dialogs;

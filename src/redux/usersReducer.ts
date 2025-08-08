@@ -1,6 +1,7 @@
 import {usersAPI} from "../api/api";
 import {changeObjectInArray} from "../utils/changeObjectInArray";
 import {AppDispatch} from "./reduxStore";
+import {PhotosType} from "../types/types";
 
 const FOLLOW_USER = "users/FOLLOW_USER";
 const UNFOLLOW_USER = "users/UNFOLLOW_USER";
@@ -10,16 +11,11 @@ const SET_TOTAL_COUNT = "users/SET_TOTAL_COUNT";
 const TOGGLE_IS_FETCHING = "users/TOGGLE_IS_FETCHING";
 const FOLLOWING_IN_PROGRESS = "users/FOLLOWING_IN_PROGRESS";
 
-type Photo = {
-    small: string
-    large: string
-}
-
 type User = {
     name: string,
     id: number,
     uniqueUrlName: null
-    photos: Photo
+    photos: PhotosType
     status: string | null
     followed: boolean
 }
@@ -80,14 +76,57 @@ let usersReducer = (state = initialState, action : any) => {
     }
 }
 
+type FollowType = {
+    type: typeof FOLLOW_USER
+    userId: number
+}
+
+type UnfollowType = {
+    type: typeof UNFOLLOW_USER
+    userId: number
+}
+
+type SetUsersType = {
+    type: typeof SET_USERS
+    users: Array<User>
+}
+
+type SetCurrentPageType = {
+    type: typeof SET_CURRENT_PAGE
+    pageNumber: number
+}
+
+type SetTotalCountType = {
+    type: typeof SET_TOTAL_COUNT
+    totalCount: number
+}
+
+type ToggleIsFetchingType = {
+    type: typeof TOGGLE_IS_FETCHING
+    isFetching: boolean
+}
+
+type ToggleFollowingInProgressType = {
+    type: typeof FOLLOWING_IN_PROGRESS
+    isFetching: boolean
+    userId: number
+}
+
 //actions
-export const follow = (id: number) => ({type: FOLLOW_USER, userId: id})
-export const unfollow = (id: number) => ({type: UNFOLLOW_USER, userId: id})
-export const setUsers = (users: Array<User>) => ({type: SET_USERS, users: users})
-export const setCurrentPage = (pageNumber : number) => ({type: SET_CURRENT_PAGE, pageNumber: pageNumber});
-export const setTotalCount = (totalCount : number) => ({type: SET_TOTAL_COUNT, totalCount: totalCount});
-export const toggleIsFetching = (isFetching : boolean) => ({type: TOGGLE_IS_FETCHING, isFetching})
-export const toggleFollowingInProgress = (isFetching : boolean, userId : number) => ({type: FOLLOWING_IN_PROGRESS, isFetching, userId})
+export const follow = (userId: number)
+    : FollowType => ({type: FOLLOW_USER, userId})
+export const unfollow = (userId : number)
+    : UnfollowType => ({type: UNFOLLOW_USER, userId})
+export const setUsers = (users: Array<User>)
+    : SetUsersType => ({type: SET_USERS, users})
+export const setCurrentPage = (pageNumber : number)
+    : SetCurrentPageType => ({type: SET_CURRENT_PAGE, pageNumber});
+export const setTotalCount = (totalCount : number)
+    : SetTotalCountType => ({type: SET_TOTAL_COUNT, totalCount});
+export const toggleIsFetching = (isFetching : boolean)
+    : ToggleIsFetchingType => ({type: TOGGLE_IS_FETCHING, isFetching})
+export const toggleFollowingInProgress = (isFetching : boolean, userId : number)
+    : ToggleFollowingInProgressType => ({type: FOLLOWING_IN_PROGRESS, isFetching, userId})
 
 //thunks
 export const requestUsers = (currentPage : number, pageSize : number) => {

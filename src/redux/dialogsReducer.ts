@@ -1,18 +1,18 @@
 const ADD_MESSAGE = "dialogs/ADD_MESSAGE"
 
-type Dialog = {
+type DialogType = {
     name: string,
     id: number
 }
 
-type Message = {
+type MessageType = {
     message: string
     id: number
 }
 
 type InitialStateType = {
-    dialogs: Array<Dialog>,
-    messages: Array<Message>,
+    dialogs: Array<DialogType>,
+    messages: Array<MessageType>,
 }
 
 let initialState : InitialStateType = {

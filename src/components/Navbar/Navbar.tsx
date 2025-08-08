@@ -2,7 +2,9 @@ import { NavLink } from "react-router-dom";
 import classes from "./Navbar.module.css"
 import FriendsList from "./FriendsList/FriendsList";
 
-const Navbar = () => {
+interface NavbarProps {}
+
+const Navbar = ({} : NavbarProps) => {
     return (
         <nav className={classes.nav}>
             <div className={classes.item}>
