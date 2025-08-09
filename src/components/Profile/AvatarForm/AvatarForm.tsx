@@ -1,14 +1,19 @@
-import {useDispatch} from "react-redux";
 import {Form, Formik} from "formik";
 import React from "react";
 import avatarFormSchema from "../../FormValidation/AvatarFormSchema";
 import classes from "./AvatarForm.module.css"
 import {setProfilePhoto} from "../../../redux/profileReducer";
+import {useAppDispatch} from "../../../hooks/redux";
+
+interface AvatarInitialValues {
+    photo:string
+}
 
 const AvatarForm = () => {
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
+    const initialValues : AvatarInitialValues = {photo: ""}
     return (
-        <Formik initialValues={{photo: ""}}
+        <Formik initialValues={initialValues}
                 onSubmit={(values, actions) => {
                     dispatch(setProfilePhoto(values.photo))
                     actions.resetForm();

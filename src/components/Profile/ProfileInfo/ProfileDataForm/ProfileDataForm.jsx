@@ -1,5 +1,5 @@
 import classes from "./ProfileDataForm.module.css"
-import {ErrorMessage, Field, Form, Formik} from "formik";
+import {Field, Form, Formik} from "formik";
 import React from "react";
 import profileDataFormSchema from "../../../FormValidation/ProfileDataFormSchema";
 import {useDispatch} from "react-redux";
@@ -13,7 +13,6 @@ const InlineInputComponent = ({
     <div className={classes.fieldWrapper}>
         <b><label htmlFor={field.name}>{props.labeltext}</label></b>
         <input {...field} {...props} />
-        {/*{values.errorMessage ? <p className={classes.errorMessage}>{values.errorMessage}</p> : null}*/}
     </div>
 );
 

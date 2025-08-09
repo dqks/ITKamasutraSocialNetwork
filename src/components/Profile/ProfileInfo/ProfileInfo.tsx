@@ -4,14 +4,19 @@ import defaultAvatar from "../../../assets/avatar.jpg";
 import ProfileStatus from "../ProfileStatus/ProfileStatus";
 import {memo, useState} from "react";
 import AvatarForm from "../AvatarForm/AvatarForm";
-import {useSelector} from "react-redux";
 import {getAuthUserId} from "../../../redux/authSelectors";
 import ProfileData from "./ProfileData/ProfileData";
 import ProfileDataForm from "./ProfileDataForm/ProfileDataForm";
+import {useAppSelector} from "../../../hooks/redux";
+import {ProfileType} from "../../../redux/profileReducer";
 
-const ProfileInfo = ({profile}) => {
-    const authUserId = useSelector(getAuthUserId);
-    const [editMode, setEditMode] = useState(false);
+interface ProfileInfoProps {
+    profile: ProfileType
+}
+
+const ProfileInfo = ({profile} : ProfileInfoProps) => {
+    const authUserId = useAppSelector(getAuthUserId);
+    const [editMode, setEditMode] = useState<boolean>(false);
     if (!profile) {
         return <Preloader/>
     } else {

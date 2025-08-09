@@ -6,21 +6,21 @@ import Settings from "./components/Settings/Settings";
 import {BrowserRouter, Navigate, Route, Routes} from "react-router-dom";
 import React, {Suspense, useEffect} from "react";
 import FriendsPage from "./components/FriendsPage/FriendsPage";
-import {useDispatch, useSelector} from "react-redux";
 import {initializeApp} from "./redux/appReducer";
 import Preloader from "./components/Common/Preloader/Preloader";
 import {getInitialized} from "./redux/appSelectors";
 import {routes} from "./constants/routes";
 import Profile from "./components/Profile/Profile";
+import {useAppDispatch, useAppSelector} from "./hooks/redux";
 
 const Dialogs = React.lazy(() => import("./components/Dialogs/Dialogs"));
 const Login = React.lazy(() => import("./components/Login/Login"));
 const Music = React.lazy(() => import("./components/Music/Musics"));
-const UsersPage = React.lazy(() => import("./components/Users/UsersContainerFC"));
+const UsersPage = React.lazy(() => import("./components/Users/UsersContainer"));
 
 const App = () => {
-    const initialized = useSelector(getInitialized);
-    const dispatch = useDispatch();
+    const initialized = useAppSelector(getInitialized);
+    const dispatch = useAppDispatch();
     useEffect(() => {
         dispatch(initializeApp())
     }, [dispatch]);

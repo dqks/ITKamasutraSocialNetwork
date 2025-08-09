@@ -1,23 +1,22 @@
 import ProfileInfo from "./ProfileInfo/ProfileInfo"
 import React, {useEffect} from "react";
 import MyPosts from "./MyPosts/MyPosts";
-import {useDispatch, useSelector} from "react-redux";
 import {getProfileStatus, getUserProfile, setProfileActionCreator} from "../../redux/profileReducer";
 import {useParams} from "react-router-dom";
 import {useAuth} from "../../hooks/useAuth";
 import {getAuthUserId} from "../../redux/authSelectors";
 import {getProfile} from "../../redux/profileSelectors";
+import {useAppDispatch, useAppSelector} from "../../hooks/redux";
 
 const Profile = () => {
     useAuth()
-
     const params = useParams();
-    const authUserId = useSelector(getAuthUserId)
-    const profile = useSelector(getProfile);
-    const dispatch = useDispatch();
+    const authUserId = useAppSelector(getAuthUserId)
+    const profile = useAppSelector(getProfile);
+    const dispatch = useAppDispatch();
 
     useEffect(() => {
-        let userId = params.userId;
+        let userId : number | null = Number(params.userId);
         if (!userId) {
             userId = authUserId;
         }

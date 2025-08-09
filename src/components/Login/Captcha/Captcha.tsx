@@ -1,6 +1,13 @@
 import classes from "./Captcha.module.css"
+import React from "react";
 
-const Captcha = ({captchaURL,captchaValue, onCaptchaInputChange}) => {
+interface CaptchaProps {
+    captchaURL: string
+    captchaValue: string
+    onCaptchaInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void
+}
+
+const Captcha = ({captchaURL,captchaValue, onCaptchaInputChange} : CaptchaProps) => {
     return (
         <div className={classes.captchaWrapper}>
             <img src={captchaURL} alt="captcha"/>

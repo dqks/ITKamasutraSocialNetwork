@@ -2,19 +2,19 @@ import classes from "./LoginForm.module.css";
 import {Field, Form, Formik} from "formik";
 import LoginFormSchema from "../../FormValidation/LoginFormSchema";
 import {loginUser} from "../../../redux/authReducer";
-import {useDispatch, useSelector} from "react-redux";
 import BlockInputComponent from "../../Common/BlockInputComponent/BlockInputComponent";
 import {getCaptchaURL} from "../../../redux/authSelectors";
 import Captcha from "../Captcha/Captcha";
-import {useState} from "react";
+import React, {useState} from "react";
+import {useAppDispatch, useAppSelector} from "../../../hooks/redux";
 
 const LoginForm = () => {
-    const captchaURL = useSelector(getCaptchaURL);
-    const dispatch = useDispatch();
+    const captchaURL = useAppSelector(getCaptchaURL);
+    const dispatch = useAppDispatch();
 
-    const [captchaValue, setCaptchaValue] = useState("");
+    const [captchaValue, setCaptchaValue] = useState<string>("");
 
-    const onCaptchaInputChange = (event) => {
+    const onCaptchaInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setCaptchaValue(event.target.value);
     };
 
@@ -22,7 +22,8 @@ const LoginForm = () => {
         <Formik
             initialValues={{email: "", password: "", rememberMe: false, generalError: ""}}
             validate={values => {
-                const errors = {};
+
+                const errors = {email: ""};
                 if (!values.email) {
                     errors.email = "Required"
                 } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)) {

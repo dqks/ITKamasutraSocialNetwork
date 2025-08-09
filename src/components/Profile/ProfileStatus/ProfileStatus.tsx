@@ -1,15 +1,19 @@
-import {memo, useEffect, useState} from "react";
-import {useDispatch, useSelector} from "react-redux";
+import React, {memo, useEffect, useState} from "react";
 import {setProfileStatus} from "../../../redux/profileReducer";
 import {getAuthUserId} from "../../../redux/authSelectors";
 import {getProfileStatus} from "../../../redux/profileSelectors";
+import {useAppDispatch, useAppSelector} from "../../../hooks/redux";
 
-const ProfileStatus = (props) => {
-    const [editMode, setEditMode] = useState(false)
-    const authUserId = useSelector(getAuthUserId)
-    const profileStatus = useSelector(getProfileStatus)
-    const [status, setStatus] = useState(profileStatus)
-    const dispatch = useDispatch()
+interface ProfileStatusProps {
+    profileId: number
+}
+
+const ProfileStatus = ({profileId} : ProfileStatusProps) => {
+    const [editMode, setEditMode] = useState<boolean>(false)
+    const authUserId = useAppSelector(getAuthUserId)
+    const profileStatus = useAppSelector(getProfileStatus)
+    const [status, setStatus] = useState<string>(profileStatus)
+    const dispatch = useAppDispatch()
 
     useEffect(() => {
         setStatus(profileStatus)
@@ -24,14 +28,14 @@ const ProfileStatus = (props) => {
         dispatch(setProfileStatus(status))
     }
 
-    const changeStatusText = event => {
+    const changeStatusText = (event : React.ChangeEvent<HTMLInputElement>) => {
         setStatus(event.target.value)
     }
 
     return (
         <div>
             {
-                authUserId !== props.profileId
+                authUserId !== profileId
                     ? (<div>
                         <span><b>Status:</b> {profileStatus}</span>
                     </div>)
@@ -42,7 +46,8 @@ const ProfileStatus = (props) => {
                                       onDoubleClick={activateEditMode}><b>Status:</b> {profileStatus}</span>
                             </div>
                             : <div>
-                                <input className={"inputTest"} name="status" onChange={changeStatusText} autoFocus={true} placeholder={"Status"} onBlur={deactivateEditMode} type="text"
+                                <input className={"inputTest"} name="status" onChange={changeStatusText} autoFocus={true}
+                                       placeholder={"Status"} onBlur={deactivateEditMode} type="text"
                                        value={status}/>
                             </div>}
                     </div>

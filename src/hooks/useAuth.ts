@@ -1,11 +1,11 @@
 import {useEffect} from "react";
 import {useLocation, useNavigate, useParams} from "react-router-dom";
-import {useSelector} from "react-redux";
 import {getIsAuth} from "../redux/authSelectors";
+import {useAppSelector} from "./redux";
 
 export const useAuth = () => {
     const location = useLocation();
-    const auth = useSelector(getIsAuth);
+    const auth = useAppSelector(getIsAuth);
     const navigate = useNavigate();
     const params = useParams();
     let userId = params.userId;

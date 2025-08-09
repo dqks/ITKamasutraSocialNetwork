@@ -23,7 +23,3 @@ export const getIsFetching = (state : RootState) => {
 export const getFollowingInProgress = (state : RootState) => {
     return state.usersPage.followingInProgress;
 }
-
-export const getPageIncrement = (state : RootState) => {
-    return state.usersPage.pageIncrement;
-}

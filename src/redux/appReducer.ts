@@ -3,7 +3,7 @@ import {AppDispatch} from "./reduxStore";
 
 const INITIALIZED_SUCCESS = "app/INITIALIZED_INITIALIZED_SUCCESS"
 
-export type InitialStateType = {
+export interface InitialStateType {
     initialized: boolean
 }
 
@@ -16,7 +16,7 @@ const appReducer = (state = initialState, action : any) : InitialStateType => {
         case INITIALIZED_SUCCESS:
             return {...state, initialized: true};
         default:
-            return {...state};
+            return state;
     }
 }
 

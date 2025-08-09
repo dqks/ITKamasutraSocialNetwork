@@ -18,16 +18,20 @@ let reducers = combineReducers({
     app: appReducer,
 });
 
-export const store = () => {
-    return configureStore({
-        reducer: reducers
-    });
-}
+export const store = configureStore({
+    reducer: reducers
+})
 
-export type RootState = ReturnType<typeof reducers>;
-export type AppStore = ReturnType<typeof store>;
+export type AppStore = typeof store
+export type RootState = ReturnType<AppStore['getState']>
 export type AppDispatch = AppStore['dispatch'];
 
-// window.store = store;
+declare global {
+    interface Window {
+        store: AppStore; // Add your custom store property here
+    }
+}
+
+window.store = store;
 
 export default store;

@@ -1,8 +1,14 @@
 import Contact from "./Contact/Contact";
 import classes from "./ProfileData.module.css"
-import {memo, useEffect} from "react";
+import {ContactsType, ProfileType} from "../../../../redux/profileReducer";
 
-const ProfileData = ({profile, isOwner, setEditModeTrue}) => {
+interface ProfileDataProps {
+    profile: ProfileType
+    isOwner: boolean
+    setEditModeTrue: any
+}
+
+const ProfileData = ({profile, isOwner, setEditModeTrue} : ProfileDataProps) => {
     return (
         <div>
             <div>
@@ -16,8 +22,8 @@ const ProfileData = ({profile, isOwner, setEditModeTrue}) => {
             </div>
             <div>
                 <p><b>Contacts:</b></p>
-                {Object.keys(profile.contacts).map(key => {
-                    return <Contact key={key} contactTitle={key} contactValue={profile.contacts[key]}/>
+                {Object.keys(profile.contacts).map((key) => {
+                    return <Contact key={key} contactTitle={key} contactValue={profile.contacts[key] as string}/>
                 })}
             </div>
             <div>

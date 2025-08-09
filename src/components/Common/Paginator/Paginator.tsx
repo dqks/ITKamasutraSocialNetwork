@@ -1,13 +1,21 @@
 import classes from "./Paginator.module.css";
 import React, {memo, useEffect, useState} from "react";
 
+interface PaginatorProps {
+    onPageChanged: Function
+    totalUsersCount: number
+    pageSize: number
+    currentPage: number
+    portionSize: number
+}
+
 const Paginator = ({
                        onPageChanged,
                        totalUsersCount,
                        pageSize,
                        currentPage,
                        portionSize
-                   }) => {
+                   } : PaginatorProps) => {
     useEffect(() => {
         setCurrentPortion(Math.ceil(currentPage / portionSize))
     }, [currentPage]);
@@ -16,7 +24,7 @@ const Paginator = ({
 
     let portionCount = Math.ceil(totalPageAmount / portionSize);
 
-    let [currentPortion, setCurrentPortion] = useState(1);
+    let [currentPortion, setCurrentPortion] = useState<number>(1);
     let currentLeftBorder = (currentPortion - 1) * portionSize + 1;
     let currentRightBorder = currentPortion * portionSize;
 

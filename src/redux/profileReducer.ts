@@ -1,6 +1,6 @@
-import {profileAPI} from "../api/api";
 import {AppDispatch, RootState} from "./reduxStore";
 import {PhotosType} from "../types/types";
+import {profileAPI} from "../api/profileAPI";
 
 const ADD_POST = "profile/ADD_POST";
 const ADD_LIKE_BUTTON = "profile/ADD_LIKE_BUTTON";
@@ -15,7 +15,8 @@ type PostType = {
     likeCount: number
 }
 
-type ContactsType = {
+export type ContactsType = {
+    [key: string]: string
     facebook: string,
     website: string,
     vk: string,
@@ -26,7 +27,8 @@ type ContactsType = {
     mainLink: string,
 }
 
-type ProfileType = {
+export type ProfileType = {
+    userId: number
     fullName: string,
     lookingForAJob: boolean,
     lookingForAJobDescription: string,
@@ -80,13 +82,15 @@ const profileReducer = (state = initialState, action: any) => {
                 postData: state.postData.filter(el => el.id !== action.postId)
             };
         case UPDATE_PROFILE_PHOTO:
+            debugger
+
             return {
                 ...state,
                 profile: {
                     ...state.profile,
                     photos: {
-                        large: action.photoURL,
-                        small: action.photoURL
+                        large: action.photoUrl,
+                        small: action.photoUrl
                     }
                 }
             }
@@ -130,7 +134,7 @@ export const addPostActionCreator = (postText: string)
     : AddPostType => ({type: ADD_POST, postText});
 export const addLikeButtonActionCreator = (postId: number)
     : AddLikeButtonType => ({type: ADD_LIKE_BUTTON, postId});
-export const setProfileActionCreator = (profile: ProfileType)
+export const setProfileActionCreator = (profile: ProfileType | null)
     : SetProfileType => ({type: SET_PROFILE, profile});
 export const changeStatusActionCreator = (status : string)
     : ChangeStatusType => ({type: CHANGE_STATUS, status});
@@ -140,11 +144,11 @@ export const updateProfilePhoto = (photoUrl : string)
     : UpdateProfilePhotoType => ({type: UPDATE_PROFILE_PHOTO, photoUrl})
 
 //Thunks
-export const getUserProfile = (userId : number | null) => {
+export const getUserProfile = (userId: number | null) => {
     return async (dispatch : AppDispatch) => {
         const response = await profileAPI.getUserProfile(userId);
         if (response.status === 200) {
-            dispatch(setProfileActionCreator(response.data));
+            dispatch(setProfileActionCreator(response.data as ProfileType));
         }
     }
 }
@@ -200,7 +204,7 @@ export const saveProfileData = (data : any, setFieldValue : any, setEditModeFals
                 github: data.github,
                 mainLink: data.mainLink,
             }
-        }
+        } as ProfileType
         const response = await profileAPI.saveProfileData(payload);
         if (response.resultCode === 0) {
             const userId = getState().auth.id;

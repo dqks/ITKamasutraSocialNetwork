@@ -72,7 +72,11 @@ export const getAuthUser = () => {
     }
 }
 
-export const loginUser = (email: string, password: string, rememberMe: boolean, setFieldValue: any, captchaValue = "") => {
+export const loginUser = (email: string,
+                          password: string,
+                          rememberMe: boolean,
+                          setFieldValue: Function,
+                          captchaValue = "") => {
     return async (dispatch: AppDispatch, getState: () => RootState) => {
         const hasCaptcha = getState().auth.captchaUrl;
         try {

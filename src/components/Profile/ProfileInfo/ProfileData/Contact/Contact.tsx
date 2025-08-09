@@ -1,6 +1,11 @@
 import classes from './Contact.module.css'
 
-const Contact = ({contactTitle, contactValue}) => {
+interface ContactProps {
+    contactTitle: string
+    contactValue: string
+}
+
+const Contact = ({contactTitle, contactValue} : ContactProps) => {
     return (
         <div className={classes.wrapper}>
             <p className={classes.contact}>

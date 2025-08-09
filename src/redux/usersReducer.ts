@@ -11,7 +11,7 @@ const SET_TOTAL_COUNT = "users/SET_TOTAL_COUNT";
 const TOGGLE_IS_FETCHING = "users/TOGGLE_IS_FETCHING";
 const FOLLOWING_IN_PROGRESS = "users/FOLLOWING_IN_PROGRESS";
 
-type User = {
+export type User = {
     name: string,
     id: number,
     uniqueUrlName: null
@@ -27,9 +27,6 @@ type InitialStateType = {
     currentPage: number
     isFetching: boolean
     followingInProgress: Array<number>
-    firstCurrentPage: number
-    lastCurrentPage: number
-    pageIncrement: number
 }
 
 let initialState : InitialStateType = {
@@ -39,9 +36,6 @@ let initialState : InitialStateType = {
     currentPage: 1,
     isFetching: false,
     followingInProgress: [],
-    firstCurrentPage: 1,
-    lastCurrentPage: 9,
-    pageIncrement: 9,
 };
 
 let usersReducer = (state = initialState, action : any) => {
@@ -148,7 +142,7 @@ export const requestUsers = (currentPage : number, pageSize : number) => {
     }
 }
 
-const followUnfollowUser = async (dispatch : AppDispatch, userId : number, apiMethod : Function, actionCreator : any) => {
+const followUnfollowUser = async (dispatch : AppDispatch, userId : number, apiMethod : any, actionCreator : any) => {
     dispatch(toggleFollowingInProgress(true, userId));
     try {
         const data = await apiMethod(userId)

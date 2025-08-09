@@ -1,14 +1,19 @@
 import {Field, Form, Formik} from "formik";
 import classes from "./MessageForm.module.css"
-import React, {memo} from "react";
+import React from "react";
 import MessageFormSchema from "../../FormValidation/MessageFormSchema";
 import {useDispatch} from "react-redux";
 import {addMessageActionCreator} from "../../../redux/dialogsReducer";
 
+interface MessageFormValues {
+    messageText: string;
+}
+
 const MessageForm = () => {
     const dispatch = useDispatch();
+    const initialValues: MessageFormValues = { messageText: '' };
     return (
-        <Formik initialValues={{messageText: ""}}
+        <Formik initialValues= {initialValues}
                 onSubmit={(values, actions) => {
                     dispatch(addMessageActionCreator(values.messageText))
                     actions.resetForm()

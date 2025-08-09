@@ -1,13 +1,18 @@
 import {Field, Form, Formik} from "formik";
 import classes from "./PostForm.module.css";
 import PostFormSchema from "../../../FormValidation/PostFormSchema";
-import {useDispatch} from "react-redux";
 import {addPostActionCreator} from "../../../../redux/profileReducer";
+import {useAppDispatch} from "../../../../hooks/redux";
+
+interface PostInitialValues {
+    postText: string
+}
 
 const PostForm = () => {
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
+    const initialValues : PostInitialValues = {postText: ""}
     return (
-        <Formik initialValues={{postText: ""}}
+        <Formik initialValues={initialValues}
                 onSubmit={(value, actions) => {
                     dispatch(addPostActionCreator(value.postText))
                     actions.resetForm();
