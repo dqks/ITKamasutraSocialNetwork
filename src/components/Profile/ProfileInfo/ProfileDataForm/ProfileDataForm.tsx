@@ -2,28 +2,39 @@ import classes from "./ProfileDataForm.module.css"
 import {Field, Form, Formik} from "formik";
 import React from "react";
 import profileDataFormSchema from "../../../FormValidation/ProfileDataFormSchema";
-import {useDispatch} from "react-redux";
-import {saveProfileData} from "../../../../redux/profileReducer";
+import {ProfileType, saveProfileData} from "../../../../redux/profileReducer";
+import {useAppDispatch} from "../../../../hooks/redux";
+
+interface InlineInputProps {
+    field: any
+    form: any
+    labeltext: string
+}
 
 const InlineInputComponent = ({
                                   field,
                                   form: {touched, errors},
                                   ...props
-                              }) => (
+                              } : InlineInputProps) => (
     <div className={classes.fieldWrapper}>
         <b><label htmlFor={field.name}>{props.labeltext}</label></b>
         <input {...field} {...props} />
     </div>
 );
 
-const propHelper = prop => !prop ? "" : prop
+const propHelper = (prop : string) => !prop ? "" : prop
 
-const ProfileDataForm = ({profile, setEditModeFalse}) => {
-    const dispatch = useDispatch();
+interface  ProfileDataFormProps {
+    profile: ProfileType
+    setEditModeFalse: any
+}
+
+const ProfileDataForm = ({profile, setEditModeFalse} : ProfileDataFormProps) => {
+    const dispatch = useAppDispatch();
     return (
         <Formik initialValues={{
             fullName: profile.fullName,
-            lookingForAJob: profile.lookingForAjob,
+            lookingForAJob: profile.lookingForAJob,
             lookingForAJobDescription: propHelper(profile.lookingForAJobDescription),
             aboutMe: propHelper(profile.aboutMe),
             facebook: propHelper(profile.contacts.facebook),

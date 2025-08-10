@@ -8,7 +8,9 @@ import {getAuthUserId} from "../../redux/authSelectors";
 import {getProfile} from "../../redux/profileSelectors";
 import {useAppDispatch, useAppSelector} from "../../hooks/redux";
 
-const Profile = () => {
+interface ProfileProps {}
+
+const Profile = ({} : ProfileProps) => {
     useAuth()
     const params = useParams();
     const authUserId = useAppSelector(getAuthUserId)
@@ -28,7 +30,6 @@ const Profile = () => {
             dispatch(setProfileActionCreator(null))
         }
     }, [params]);
-
 
     return <div>
             <ProfileInfo profile={profile}/>

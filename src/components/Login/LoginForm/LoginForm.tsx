@@ -8,6 +8,13 @@ import Captcha from "../Captcha/Captcha";
 import React, {useState} from "react";
 import {useAppDispatch, useAppSelector} from "../../../hooks/redux";
 
+type LoginInitialValues = {
+    email: string
+    password: string
+    rememberMe: boolean
+    generalError: string
+}
+
 const LoginForm = () => {
     const captchaURL = useAppSelector(getCaptchaURL);
     const dispatch = useAppDispatch();
@@ -18,15 +25,18 @@ const LoginForm = () => {
         setCaptchaValue(event.target.value);
     };
 
+    const initialValues : LoginInitialValues = {email: "", password: "", rememberMe: false, generalError: ""}
+
     return (
         <Formik
-            initialValues={{email: "", password: "", rememberMe: false, generalError: ""}}
+            initialValues={initialValues}
             validate={values => {
-
-                const errors = {email: ""};
+                const errors : Partial<Record<keyof LoginInitialValues, string>> = {};
                 if (!values.email) {
+                    console.log("email required");
                     errors.email = "Required"
                 } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)) {
+                    console.log("email Invalid");
                     errors.email = "Invalid email address";
                 }
                 return errors;
@@ -34,7 +44,8 @@ const LoginForm = () => {
             onSubmit={(values, {setFieldValue}) => {
                 dispatch(loginUser(values.email, values.password, values.rememberMe, setFieldValue, captchaValue));
             }}
-            validationSchema={LoginFormSchema}>
+            validationSchema={LoginFormSchema}
+        >
             {({values}) => {
                 return (
                     <Form>

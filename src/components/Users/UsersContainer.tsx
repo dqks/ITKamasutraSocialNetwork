@@ -12,7 +12,9 @@ import {
 } from "../../redux/usersSelectors";
 import {useAppDispatch, useAppSelector} from "../../hooks/redux";
 
-const UserContainerFC = () => {
+interface UserContainerProps {}
+
+const UserContainerFC = ({} : UserContainerProps) => {
     const dispatch = useAppDispatch();
     const users = useAppSelector(getUsers)
     const totalUsersCount = useAppSelector(getTotalUsersCount)

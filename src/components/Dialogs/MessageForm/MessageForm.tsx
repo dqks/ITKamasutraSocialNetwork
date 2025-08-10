@@ -2,15 +2,15 @@ import {Field, Form, Formik} from "formik";
 import classes from "./MessageForm.module.css"
 import React from "react";
 import MessageFormSchema from "../../FormValidation/MessageFormSchema";
-import {useDispatch} from "react-redux";
 import {addMessageActionCreator} from "../../../redux/dialogsReducer";
+import {useAppDispatch} from "../../../hooks/redux";
 
 interface MessageFormValues {
     messageText: string;
 }
 
 const MessageForm = () => {
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
     const initialValues: MessageFormValues = { messageText: '' };
     return (
         <Formik initialValues= {initialValues}

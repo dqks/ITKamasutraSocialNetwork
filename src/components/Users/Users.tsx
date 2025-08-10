@@ -7,9 +7,9 @@ import {User} from "../../redux/usersReducer";
 interface UsersProps {
     followingInProgress: Array<number>;
     users: Array<User>
-    onFollowButtonClick: Function
-    onUnfollowButtonClick: Function
-    onPageChanged: Function
+    onFollowButtonClick: (id: number) => void
+    onUnfollowButtonClick: (id: number) => void
+    onPageChanged: (page: number) => void
     currentPage: number
     totalUsersCount: number
     pageSize: number

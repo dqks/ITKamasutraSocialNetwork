@@ -1,6 +1,7 @@
-import {AppDispatch, RootState} from "./reduxStore";
+import {RootState} from "./reduxStore";
 import {PhotosType} from "../types/types";
 import {profileAPI} from "../api/profileAPI";
+import {ThunkAction} from "@reduxjs/toolkit";
 
 const ADD_POST = "profile/ADD_POST";
 const ADD_LIKE_BUTTON = "profile/ADD_LIKE_BUTTON";
@@ -34,7 +35,7 @@ export type ProfileType = {
     lookingForAJobDescription: string,
     aboutMe: string,
     contacts: ContactsType
-    photos : PhotosType
+    photos: PhotosType
 }
 
 type InitialStateType = {
@@ -53,7 +54,7 @@ let initialState: InitialStateType = {
     ],
 };
 
-const profileReducer = (state = initialState, action: any) => {
+const profileReducer = (state = initialState, action: ProfileActionsTypes)  => {
     switch (action.type) {
         case ADD_POST:
             let newPost = {
@@ -92,12 +93,15 @@ const profileReducer = (state = initialState, action: any) => {
                         large: action.photoUrl,
                         small: action.photoUrl
                     }
-                }
+                } as ProfileType
             }
         default:
             return state
     }
 }
+
+type ProfileActionsTypes = AddPostType | AddLikeButtonType | SetProfileType | ChangeStatusType | DeletePostType
+    | UpdateProfilePhotoType
 
 type AddPostType = {
     type: typeof ADD_POST
@@ -126,7 +130,7 @@ type DeletePostType = {
 
 type UpdateProfilePhotoType = {
     type: typeof UPDATE_PROFILE_PHOTO
-    photoUrl: string
+    photoUrl: string | null
 }
 
 //Action creators
@@ -136,25 +140,32 @@ export const addLikeButtonActionCreator = (postId: number)
     : AddLikeButtonType => ({type: ADD_LIKE_BUTTON, postId});
 export const setProfileActionCreator = (profile: ProfileType | null)
     : SetProfileType => ({type: SET_PROFILE, profile});
-export const changeStatusActionCreator = (status : string)
+export const changeStatusActionCreator = (status: string)
     : ChangeStatusType => ({type: CHANGE_STATUS, status});
-export const deletePost = (postId : number)
+export const deletePost = (postId: number)
     : DeletePostType => ({type: DELETE_POST, postId})
-export const updateProfilePhoto = (photoUrl : string)
+export const updateProfilePhoto = (photoUrl: string | null)
     : UpdateProfilePhotoType => ({type: UPDATE_PROFILE_PHOTO, photoUrl})
 
+type ProfileThunkAction<ReturnType = Promise<void>> = ThunkAction<
+    ReturnType,
+    RootState,
+    unknown,
+    ProfileActionsTypes
+>
+
 //Thunks
-export const getUserProfile = (userId: number | null) => {
-    return async (dispatch : AppDispatch) => {
+export const getUserProfile = (userId: number | null) : ProfileThunkAction => {
+    return async (dispatch) => {
         const response = await profileAPI.getUserProfile(userId);
         if (response.status === 200) {
-            dispatch(setProfileActionCreator(response.data as ProfileType));
+            dispatch(setProfileActionCreator(response.data));
         }
     }
 }
 
-export const setProfileStatus = (statusText : string) => {
-    return async (dispatch : AppDispatch) => {
+export const setProfileStatus = (statusText: string) : ProfileThunkAction => {
+    return async (dispatch) => {
         try {
             const response = await profileAPI.setProfileStatus(statusText);
             if (response.resultCode === 0) {
@@ -169,15 +180,15 @@ export const setProfileStatus = (statusText : string) => {
     }
 }
 
-export const getProfileStatus = (userId : number) => {
-    return async (dispatch : AppDispatch) => {
+export const getProfileStatus = (userId: number) : ProfileThunkAction => {
+    return async (dispatch) => {
         const data = await profileAPI.getProfileStatus(userId)
         dispatch(changeStatusActionCreator(data));
     }
 }
 
-export const setProfilePhoto = (photo : string) => {
-    return async (dispatch : AppDispatch) => {
+export const setProfilePhoto = (photo: string) : ProfileThunkAction => {
+    return async (dispatch) => {
         const response = await profileAPI.setProfilePhoto(photo);
         if (response.resultCode === 0) {
             dispatch(updateProfilePhoto(response.data.photos.large));
@@ -187,8 +198,8 @@ export const setProfilePhoto = (photo : string) => {
     }
 }
 
-export const saveProfileData = (data : any, setFieldValue : any, setEditModeFalse : any) => {
-    return async (dispatch : AppDispatch, getState : () => RootState) => {
+export const saveProfileData = (data: any, setFieldValue: any, setEditModeFalse: any) : ProfileThunkAction => {
+    return async (dispatch, getState) => {
         const payload = {
             fullName: data.fullName,
             lookingForAJob: data.lookingForAJob,

@@ -11,7 +11,7 @@ import {useAppSelector} from "../../../hooks/redux";
 import {ProfileType} from "../../../redux/profileReducer";
 
 interface ProfileInfoProps {
-    profile: ProfileType
+    profile: ProfileType | null
 }
 
 const ProfileInfo = ({profile} : ProfileInfoProps) => {

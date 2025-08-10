@@ -2,7 +2,7 @@ import classes from "./Paginator.module.css";
 import React, {memo, useEffect, useState} from "react";
 
 interface PaginatorProps {
-    onPageChanged: Function
+    onPageChanged: (page : number) => void
     totalUsersCount: number
     pageSize: number
     currentPage: number

@@ -1,34 +1,56 @@
 import {instance} from "./instance";
 import {ProfileType} from "../redux/profileReducer";
-import {AxiosResponse} from "axios";
+import {ResultCodes} from "./result-codes";
+import {PhotosType} from "../types/types";
+
+type SetProfileStatusResponse = {
+    data: {}
+    resultCode: ResultCodes
+    messages: string[]
+}
+
+type SetProfilePhotoResponse = {
+    data: {
+        photos: PhotosType
+    }
+    resultCode: ResultCodes
+    messages: string[]
+}
+
+type SetProfileDataResponse = {
+    data: {}
+    resultCode: ResultCodes
+    messages: string[]
+}
 
 export const profileAPI = {
-    getUserProfile(userId : number | null) : Promise<AxiosResponse<ProfileType>> {
-        return instance.get(`profile/` + userId);
+    getUserProfile(userId : number | null) {
+        return instance.get<ProfileType>(`profile/` + userId);
     },
 
-    setProfileStatus(statusText : string) {
-        return instance.put('profile/status', {status: statusText})
-            .then(response => response.data)
+    async setProfileStatus(statusText: string) {
+        let response = await instance.put<SetProfileStatusResponse>('profile/status', {status: statusText});
+        return response.data;
     },
 
-    getProfileStatus(userId : number) {
-        return instance.get(`profile/status/${userId}`)
-            .then(response => response.data);
+    async getProfileStatus(userId: number) {
+        let response = await instance.get<string>(`profile/status/${userId}`);
+        return response.data;
     },
 
-    setProfilePhoto(image : string) {
+    async setProfilePhoto(image: string) {
         let formData = new FormData();
         formData.append("image", image);
-        return instance.post(`profile/photo`, formData, {
+        let response = await instance.post<SetProfilePhotoResponse>(`profile/photo`, formData, {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }
-        }).then(response => response.data);
+        });
+        return response.data;
 
     },
-    saveProfileData(profile : ProfileType) {
-        return instance.put('/profile', profile)
-            .then(response => response.data);
+    async saveProfileData(profile: ProfileType) {
+        let response = await instance.put<SetProfileDataResponse>('/profile', profile);
+        return response.data;
     }
 }
