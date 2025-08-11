@@ -1,19 +1,32 @@
 import {instance} from "./instance";
+import {User} from "../redux/usersReducer";
+import {ResultCodes} from "./result-codes";
 
+type GetUsersResponse = {
+        items: Array<User>
+        totalCount: number
+        error: string | null
+}
+
+type FollowUnFollowResponse = {
+    resultCode: ResultCodes
+    messages: string[]
+    data: {}
+}
 
 export const usersAPI = {
-    getUsers(currentPage : number, pageSize : number) {
-        return instance.get(`users?page=${currentPage}&count=${pageSize}`)
-            .then(response => response.data)
+    async getUsers(currentPage: number, pageSize: number) {
+        let response = await instance.get<GetUsersResponse>(`users?page=${currentPage}&count=${pageSize}`);
+        return response.data;
     },
 
-    followUser(id : number) {
-        return instance.post(`follow/` + id)
-            .then(response => response.data)
+    async followUser(id: number) {
+        let response = await instance.post<FollowUnFollowResponse>(`follow/` + id);
+        return response.data;
     },
 
-    unfollowUser(id : number) {
-        return instance.delete(`follow/` + id)
-            .then(response => response.data)
+    async unfollowUser(id: number) {
+        let response = await instance.delete<FollowUnFollowResponse>(`follow/` + id);
+        return response.data;
     }
 }

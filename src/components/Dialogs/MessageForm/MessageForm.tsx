@@ -2,8 +2,8 @@ import {Field, Form, Formik} from "formik";
 import classes from "./MessageForm.module.css"
 import React from "react";
 import MessageFormSchema from "../../FormValidation/MessageFormSchema";
-import {addMessageActionCreator} from "../../../redux/dialogsReducer";
 import {useAppDispatch} from "../../../hooks/redux";
+import {addMessage} from "../../../redux/dialogsReducer";
 
 interface MessageFormValues {
     messageText: string;
@@ -15,7 +15,7 @@ const MessageForm = () => {
     return (
         <Formik initialValues= {initialValues}
                 onSubmit={(values, actions) => {
-                    dispatch(addMessageActionCreator(values.messageText))
+                    dispatch(addMessage(values.messageText))
                     actions.resetForm()
                 }}
                 validateOnBlur={false}

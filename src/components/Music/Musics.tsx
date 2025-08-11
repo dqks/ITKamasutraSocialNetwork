@@ -3,6 +3,7 @@ import React from "react";
 import MusicItem from "./MusicItem/MusicItem";
 import {getTracks} from "../../redux/musicSelector";
 import {useAppSelector} from "../../hooks/redux";
+import {Track} from "../../redux/musicReducer";
 
 interface MusicProps {}
 
@@ -17,7 +18,7 @@ const Musics = ({} : MusicProps) => {
             </div>
             <div className={classes.musicWrapper}>
                 {
-                    tracks.map(track => <MusicItem key={track.id} logo={track.logo} name={track.name}
+                    tracks.map((track : Track) => <MusicItem key={track.id} logo={track.logo} name={track.name}
                                                           singer={track.singer} src={track.src}/>)
                 }
             </div>

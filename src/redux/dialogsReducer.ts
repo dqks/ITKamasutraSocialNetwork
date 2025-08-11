@@ -1,11 +1,11 @@
-const ADD_MESSAGE = "dialogs/ADD_MESSAGE"
+import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 
-type DialogType = {
+export type DialogType = {
     name: string,
     id: number
 }
 
-type MessageType = {
+export type MessageType = {
     message: string
     id: number
 }
@@ -15,7 +15,7 @@ type InitialStateType = {
     messages: Array<MessageType>,
 }
 
-let initialState : InitialStateType = {
+let initialState: InitialStateType = {
     dialogs: [
         {id: 1, name: "Dimych"},
         {id: 2, name: "Andrey"},
@@ -33,26 +33,19 @@ let initialState : InitialStateType = {
     ],
 }
 
-const dialogsReducer = (state = initialState, action : DialogsActionTypes) => {
-    switch (action.type) {
-        case ADD_MESSAGE:
+const dialogsReducer = createSlice({
+    name: "dialogsReducer",
+    initialState,
+    reducers: {
+        addMessage: (state, action: PayloadAction<string>) => {
             let newMessage = {
                 id: Number(state.messages[state.messages.length - 1].id) + 1,
-                message: action.messageText,
+                message: action.payload,
             }
-            return {...state, messages: [...state.messages, newMessage]};
-        default:
-            return state;
+            state.messages.push(newMessage)
+        }
     }
-}
+})
 
-type DialogsActionTypes = AddMessageType
-
-type AddMessageType = {
-    type: typeof ADD_MESSAGE
-    messageText: string
-}
-
-export const addMessageActionCreator = (messageText : string) => ({type: ADD_MESSAGE, messageText})
-
-export default dialogsReducer;
+export const {addMessage} = dialogsReducer.actions;
+export default dialogsReducer.reducer;

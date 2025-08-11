@@ -6,19 +6,24 @@ import {ProfileType, saveProfileData} from "../../../../redux/profileReducer";
 import {useAppDispatch} from "../../../../hooks/redux";
 
 interface InlineInputProps {
-    field: any
-    form: any
+    field: {
+        name: string;
+        value: string;
+        onChange: any
+        onBlur: any
+    }
+    type: string
     labeltext: string
 }
 
 const InlineInputComponent = ({
                                   field,
-                                  form: {touched, errors},
-                                  ...props
+                                  type,
+                                  labeltext
                               } : InlineInputProps) => (
     <div className={classes.fieldWrapper}>
-        <b><label htmlFor={field.name}>{props.labeltext}</label></b>
-        <input {...field} {...props} />
+        <b><label htmlFor={field.name}>{labeltext}</label></b>
+        <input {...field} type={type} />
     </div>
 );
 
@@ -29,31 +34,49 @@ interface  ProfileDataFormProps {
     setEditModeFalse: any
 }
 
+export type ProfileDataInitialValues = {
+    fullName: string
+    lookingForAJob: boolean
+    lookingForAJobDescription: string
+    aboutMe: string
+    facebook: string
+    website: string
+    vk: string
+    twitter: string
+    instagram: string
+    youtube: string
+    github: string
+    mainLink: string
+    errorMessage: string
+}
+
 const ProfileDataForm = ({profile, setEditModeFalse} : ProfileDataFormProps) => {
     const dispatch = useAppDispatch();
+    const initialValues : ProfileDataInitialValues = {
+        fullName: profile.fullName,
+        lookingForAJob: profile.lookingForAJob,
+        lookingForAJobDescription: propHelper(profile.lookingForAJobDescription),
+        aboutMe: propHelper(profile.aboutMe),
+        facebook: propHelper(profile.contacts.facebook),
+        website: propHelper(profile.contacts.website),
+        vk: propHelper(profile.contacts.vk),
+        twitter: propHelper(profile.contacts.twitter),
+        instagram:propHelper(profile.contacts.instagram),
+        youtube: propHelper(profile.contacts.youtube),
+        github: propHelper(profile.contacts.github),
+        mainLink: propHelper(profile.contacts.mainLink),
+        errorMessage: "",
+    }
     return (
-        <Formik initialValues={{
-            fullName: profile.fullName,
-            lookingForAJob: profile.lookingForAJob,
-            lookingForAJobDescription: propHelper(profile.lookingForAJobDescription),
-            aboutMe: propHelper(profile.aboutMe),
-            facebook: propHelper(profile.contacts.facebook),
-            website: propHelper(profile.contacts.website),
-            vk: propHelper(profile.contacts.vk),
-            twitter: propHelper(profile.contacts.twitter),
-            instagram:propHelper(profile.contacts.instagram),
-            youtube: propHelper(profile.contacts.youtube),
-            github: propHelper(profile.contacts.github),
-            mainLink: propHelper(profile.contacts.mainLink),
-            errorMessage: "",
-        }}
+        <Formik
+            initialValues={initialValues}
                 onSubmit={(values, {setFieldValue}) => {
                     dispatch(saveProfileData(values, setFieldValue, setEditModeFalse));
                 }}
                 validateOnBlur={false}
                 validateOnChange={true}
                 validationSchema={profileDataFormSchema}>
-            {({errors, values}) => {
+            {({values}) => {
                 return (
                     <Form>
                         <Field labeltext={"Name:"} component={InlineInputComponent} type="text" name="fullName"/>

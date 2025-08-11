@@ -1,8 +1,12 @@
 import {instance} from "./instance";
 
+type GetCaptchaResponse = {
+    url: string;
+}
+
 export const securityAPI = {
-    getCaptchaURL() {
-        return instance.get('/security/get-captcha-url')
-            .then(response => response.data);
+    async getCaptchaURL() {
+        let response = await instance.get<GetCaptchaResponse>('/security/get-captcha-url');
+        return response.data;
     },
 }

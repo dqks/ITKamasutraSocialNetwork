@@ -87,7 +87,7 @@ export const getAuthUser = () : AuthThunkAction => {
 export const loginUser = (email: string,
                           password: string,
                           rememberMe: boolean,
-                          setFieldValue: Function,
+                          setFieldValue: (field: string, value: any, shouldValidate?: boolean) => void,
                           captchaValue = "") : AuthThunkAction => {
     return async (dispatch, getState) => {
         const hasCaptcha = getState().auth.captchaUrl;

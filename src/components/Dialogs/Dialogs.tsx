@@ -5,19 +5,21 @@ import {useAuth} from "../../hooks/useAuth";
 import MessageForm from "./MessageForm/MessageForm";
 import {getDialogs, getMessages} from "../../redux/dialogsSelectors";
 import {useAppSelector} from "../../hooks/redux";
+import {DialogType, MessageType} from "../../redux/dialogsReducer";
 
 interface DialogProps {}
 
 const Dialogs = ({} : DialogProps) => {
     useAuth();
-    const dialogs = useAppSelector(getDialogs);
-    const messages = useAppSelector(getMessages);
 
+    const dialogs = useAppSelector(getDialogs);
+
+    const messages = useAppSelector(getMessages);
     const dialogsArr = dialogs
-        .map(el => <DialogItem name={el.name} key={el.id} id={el.id}/>)
+        .map((el : DialogType) => <DialogItem name={el.name} key={el.id} id={el.id}/>)
 
     const messagesArr = messages
-        .map(el => <Message key={el.id} message={el.message}/>)
+        .map((el : MessageType) => <Message key={el.id} message={el.message}/>)
 
     return (
         <div className={classes.dialogs}>

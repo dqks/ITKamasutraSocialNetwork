@@ -8,7 +8,7 @@ import Captcha from "../Captcha/Captcha";
 import React, {useState} from "react";
 import {useAppDispatch, useAppSelector} from "../../../hooks/redux";
 
-type LoginInitialValues = {
+export type LoginInitialValues = {
     email: string
     password: string
     rememberMe: boolean
@@ -49,11 +49,10 @@ const LoginForm = () => {
             {({values}) => {
                 return (
                     <Form>
-                        <Field labeltext={"E-mail"} component={BlockInputComponent} type="text" name="email" id="email"
+                        <Field labeltext={"E-mail"} component={BlockInputComponent} type="text" name="email"
                                size={30}/>
                         <Field labeltext={"Password"} autoComplete="on" component={BlockInputComponent} type="password"
                                name="password"
-                               id="password"
                                size={30}/>
                         <div>
                             <Field type="checkbox" name="rememberMe" id="rememberMe"/>

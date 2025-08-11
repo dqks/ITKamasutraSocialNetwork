@@ -2,6 +2,7 @@ import {RootState} from "./reduxStore";
 import {PhotosType} from "../types/types";
 import {profileAPI} from "../api/profileAPI";
 import {ThunkAction} from "@reduxjs/toolkit";
+import {ProfileDataInitialValues} from "../components/Profile/ProfileInfo/ProfileDataForm/ProfileDataForm";
 
 const ADD_POST = "profile/ADD_POST";
 const ADD_LIKE_BUTTON = "profile/ADD_LIKE_BUTTON";
@@ -10,7 +11,7 @@ const CHANGE_STATUS = "profile/CHANGE_STATUS";
 const DELETE_POST = "profile/DELETE_POST";
 const UPDATE_PROFILE_PHOTO = "profile/UPDATE_PROFILE_PHOTO";
 
-type PostType = {
+export type PostType = {
     id: number,
     message: string
     likeCount: number
@@ -198,7 +199,9 @@ export const setProfilePhoto = (photo: string) : ProfileThunkAction => {
     }
 }
 
-export const saveProfileData = (data: any, setFieldValue: any, setEditModeFalse: any) : ProfileThunkAction => {
+export const saveProfileData = (data: ProfileDataInitialValues,
+                                setFieldValue: (field: string, value: any, shouldValidate?: boolean) => void,
+                                setEditModeFalse: () => void) : ProfileThunkAction => {
     return async (dispatch, getState) => {
         const payload = {
             fullName: data.fullName,

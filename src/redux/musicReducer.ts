@@ -1,6 +1,6 @@
 // const SAVE_MUSIC_TIMECODE = "music/SAVE-MUSIC-TIMECODE"
 
-type Track = {
+export type Track = {
     id: string
     logo: string
     name: string

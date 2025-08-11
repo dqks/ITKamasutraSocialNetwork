@@ -1,10 +1,10 @@
-type Friend = {
+export type FriendType = {
     name: string,
     id: number,
 }
 
 type InitialStateType = {
-    friends: Array<Friend>
+    friends: Array<FriendType>
 }
 
 let initialState : InitialStateType = {
