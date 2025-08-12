@@ -1,23 +1,14 @@
 import {instance} from "./instance";
 import {ResultCodeForCaptcha, ResultCodes} from "./result-codes";
+import {ResponseType} from "./reponse-type";
 
-type CheckAuthResponseType = {
-    resultCode: ResultCodes
-    messages: string[];
-    data: {
-        id: number
-        email: string
-        login: string
-    }
-}
+type CheckAuthResponseType = ResponseType<{
+    id: number
+    email: string
+    login: string
+}, null>
 
-type LoginResponseType = {
-    resultCode: ResultCodes | ResultCodeForCaptcha
-    messages: string[]
-    data: {
-        userId: number
-    }
-}
+type LoginResponseType = ResponseType<{userId: number}, ResultCodes & ResultCodeForCaptcha>
 
 type LogoutResponseType = {
     resultCode: ResultCodes

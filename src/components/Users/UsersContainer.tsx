@@ -1,4 +1,4 @@
-import {followUser, requestUsers, unfollowUser} from "../../redux/usersReducer";
+import {followUser, followUserThunk, requestUsers, unfollowUser, unfollowUserThunk} from "../../redux/usersReducer";
 import React, {useCallback, useEffect} from "react";
 import Users from "./Users";
 import Preloader from "../Common/Preloader/Preloader";
@@ -32,11 +32,11 @@ const UserContainerFC = ({} : UserContainerProps) => {
     }, [currentPage])
 
     const onFollowButtonClick = (id: number) => {
-        dispatch(followUser(id));
+        dispatch(followUserThunk(id));
     }
 
     const onUnfollowButtonClick = (id: number) => {
-        dispatch(unfollowUser(id));
+        dispatch(unfollowUserThunk(id));
     }
 
     return (

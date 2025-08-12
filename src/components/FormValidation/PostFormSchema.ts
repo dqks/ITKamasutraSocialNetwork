@@ -1,6 +1,10 @@
 import * as Yup from 'yup';
 
-const postFormSchema = Yup.object().shape({
+interface PostData {
+    postText: string
+}
+
+const postFormSchema : Yup.ObjectSchema<PostData> = Yup.object().shape({
     postText: Yup.string()
         .required("Required"),
 })

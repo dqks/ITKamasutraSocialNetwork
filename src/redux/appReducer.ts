@@ -1,6 +1,6 @@
 import {getAuthUser} from "./authReducer";
-import {ActionsTypes, RootState} from "./reduxStore";
-import {createSlice, ThunkAction} from "@reduxjs/toolkit";
+import {ActionsTypes, ThunkActionType} from "./reduxStore";
+import {createSlice} from "@reduxjs/toolkit";
 
 export interface InitialStateType {
     initialized: boolean
@@ -20,14 +20,9 @@ const appReducer = createSlice({
     }
 })
 
-type Actions = ActionsTypes<typeof appReducer.actions> // all action types
+type AppActionsTypes = ActionsTypes<typeof appReducer.actions> // all action types
 
-type AppThunk<ReturnType = Promise<void>> = ThunkAction< // creating type for thunks
-    ReturnType,
-    RootState,
-    unknown,
-    Actions
->
+type AppThunk = ThunkActionType<AppActionsTypes>
 
 export const initializeApp = () : AppThunk => {
     return async (dispatch) => {

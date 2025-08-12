@@ -1,7 +1,7 @@
-import {ActionsTypes, RootState} from "./reduxStore";
+import {ActionsTypes, ThunkActionType} from "./reduxStore";
 import {authAPI} from "../api/authAPI";
 import {securityAPI} from "../api/securityAPI";
-import {createSlice, PayloadAction, ThunkAction} from "@reduxjs/toolkit";
+import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {ResultCodeForCaptcha, ResultCodes} from "../api/result-codes";
 
 type InitialStateType = {
@@ -45,12 +45,7 @@ const authReducer = createSlice({
 })
 type AuthActionsTypes = ActionsTypes<typeof authReducer.actions>
 
-type AuthThunkAction<ReturnType = Promise<void>> = ThunkAction<
-    ReturnType,
-    RootState,
-    unknown,
-    AuthActionsTypes
->
+type AuthThunkAction = ThunkActionType<AuthActionsTypes>
 
 export const getAuthUser = () : AuthThunkAction => {
     return async (dispatch) => {

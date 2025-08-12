@@ -1,27 +1,13 @@
 import {instance} from "./instance";
 import {ProfileType} from "../redux/profileReducer";
-import {ResultCodes} from "./result-codes";
 import {PhotosType} from "../types/types";
+import {ResponseType} from "./reponse-type";
 
-type SetProfileStatusResponse = {
-    data: {}
-    resultCode: ResultCodes
-    messages: string[]
-}
+type SetProfileStatusResponse = ResponseType<string>
 
-type SetProfilePhotoResponse = {
-    data: {
-        photos: PhotosType
-    }
-    resultCode: ResultCodes
-    messages: string[]
-}
+type SetProfilePhotoResponse = ResponseType<{photos: PhotosType}>
 
-type SetProfileDataResponse = {
-    data: {}
-    resultCode: ResultCodes
-    messages: string[]
-}
+type SetProfileDataResponse = ResponseType<ProfileType>
 
 export const profileAPI = {
     getUserProfile(userId : number | null) {

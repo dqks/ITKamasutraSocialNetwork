@@ -1,5 +1,5 @@
-import {combineReducers} from "redux"
-import {configureStore} from '@reduxjs/toolkit'
+import {Action, combineReducers} from "redux"
+import {configureStore, ThunkAction} from '@reduxjs/toolkit'
 import dialogsReducer from "./dialogsReducer";
 import friendsPageReducer from "./friendsPageReducer";
 import profileReducer from "./profileReducer";
@@ -28,6 +28,8 @@ export type AppDispatch = AppStore['dispatch'];
 
 type PropertiesTypes<T> = T extends {[key: string]: infer U} ? U : never;
 export type ActionsTypes<T extends {[key: string]: (...args: any[]) => any}> = ReturnType<PropertiesTypes<T>>
+
+export type ThunkActionType<A extends Action> = ThunkAction<Promise<void>, RootState, unknown, A>
 
 
 declare global {

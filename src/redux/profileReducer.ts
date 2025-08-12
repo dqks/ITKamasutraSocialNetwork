@@ -1,7 +1,7 @@
-import {ActionsTypes, RootState} from "./reduxStore";
+import {ActionsTypes, ThunkActionType} from "./reduxStore";
 import {PhotosType} from "../types/types";
 import {profileAPI} from "../api/profileAPI";
-import {createSlice, PayloadAction, ThunkAction} from "@reduxjs/toolkit";
+import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {ProfileDataInitialValues} from "../components/Profile/ProfileInfo/ProfileDataForm/ProfileDataForm";
 
 export type PostType = {
@@ -32,13 +32,13 @@ export type ProfileType = {
     photos: PhotosType
 }
 
-type InitialStateType = {
+export type ProfileInitialStateType = {
     profileStatus: string
     profile: ProfileType | null
     postData: Array<PostType>
 }
 
-let initialState: InitialStateType = {
+let initialState: ProfileInitialStateType = {
     profileStatus: '',
     profile: null,
     postData: [
@@ -75,10 +75,15 @@ const profileReducer = createSlice({
         deletePost: (state, action: PayloadAction<number>) => {
             state.postData.filter(el => el.id !== action.payload)
         },
-        updateProfilePhoto: (state, action: PayloadAction<string | null>) => {
-            if (state.profile) {
-                state.profile.photos.small = action.payload;
-                state.profile.photos.large = action.payload;
+        updateProfilePhoto: {
+            reducer: (state, action: PayloadAction<{small : string | null, large: string | null}>) => {
+                if (state.profile) {
+                    state.profile.photos.small = action.payload.small;
+                    state.profile.photos.large = action.payload.large;
+                }
+            },
+            prepare: (small : string | null, large: string | null) => {
+                return {payload: {small, large}}
             }
         }
     }
@@ -86,12 +91,7 @@ const profileReducer = createSlice({
 
 type ProfileActionsTypes = ActionsTypes<typeof profileReducer.actions>
 
-type ProfileThunkAction<ReturnType = Promise<void>> = ThunkAction<
-    ReturnType,
-    RootState,
-    unknown,
-    ProfileActionsTypes
->
+type ProfileThunkAction = ThunkActionType<ProfileActionsTypes>
 
 //Thunks
 export const getUserProfile = (userId: number | null): ProfileThunkAction => {
@@ -130,7 +130,7 @@ export const setProfilePhoto = (photo: string): ProfileThunkAction => {
     return async (dispatch) => {
         const response = await profileAPI.setProfilePhoto(photo);
         if (response.resultCode === 0) {
-            dispatch(updateProfilePhoto(response.data.photos.large));
+            dispatch(updateProfilePhoto(response.data.photos.small, response.data.photos.large));
         } else {
             console.error("Unable to change photo", response.messages)
         }

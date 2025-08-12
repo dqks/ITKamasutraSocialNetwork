@@ -1,7 +1,7 @@
-import profileReducer, {addPostActionCreator, deletePost} from "./profileReducer";
+import profileReducer, {addPost, deletePost, ProfileInitialStateType} from "./profileReducer";
 
-let state = {
-    profileStatus: null,
+let state : ProfileInitialStateType = {
+    profileStatus: "",
     profile: null,
     postData: [
         {id: 1, message: "Hi, how are you?", likeCount: 10},
@@ -12,7 +12,7 @@ let state = {
 
 it("length of postData should be incremented", () => {
     //test data
-    let action = addPostActionCreator("Test post");
+    let action = addPost("Test post");
     //action
     let newState = profileReducer(state, action);
     //expectation
@@ -22,7 +22,7 @@ it("length of postData should be incremented", () => {
 
 it("message of new post should be Test post", () => {
     //test data
-    let action = addPostActionCreator("Test post");
+    let action = addPost("Test post");
     //action
     let newState = profileReducer(state, action);
     //expectation
