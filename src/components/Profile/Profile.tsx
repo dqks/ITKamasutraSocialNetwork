@@ -1,7 +1,7 @@
 import ProfileInfo from "./ProfileInfo/ProfileInfo"
 import React, {useEffect} from "react";
 import MyPosts from "./MyPosts/MyPosts";
-import {getProfileStatus, getUserProfile, setProfileActionCreator} from "../../redux/profileReducer";
+import {getProfileStatus, getUserProfile, setProfile} from "../../redux/profileReducer";
 import {useParams} from "react-router-dom";
 import {useAuth} from "../../hooks/useAuth";
 import {getAuthUserId} from "../../redux/authSelectors";
@@ -27,7 +27,7 @@ const Profile = ({} : ProfileProps) => {
             dispatch(getProfileStatus(userId))
         }
         return () => {
-            dispatch(setProfileActionCreator(null))
+            dispatch(setProfile(null))
         }
     }, [params]);
 

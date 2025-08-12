@@ -1,9 +1,9 @@
 import {instance} from "./instance";
-import {User} from "../redux/usersReducer";
+import {UserType} from "../redux/usersReducer";
 import {ResultCodes} from "./result-codes";
 
 type GetUsersResponse = {
-        items: Array<User>
+        items: Array<UserType>
         totalCount: number
         error: string | null
 }

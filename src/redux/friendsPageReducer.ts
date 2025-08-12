@@ -1,3 +1,5 @@
+import {createSlice} from "@reduxjs/toolkit";
+
 export type FriendType = {
     name: string,
     id: number,
@@ -18,11 +20,11 @@ let initialState : InitialStateType = {
     ]
 }
 
-const friendsPageReducer = (state = initialState, action : any) => {
-    switch (action.type) {
-        default:
-            return state;
-    }
-}
+const friendsPageReducer = createSlice({
+    name: "friendsPageReducer",
+    initialState,
+    reducers: {}
+})
 
-export default friendsPageReducer;
+export const {} = friendsPageReducer.actions;
+export default friendsPageReducer.reducer;

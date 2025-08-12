@@ -1,4 +1,4 @@
-// const SAVE_MUSIC_TIMECODE = "music/SAVE-MUSIC-TIMECODE"
+import {createSlice} from "@reduxjs/toolkit";
 
 export type Track = {
     id: string
@@ -31,11 +31,11 @@ const initialState : InitialStateType = {
     ],
 };
 
-const musicReducer = (state = initialState, action: any) => {
-    switch (action.type) {
-        default:
-            return state;
-    }
-}
+const musicReducer = createSlice({
+    name: "musicReducer",
+    initialState,
+    reducers: {}
+})
 
-export default musicReducer;
+export const {} = musicReducer.actions;
+export default musicReducer.reducer;

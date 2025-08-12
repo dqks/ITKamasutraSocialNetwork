@@ -8,10 +8,10 @@ import React, {Suspense, useEffect} from "react";
 import FriendsPage from "./components/FriendsPage/FriendsPage";
 import {initializeApp} from "./redux/appReducer";
 import Preloader from "./components/Common/Preloader/Preloader";
-import {getInitialized} from "./redux/appSelectors";
 import {routes} from "./constants/routes";
 import Profile from "./components/Profile/Profile";
 import {useAppDispatch, useAppSelector} from "./hooks/redux";
+import {getInitialized} from "./redux/appSelectors";
 
 const Dialogs = React.lazy(() => import("./components/Dialogs/Dialogs"));
 const Login = React.lazy(() => import("./components/Login/Login"));

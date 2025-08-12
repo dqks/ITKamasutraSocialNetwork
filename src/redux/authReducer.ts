@@ -1,12 +1,8 @@
-import {RootState} from "./reduxStore";
+import {ActionsTypes, RootState} from "./reduxStore";
 import {authAPI} from "../api/authAPI";
 import {securityAPI} from "../api/securityAPI";
-import {ThunkAction} from "@reduxjs/toolkit";
+import {createSlice, PayloadAction, ThunkAction} from "@reduxjs/toolkit";
 import {ResultCodeForCaptcha, ResultCodes} from "../api/result-codes";
-
-const SET_USER_DATA = "auth/SET_USER_DATA";
-const DELETE_USER_DATA = "auth/DELETE_USER_DATA";
-const SET_CAPTCHA_URL = "auth/SET_CAPTCHA_URL";
 
 type InitialStateType = {
     id: number | null,
@@ -26,47 +22,28 @@ let initialState: InitialStateType = {
     captchaUrl: null,
 };
 
-const authReducer = (state = initialState, action: AuthActionsTypes): InitialStateType => {
-    switch (action.type) {
-        case SET_USER_DATA:
-            return {...state, ...action.data, isAuth: true};
-        case DELETE_USER_DATA:
-            return {...state, id: null, email: null, login: null, isAuth: false};
-        case SET_CAPTCHA_URL:
-            return {...state, captchaUrl: action.url}
-        default:
-            return state;
+const authReducer = createSlice({
+    name: "authReducer",
+    initialState,
+    reducers: {
+        setUserData: (state, action : PayloadAction<{ id: number, email: string, login: string }>) => {
+            state.isAuth = true;
+            state.id = action.payload.id
+            state.email = action.payload.email
+            state.login = action.payload.login
+        },
+        deleteUserData: (state) => {
+            state.isAuth = false;
+            state.id = null
+            state.email = null
+            state.login = null
+        },
+        setCaptchaUrl: (state, action: PayloadAction<string>) => {
+            state.captchaUrl = action.payload
+        }
     }
-}
-
-type AuthActionsTypes = SetUserDataType | DeleteUserDataType | SetCaptchaDataType
-
-type UserDataType = {
-    id: number,
-    login: string,
-    email: string
-}
-
-export type SetUserDataType = {
-    type: typeof SET_USER_DATA
-    data: UserDataType
-}
-
-type DeleteUserDataType = {
-    type: typeof DELETE_USER_DATA
-}
-
-type SetCaptchaDataType = {
-    type: typeof SET_CAPTCHA_URL
-    url: string
-}
-
-export const setUserDataActionCreator = (data: UserDataType)
-    : SetUserDataType => ({type: SET_USER_DATA, data});
-export const deleteUserDataActionCreator = ()
-    : DeleteUserDataType => ({type: DELETE_USER_DATA})
-export const setCaptchaURL = (url: string)
-    : SetCaptchaDataType => ({type: SET_CAPTCHA_URL, url})
+})
+type AuthActionsTypes = ActionsTypes<typeof authReducer.actions>
 
 type AuthThunkAction<ReturnType = Promise<void>> = ThunkAction<
     ReturnType,
@@ -79,7 +56,7 @@ export const getAuthUser = () : AuthThunkAction => {
     return async (dispatch) => {
         const data = await authAPI.checkAuth();
         if (data.resultCode === ResultCodes.Success) {
-            dispatch(setUserDataActionCreator(data.data));
+            dispatch(setUserData(data.data));
         }
     }
 }
@@ -101,8 +78,8 @@ export const loginUser = (email: string,
                 authAPI.checkAuth()
                     .then(data => {
                         if (data.resultCode === ResultCodes.Success) {
-                            dispatch(setUserDataActionCreator(data.data));
-                            if (hasCaptcha) dispatch(setCaptchaURL(""));
+                            dispatch(setUserData(data.data));
+                            if (hasCaptcha) dispatch(setCaptchaUrl(""));
                         }
                     })
             } else {
@@ -124,7 +101,7 @@ export const logoutUser = () : AuthThunkAction => {
             const response = await authAPI.logout();
             debugger
             if (response.data.resultCode === 0) {
-                dispatch(deleteUserDataActionCreator())
+                dispatch(deleteUserData())
             } else {
                 console.error("Unable to log out", response.data.messages);
             }
@@ -137,8 +114,9 @@ export const logoutUser = () : AuthThunkAction => {
 export const getCaptchaURL = () : AuthThunkAction => {
     return async (dispatch) => {
         const response = await securityAPI.getCaptchaURL();
-        dispatch(setCaptchaURL(response.url));
+        dispatch(setCaptchaUrl(response.url));
     }
 }
 
-export default authReducer;
+export const {setUserData, deleteUserData, setCaptchaUrl} = authReducer.actions;
+export default authReducer.reducer;

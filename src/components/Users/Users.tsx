@@ -2,11 +2,11 @@ import React from "react";
 import UserItem from "./UserItem/UserItem";
 import classes from './Users.module.css'
 import Paginator from "../Common/Paginator/Paginator";
-import {User} from "../../redux/usersReducer";
+import {UserType} from "../../redux/usersReducer";
 
 interface UsersProps {
     followingInProgress: Array<number>;
-    users: Array<User>
+    users: Array<UserType>
     onFollowButtonClick: (id: number) => void
     onUnfollowButtonClick: (id: number) => void
     onPageChanged: (page: number) => void

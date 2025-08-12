@@ -1,7 +1,7 @@
 import classes from "./MyPosts.module.css"
 import Post from "./Post/Post"
 import React from "react";
-import {addLikeButtonActionCreator, PostType,} from "../../../redux/profileReducer";
+import {addLike, PostType,} from "../../../redux/profileReducer";
 import PostForm from "./PostForm/PostForm";
 import {getPostData} from "../../../redux/profileSelectors";
 import {useAppDispatch, useAppSelector} from "../../../hooks/redux";
@@ -14,7 +14,7 @@ const MyPosts = ({} : MyPostProps) => {
     const dispatch = useAppDispatch();
 
     const likeButtonClick = (postId : number) => {
-        dispatch(addLikeButtonActionCreator(postId))
+        dispatch(addLike(postId))
     }
 
     let postArr = posts.map((el : PostType) => <Post key={el.id} likeButtonClick={likeButtonClick} message={el.message}

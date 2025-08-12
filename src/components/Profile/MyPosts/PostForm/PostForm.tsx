@@ -1,7 +1,7 @@
 import {Field, Form, Formik} from "formik";
 import classes from "./PostForm.module.css";
 import PostFormSchema from "../../../FormValidation/PostFormSchema";
-import {addPostActionCreator} from "../../../../redux/profileReducer";
+import {addPost} from "../../../../redux/profileReducer";
 import {useAppDispatch} from "../../../../hooks/redux";
 
 interface PostInitialValues {
@@ -14,7 +14,7 @@ const PostForm = () => {
     return (
         <Formik initialValues={initialValues}
                 onSubmit={(value, actions) => {
-                    dispatch(addPostActionCreator(value.postText))
+                    dispatch(addPost(value.postText))
                     actions.resetForm();
                 }}
                 validateOnBlur={false}
