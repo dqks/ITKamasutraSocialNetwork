@@ -8,7 +8,8 @@ interface PaginatorProps {
     pageSize: number
     currentPage: number
     portionSize: number
-    setCurrentPage: ActionCreatorWithPayload<number, "usersReducer/setCurrentPage">
+    setCurrentPage: (page : number) => void // action creator
+
 }
 
 const Paginator = ({
@@ -18,8 +19,6 @@ const Paginator = ({
     portionSize,
     setCurrentPage
 }: PaginatorProps) => {
-    const dispatch = useAppDispatch();
-
     useEffect(() => {
         setCurrentPortion(Math.ceil(currentPage / portionSize))
     }, [currentPage]);
@@ -59,7 +58,7 @@ const Paginator = ({
             {pages
             .filter((page) => page <= totalPageAmount)
             .map(page => <span key={page}
-                onClick={() => dispatch(setCurrentPage(page))}
+                onClick={() => setCurrentPage(page)}
                 className={[currentPage === page && classes.selectedPage, classes.pageNumber].join(' ')}>{page}</span>)}
             {currentPortion === portionCount
                 ? null

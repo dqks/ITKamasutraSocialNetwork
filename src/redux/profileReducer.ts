@@ -78,7 +78,7 @@ const profileReducer = createSlice({
         },
         deletePost: (state,
             action: PayloadAction<number>) => {
-            state.postData.filter(el => el.id !== action.payload)
+            state.postData = state.postData.filter(el => el.id !== action.payload)
         },
         updateProfilePhoto: {
             reducer: (state,

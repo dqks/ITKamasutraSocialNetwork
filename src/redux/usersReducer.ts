@@ -7,13 +7,13 @@ import {createSlice, PayloadAction, ThunkDispatch} from "@reduxjs/toolkit";
 export type UserType = {
     name: string,
     id: number,
-    uniqueUrlName: null
+    uniqueUrlName: string | null
     photos: PhotosType
     status: string | null
     followed: boolean
 }
 
-type InitialStateType = {
+export type UsersInitialStateType = {
     users: Array<UserType>
     pageSize: number
     totalUsersCount: number
@@ -23,7 +23,7 @@ type InitialStateType = {
     followingInProgress: Array<number>
 }
 
-let initialState: InitialStateType = {
+let initialState: UsersInitialStateType = {
     users: [],
     pageSize: 5,
     totalUsersCount: 0,

@@ -1,14 +1,18 @@
 import profileReducer, {addPost, deletePost, ProfileInitialStateType} from "./profileReducer";
 
-let state : ProfileInitialStateType = {
-    profileStatus: "",
-    profile: null,
-    postData: [
-        {id: 1, message: "Hi, how are you?", likeCount: 10},
-        {id: 2, message: "It's my first post", likeCount: 0},
-        {id: 3, message: "It", likeCount: 0},
-    ],
-};
+let state: ProfileInitialStateType;
+
+beforeEach(() => {
+    state = {
+        profileStatus: "",
+        profile: null,
+        postData: [
+            {id: 1, message: "Hi, how are you?", likeCount: 10},
+            {id: 2, message: "It's my first post", likeCount: 0},
+            {id: 3, message: "It", likeCount: 0},
+        ],
+    };
+})
 
 it("length of postData should be incremented", () => {
     //test data

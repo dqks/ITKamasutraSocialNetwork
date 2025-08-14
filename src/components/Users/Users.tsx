@@ -1,9 +1,10 @@
-import React from "react";
+import React, {useCallback} from "react";
 import UserItem from "./UserItem/UserItem";
 import classes from './Users.module.css'
 import Paginator from "../Common/Paginator/Paginator";
 import {setCurrentPage, UserType} from "../../redux/usersReducer";
 import SearchUserForm from "./SearchUserForm/SearchUserForm";
+import {useAppDispatch} from "../../hooks/redux";
 
 interface UsersProps {
     followingInProgress: Array<number>;
@@ -29,6 +30,10 @@ const Users = ({
         status={el.status}
         onFollowButtonClick={onFollowButtonClick}
         onUnfollowButtonClick={onUnfollowButtonClick}/>)
+    const dispatch = useAppDispatch();
+    const setCurrentPageMemo = useCallback((page : number) => {
+        dispatch(setCurrentPage(page))
+    }, [currentPage])
     return (
         <div className={classes.body}>
             {users.length > 0
@@ -38,7 +43,7 @@ const Users = ({
                         pageSize={pageSize}
                         currentPage={currentPage}
                         portionSize={9}
-                        setCurrentPage={setCurrentPage}
+                        setCurrentPage={setCurrentPageMemo}
                     />
                     <SearchUserForm/>
                     <div>

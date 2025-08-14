@@ -1,5 +1,6 @@
 import classes from "./Post.module.css"
 import avatar from "../../../../assets/avatar.jpg"
+import {memo} from "react";
 
 interface PostProps {
     likeButtonClick: Function
@@ -12,6 +13,8 @@ const Post = ({likeButtonClick, message, likeCount, id} : PostProps) => {
     let onLikeButtonClick = () => {
         likeButtonClick(id)
     }
+    console.log("POST RENDER")
+
     return (
         <div className={classes.item}>
             <img src={avatar} alt="Logo"/>
@@ -26,4 +29,4 @@ const Post = ({likeButtonClick, message, likeCount, id} : PostProps) => {
     )
 }
 
-export default Post;
+export default memo(Post);
