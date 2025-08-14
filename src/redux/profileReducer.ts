@@ -52,7 +52,8 @@ const profileReducer = createSlice({
     name: "profileReducer",
     initialState,
     reducers: {
-        addPost: (state, action: PayloadAction<string>) => {
+        addPost: (state,
+            action: PayloadAction<string>) => {
             const newPost = {
                 id: state.postData[state.postData.length - 1].id + 1,
                 message: action.payload,
@@ -60,29 +61,35 @@ const profileReducer = createSlice({
             };
             state.postData.push(newPost);
         },
-        addLike: (state, action: PayloadAction<number>) => {
+        addLike: (state,
+            action: PayloadAction<number>) => {
             const post = state.postData.find(post => post.id === action.payload);
             if (post) {
                 post.likeCount++;
             }
         },
-        setProfile: (state, action: PayloadAction<ProfileType | null>) => {
+        setProfile: (state,
+            action: PayloadAction<ProfileType | null>) => {
             state.profile = action.payload;
         },
-        changeStatus: (state, action: PayloadAction<string>) => {
+        changeStatus: (state,
+            action: PayloadAction<string>) => {
             state.profileStatus = action.payload;
         },
-        deletePost: (state, action: PayloadAction<number>) => {
+        deletePost: (state,
+            action: PayloadAction<number>) => {
             state.postData.filter(el => el.id !== action.payload)
         },
         updateProfilePhoto: {
-            reducer: (state, action: PayloadAction<{small : string | null, large: string | null}>) => {
+            reducer: (state,
+                action: PayloadAction<{ small: string | null, large: string | null }>) => {
                 if (state.profile) {
                     state.profile.photos.small = action.payload.small;
                     state.profile.photos.large = action.payload.large;
                 }
             },
-            prepare: (small : string | null, large: string | null) => {
+            prepare: (small: string | null,
+                large: string | null) => {
                 return {payload: {small, large}}
             }
         }
@@ -138,9 +145,12 @@ export const setProfilePhoto = (photo: string): ProfileThunkAction => {
 }
 
 export const saveProfileData = (data: ProfileDataInitialValues,
-                                setFieldValue: (field: string, value: any, shouldValidate?: boolean) => void,
-                                setEditModeFalse: () => void): ProfileThunkAction => {
-    return async (dispatch, getState) => {
+    setFieldValue: (field: string,
+        value: any,
+        shouldValidate?: boolean) => void,
+    setEditModeFalse: () => void): ProfileThunkAction => {
+    return async (dispatch,
+        getState) => {
         const payload = {
             fullName: data.fullName,
             lookingForAJob: data.lookingForAJob,

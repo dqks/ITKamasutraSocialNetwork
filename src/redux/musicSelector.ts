@@ -1,3 +1,3 @@
 import {RootState} from "./reduxStore";
 
-export const getTracks = (state : RootState) => state.musicPage.tracks;
+export const getTracks = (state: RootState) => state.musicPage.tracks;

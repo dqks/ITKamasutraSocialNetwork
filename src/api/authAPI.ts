@@ -8,7 +8,7 @@ type CheckAuthResponseType = ResponseType<{
     login: string
 }, null>
 
-type LoginResponseType = ResponseType<{userId: number}, ResultCodes & ResultCodeForCaptcha>
+type LoginResponseType = ResponseType<{ userId: number }, ResultCodes & ResultCodeForCaptcha>
 
 type LogoutResponseType = {
     resultCode: ResultCodes
@@ -23,7 +23,10 @@ export const authAPI = {
         return response.data;
     },
 
-    async login(email: string, password: string, rememberMe: boolean, captcha = "") {
+    async login(email: string,
+        password: string,
+        rememberMe: boolean,
+        captcha = "") {
         const response = await instance.post<LoginResponseType>('auth/login', {
             email,
             password,

@@ -37,7 +37,8 @@ const dialogsReducer = createSlice({
     name: "dialogsReducer",
     initialState,
     reducers: {
-        addMessage: (state, action: PayloadAction<string>) => {
+        addMessage: (state,
+            action: PayloadAction<string>) => {
             let newMessage = {
                 id: Number(state.messages[state.messages.length - 1].id) + 1,
                 message: action.payload,

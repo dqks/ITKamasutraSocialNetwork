@@ -12,7 +12,7 @@ type InitialStateType = {
     tracks: Array<Track>,
 }
 
-const initialState : InitialStateType = {
+const initialState: InitialStateType = {
     tracks: [
         {
             id: "1",

@@ -9,7 +9,7 @@ type InitialStateType = {
     friends: Array<FriendType>
 }
 
-let initialState : InitialStateType = {
+let initialState: InitialStateType = {
     friends: [
         {name: "Andrew", id: 2},
         {name: "Sasha", id: 3},

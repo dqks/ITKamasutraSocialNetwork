@@ -1,0 +1,33 @@
+.wrapper {
+    margin: 30px 0;
+}
+
+.searchResult {
+    font-size: 14px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid gray;
+    margin: 0 5px;
+}
+
+.formButton {
+    padding: 10px 20px;
+    border: 1px solid gray;
+    border-radius: 5px;
+    margin: 0 5px;
+    background-color: white;
+}
+
+.formButton:hover {
+    background-color: #67BA80;
+    transition: .1s;
+}
+
+.formButton:active {
+    transition: 0s;
+    background-color: white;
+}
+
+.errorBorder {
+    border: 2px solid red;
+}

@@ -25,13 +25,13 @@ const LoginForm = () => {
         setCaptchaValue(event.target.value);
     };
 
-    const initialValues : LoginInitialValues = {email: "", password: "", rememberMe: false, generalError: ""}
+    const initialValues: LoginInitialValues = {email: "", password: "", rememberMe: false, generalError: ""}
 
     return (
         <Formik
             initialValues={initialValues}
             validate={values => {
-                const errors : Partial<Record<keyof LoginInitialValues, string>> = {};
+                const errors: Partial<Record<keyof LoginInitialValues, string>> = {};
                 if (!values.email) {
                     console.log("email required");
                     errors.email = "Required"
@@ -41,7 +41,8 @@ const LoginForm = () => {
                 }
                 return errors;
             }}
-            onSubmit={(values, {setFieldValue}) => {
+            onSubmit={(values,
+                {setFieldValue}) => {
                 dispatch(loginUser(values.email, values.password, values.rememberMe, setFieldValue, captchaValue));
             }}
             validationSchema={LoginFormSchema}
@@ -50,10 +51,10 @@ const LoginForm = () => {
                 return (
                     <Form>
                         <Field labeltext={"E-mail"} component={BlockInputComponent} type="text" name="email"
-                               size={30}/>
+                            size={30}/>
                         <Field labeltext={"Password"} autoComplete="on" component={BlockInputComponent} type="password"
-                               name="password"
-                               size={30}/>
+                            name="password"
+                            size={30}/>
                         <div>
                             <Field type="checkbox" name="rememberMe" id="rememberMe"/>
                             <label htmlFor={"rememberMe"}>Remember me</label>
@@ -63,13 +64,13 @@ const LoginForm = () => {
                         </div>
                         <div>
                             <button className={classes.loginButton} type={"submit"} name="loginButton"
-                                    id="loginButton">Login
+                                id="loginButton">Login
                             </button>
                         </div>
                         {captchaURL && (
                             <Captcha captchaURL={captchaURL}
-                                     captchaValue={captchaValue}
-                                     onCaptchaInputChange={onCaptchaInputChange}/>
+                                captchaValue={captchaValue}
+                                onCaptchaInputChange={onCaptchaInputChange}/>
                         )}
                     </Form>
                 )

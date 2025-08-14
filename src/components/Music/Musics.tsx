@@ -19,7 +19,7 @@ const Musics = ({} : MusicProps) => {
             <div className={classes.musicWrapper}>
                 {
                     tracks.map((track : Track) => <MusicItem key={track.id} logo={track.logo} name={track.name}
-                                                          singer={track.singer} src={track.src}/>)
+                        singer={track.singer} src={track.src}/>)
                 }
             </div>
         </div>

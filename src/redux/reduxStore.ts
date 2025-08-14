@@ -26,8 +26,8 @@ export type AppStore = typeof store
 export type RootState = ReturnType<AppStore['getState']>
 export type AppDispatch = AppStore['dispatch'];
 
-type PropertiesTypes<T> = T extends {[key: string]: infer U} ? U : never;
-export type ActionsTypes<T extends {[key: string]: (...args: any[]) => any}> = ReturnType<PropertiesTypes<T>>
+type PropertiesTypes<T> = T extends { [key: string]: infer U } ? U : never;
+export type ActionsTypes<T extends { [key: string]: (...args: any[]) => any }> = ReturnType<PropertiesTypes<T>>
 
 export type ThunkActionType<A extends Action> = ThunkAction<Promise<void>, RootState, unknown, A>
 

@@ -6,7 +6,7 @@ export interface InitialStateType {
     initialized: boolean
 }
 
-const initialState : InitialStateType = {
+const initialState: InitialStateType = {
     initialized: false,
 };
 
@@ -24,12 +24,12 @@ type AppActionsTypes = ActionsTypes<typeof appReducer.actions> // all action typ
 
 type AppThunk = ThunkActionType<AppActionsTypes>
 
-export const initializeApp = () : AppThunk => {
+export const initializeApp = (): AppThunk => {
     return async (dispatch) => {
         await dispatch(getAuthUser());
         dispatch(initializedSuccess());
     }
 }
 
-export const { initializedSuccess } = appReducer.actions;
+export const {initializedSuccess} = appReducer.actions;
 export default appReducer.reducer;

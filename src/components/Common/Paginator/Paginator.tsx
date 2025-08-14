@@ -1,21 +1,25 @@
 import classes from "./Paginator.module.css";
 import React, {memo, useEffect, useState} from "react";
+import {useAppDispatch} from "../../../hooks/redux";
+import {ActionCreatorWithPayload} from "@reduxjs/toolkit";
 
 interface PaginatorProps {
-    onPageChanged: (page : number) => void
     totalUsersCount: number
     pageSize: number
     currentPage: number
     portionSize: number
+    setCurrentPage: ActionCreatorWithPayload<number, "usersReducer/setCurrentPage">
 }
 
 const Paginator = ({
-                       onPageChanged,
-                       totalUsersCount,
-                       pageSize,
-                       currentPage,
-                       portionSize
-                   } : PaginatorProps) => {
+    totalUsersCount,
+    pageSize,
+    currentPage,
+    portionSize,
+    setCurrentPage
+}: PaginatorProps) => {
+    const dispatch = useAppDispatch();
+
     useEffect(() => {
         setCurrentPortion(Math.ceil(currentPage / portionSize))
     }, [currentPage]);
@@ -53,13 +57,13 @@ const Paginator = ({
                 ? null
                 : <button onClick={onPreviousPageButtonClick} className={classes.arrow}>&larr;</button>}
             {pages
-                .filter((page) => page <= totalPageAmount)
-                .map(page => <span key={page} onClick={() => onPageChanged(page)}
-                                     className={[currentPage === page && classes.selectedPage, classes.pageNumber].join(' ')}>{page}</span>)}
+            .filter((page) => page <= totalPageAmount)
+            .map(page => <span key={page}
+                onClick={() => dispatch(setCurrentPage(page))}
+                className={[currentPage === page && classes.selectedPage, classes.pageNumber].join(' ')}>{page}</span>)}
             {currentPortion === portionCount
                 ? null
                 : <button onClick={onNextPageButtonClick} className={classes.arrow}>&rarr;</button>}
-
         </div>
     )
 }

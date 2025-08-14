@@ -19,6 +19,7 @@ type InitialStateType = {
     totalUsersCount: number
     currentPage: number
     isFetching: boolean
+    searchUserFilter: string
     followingInProgress: Array<number>
 }
 
@@ -28,6 +29,7 @@ let initialState: InitialStateType = {
     totalUsersCount: 0,
     currentPage: 1,
     isFetching: false,
+    searchUserFilter: "",
     followingInProgress: [],
 };
 
@@ -35,36 +37,46 @@ const usersReducer = createSlice({
     name: "usersReducer",
     initialState,
     reducers: {
-        followUser: (state, action: PayloadAction<number>) => {
+        followUser: (state,
+            action: PayloadAction<number>) => {
             state.users = changeObjectInArray(state.users, action.payload, "id", {followed: true});
         },
-        unfollowUser: (state, action: PayloadAction<number>) => {
+        unfollowUser: (state,
+            action: PayloadAction<number>) => {
             state.users = changeObjectInArray(state.users, action.payload, "id", {followed: false});
         },
-        setUsers: (state, action: PayloadAction<UserType[]>) => {
+        setUsers: (state,
+            action: PayloadAction<UserType[]>) => {
             state.users = action.payload;
         },
-        setCurrentPage: (state, action: PayloadAction<number>) => {
+        setCurrentPage: (state,
+            action: PayloadAction<number>) => {
             state.currentPage = action.payload;
         },
-        setTotalCount: (state, action: PayloadAction<number>) => {
+        setTotalCount: (state,
+            action: PayloadAction<number>) => {
             state.totalUsersCount = action.payload
         },
-        toggleIsFetching: (state, action: PayloadAction<boolean>) => {
+        toggleIsFetching: (state,
+            action: PayloadAction<boolean>) => {
             state.isFetching = action.payload
         },
         toggleFollowingInProgress: {
-            reducer: (state, action : PayloadAction<{ isFetching : boolean, userId : number }>) => {
+            reducer: (state,
+                action: PayloadAction<{ isFetching: boolean, userId: number }>) => {
                 state.followingInProgress = action.payload.isFetching
                     ? [...state.followingInProgress, action.payload.userId]
                     : state.followingInProgress.filter(id => id !== action.payload.userId)
             },
-            prepare: (isFetching : boolean, userId : number) => {
+            prepare: (isFetching: boolean,
+                userId: number) => {
                 debugger
-                return { payload : { isFetching, userId } }
+                return {payload: {isFetching, userId}}
             }
+        },
+        setUserFilter: (state, action : PayloadAction<string>) => {
+            state.searchUserFilter = action.payload;
         }
-
     }
 })
 
@@ -73,11 +85,13 @@ type UsersActionsTypes = ActionsTypes<typeof usersReducer.actions>
 type UsersAppThunk = ThunkActionType<UsersActionsTypes>
 
 //thunks
-export const requestUsers = (currentPage: number, pageSize: number): UsersAppThunk => {
+export const requestUsers = (currentPage: number,
+    pageSize: number,
+    searchUserFilter = ""): UsersAppThunk => {
     return async (dispatch) => {
         dispatch(toggleIsFetching(true));
         try {
-            const data = await usersAPI.getUsers(currentPage, pageSize);
+            const data = await usersAPI.getUsers(currentPage, pageSize, searchUserFilter);
             if (!data.error) {
                 dispatch(toggleIsFetching(false));
                 dispatch(setUsers(data.items));
@@ -93,9 +107,9 @@ export const requestUsers = (currentPage: number, pageSize: number): UsersAppThu
 }
 
 const _followUnfollowUser = async (dispatch: ThunkDispatch<RootState, unknown, UsersActionsTypes>,
-                                  userId: number,
-                                  apiMethod: any,
-                                  actionCreator: (userId: number) => UsersActionsTypes) => {
+    userId: number,
+    apiMethod: any,
+    actionCreator: (userId: number) => UsersActionsTypes) => {
     dispatch(toggleFollowingInProgress(true, userId));
     try {
         const data = await apiMethod(userId)
@@ -122,5 +136,14 @@ export const unfollowUserThunk = (userId: number): UsersAppThunk => {
     }
 }
 
-export const { toggleIsFetching, toggleFollowingInProgress, followUser, setUsers, unfollowUser, setTotalCount, setCurrentPage } = usersReducer.actions
+export const {
+    toggleIsFetching,
+    toggleFollowingInProgress,
+    followUser,
+    setUsers,
+    unfollowUser,
+    setTotalCount,
+    setCurrentPage,
+    setUserFilter
+} = usersReducer.actions
 export default usersReducer.reducer;

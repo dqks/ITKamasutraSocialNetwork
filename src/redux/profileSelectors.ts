@@ -1,7 +1,7 @@
 import {RootState} from "./reduxStore";
 
-export const getProfile = (state : RootState) => state.profilePage.profile;
+export const getProfile = (state: RootState) => state.profilePage.profile;
 
-export const getProfileStatus = (state : RootState) => state.profilePage.profileStatus;
+export const getProfileStatus = (state: RootState) => state.profilePage.profileStatus;
 
-export const getPostData = (state : RootState) => state.profilePage.postData;
+export const getPostData = (state: RootState) => state.profilePage.postData;

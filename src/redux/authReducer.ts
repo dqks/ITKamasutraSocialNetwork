@@ -26,7 +26,8 @@ const authReducer = createSlice({
     name: "authReducer",
     initialState,
     reducers: {
-        setUserData: (state, action : PayloadAction<{ id: number, email: string, login: string }>) => {
+        setUserData: (state,
+            action: PayloadAction<{ id: number, email: string, login: string }>) => {
             state.isAuth = true;
             state.id = action.payload.id
             state.email = action.payload.email
@@ -38,7 +39,8 @@ const authReducer = createSlice({
             state.email = null
             state.login = null
         },
-        setCaptchaUrl: (state, action: PayloadAction<string>) => {
+        setCaptchaUrl: (state,
+            action: PayloadAction<string>) => {
             state.captchaUrl = action.payload
         }
     }
@@ -47,7 +49,7 @@ type AuthActionsTypes = ActionsTypes<typeof authReducer.actions>
 
 type AuthThunkAction = ThunkActionType<AuthActionsTypes>
 
-export const getAuthUser = () : AuthThunkAction => {
+export const getAuthUser = (): AuthThunkAction => {
     return async (dispatch) => {
         const data = await authAPI.checkAuth();
         if (data.resultCode === ResultCodes.Success) {
@@ -57,11 +59,14 @@ export const getAuthUser = () : AuthThunkAction => {
 }
 
 export const loginUser = (email: string,
-                          password: string,
-                          rememberMe: boolean,
-                          setFieldValue: (field: string, value: any, shouldValidate?: boolean) => void,
-                          captchaValue = "") : AuthThunkAction => {
-    return async (dispatch, getState) => {
+    password: string,
+    rememberMe: boolean,
+    setFieldValue: (field: string,
+        value: any,
+        shouldValidate?: boolean) => void,
+    captchaValue = ""): AuthThunkAction => {
+    return async (dispatch,
+        getState) => {
         const hasCaptcha = getState().auth.captchaUrl;
         try {
             const data = await authAPI.login(email,
@@ -71,12 +76,12 @@ export const loginUser = (email: string,
 
             if (data.resultCode === ResultCodes.Success) {
                 authAPI.checkAuth()
-                    .then(data => {
-                        if (data.resultCode === ResultCodes.Success) {
-                            dispatch(setUserData(data.data));
-                            if (hasCaptcha) dispatch(setCaptchaUrl(""));
-                        }
-                    })
+                .then(data => {
+                    if (data.resultCode === ResultCodes.Success) {
+                        dispatch(setUserData(data.data));
+                        if (hasCaptcha) dispatch(setCaptchaUrl(""));
+                    }
+                })
             } else {
                 if (data.resultCode === ResultCodeForCaptcha.CaptchaIsRequired) {
                     dispatch(getCaptchaURL());
@@ -90,7 +95,7 @@ export const loginUser = (email: string,
     }
 }
 
-export const logoutUser = () : AuthThunkAction => {
+export const logoutUser = (): AuthThunkAction => {
     return async (dispatch) => {
         try {
             const response = await authAPI.logout();
@@ -106,7 +111,7 @@ export const logoutUser = () : AuthThunkAction => {
     }
 }
 
-export const getCaptchaURL = () : AuthThunkAction => {
+export const getCaptchaURL = (): AuthThunkAction => {
     return async (dispatch) => {
         const response = await securityAPI.getCaptchaURL();
         dispatch(setCaptchaUrl(response.url));

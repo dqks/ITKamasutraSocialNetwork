@@ -2,15 +2,15 @@ import {instance} from "./instance";
 import {UserType} from "../redux/usersReducer";
 import {ResponseType} from "./reponse-type";
 
-type GetUsersResponse = {
+export type GetUsersResponse = {
         items: Array<UserType>
         totalCount: number
         error: string | null
 }
 
 export const usersAPI = {
-    async getUsers(currentPage: number, pageSize: number) {
-        let response = await instance.get<GetUsersResponse>(`users?page=${currentPage}&count=${pageSize}`);
+    async getUsers(currentPage: number, pageSize: number, nameFilter : string) {
+        let response = await instance.get<GetUsersResponse>(`users?page=${currentPage}&count=${pageSize}&term=${nameFilter}`);
         return response.data;
     },
 
