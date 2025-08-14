@@ -18,4 +18,4 @@ export const getIsFetching = (state: RootState) => state.usersPage.isFetching;
 export const getFollowingInProgress = (state: RootState) => state.usersPage.followingInProgress;
 
 
-export const getSearchUserFilter = (state : RootState) => state.usersPage.searchUserFilter;
+export const getSearchUserFilter = (state: RootState) => state.usersPage.searchUserFilter;

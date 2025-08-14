@@ -29,22 +29,38 @@ const Users = ({
         status={el.status}
         onFollowButtonClick={onFollowButtonClick}
         onUnfollowButtonClick={onUnfollowButtonClick}/>)
-    return (<div className={classes.body}>
-        <Paginator
-            totalUsersCount={totalUsersCount}
-            pageSize={pageSize}
-            currentPage={currentPage}
-            portionSize={9}
-            setCurrentPage={setCurrentPage}
-        />
-        <SearchUserForm/>
-        <div>
-            <h1>
-                Users
-            </h1>
+    return (
+        <div className={classes.body}>
+            {users.length > 0
+                ? <>
+                    <Paginator
+                        totalUsersCount={totalUsersCount}
+                        pageSize={pageSize}
+                        currentPage={currentPage}
+                        portionSize={9}
+                        setCurrentPage={setCurrentPage}
+                    />
+                    <SearchUserForm/>
+                    <div>
+                        <h1>
+                            Users
+                        </h1>
+                    </div>
+                    {usersArr}
+                </>
+                : <>
+                    <SearchUserForm/>
+                    <div>
+                        <h1>
+                            Users
+                        </h1>
+                    </div>
+                    <h2>
+                        No users found by this filter
+                    </h2>
+                </>}
         </div>
-        {usersArr}
-    </div>)
+    )
 }
 
 export default Users;

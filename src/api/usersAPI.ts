@@ -3,13 +3,15 @@ import {UserType} from "../redux/usersReducer";
 import {ResponseType} from "./reponse-type";
 
 export type GetUsersResponse = {
-        items: Array<UserType>
-        totalCount: number
-        error: string | null
+    items: Array<UserType>
+    totalCount: number
+    error: string | null
 }
 
 export const usersAPI = {
-    async getUsers(currentPage: number, pageSize: number, nameFilter : string) {
+    async getUsers(currentPage: number,
+        pageSize: number,
+        nameFilter: string) {
         let response = await instance.get<GetUsersResponse>(`users?page=${currentPage}&count=${pageSize}&term=${nameFilter}`);
         return response.data;
     },
@@ -21,7 +23,6 @@ export const usersAPI = {
 
     async unfollowUser(id: number) {
         let response = await instance.delete<ResponseType>(`follow/` + id);
-        debugger
         return response.data;
     }
 }

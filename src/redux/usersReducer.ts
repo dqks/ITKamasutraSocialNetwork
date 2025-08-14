@@ -70,7 +70,6 @@ const usersReducer = createSlice({
             },
             prepare: (isFetching: boolean,
                 userId: number) => {
-                debugger
                 return {payload: {isFetching, userId}}
             }
         },
