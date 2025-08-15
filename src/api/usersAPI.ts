@@ -11,8 +11,10 @@ export type GetUsersResponse = {
 export const usersAPI = {
     async getUsers(currentPage: number,
         pageSize: number,
-        nameFilter: string) {
-        let response = await instance.get<GetUsersResponse>(`users?page=${currentPage}&count=${pageSize}&term=${nameFilter}`);
+        nameFilter: string,
+        friendFilter: boolean | null) {
+        let response = await instance.get
+            <GetUsersResponse>(`users?page=${currentPage}&count=${pageSize}&term=${nameFilter}&friend=${friendFilter}`);
         return response.data;
     },
 

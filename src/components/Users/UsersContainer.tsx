@@ -4,10 +4,9 @@ import Users from "./Users";
 import Preloader from "../Common/Preloader/Preloader";
 import {
     getCurrentPage,
-    getFollowingInProgress,
-    getIsFetching,
+    getFollowingInProgress, getFriendFilter,
+    getIsFetching, getNameFilter,
     getPageSize,
-    getSearchUserFilter,
     getTotalUsersCount,
     getUsers
 } from "../../redux/usersSelectors";
@@ -16,7 +15,7 @@ import {useAppDispatch, useAppSelector} from "../../hooks/redux";
 interface UserContainerProps {
 }
 
-const UserContainerFC = ({}: UserContainerProps) => {
+const UserContainer = ({}: UserContainerProps) => {
     const dispatch = useAppDispatch();
     const users = useAppSelector(getUsers)
     const totalUsersCount = useAppSelector(getTotalUsersCount)
@@ -24,11 +23,12 @@ const UserContainerFC = ({}: UserContainerProps) => {
     const currentPage = useAppSelector(getCurrentPage)
     const isFetching = useAppSelector(getIsFetching)
     const followingInProgress = useAppSelector(getFollowingInProgress)
-    const searchUserFilter = useAppSelector(getSearchUserFilter)
+    const nameFilter = useAppSelector(getNameFilter)
+    const friendFilter = useAppSelector(getFriendFilter)
 
     useEffect(() => {
-        dispatch(requestUsers(currentPage, pageSize, searchUserFilter))
-    }, [currentPage, pageSize, searchUserFilter]);
+        dispatch(requestUsers(currentPage, pageSize, nameFilter, friendFilter))
+    }, [currentPage, pageSize, nameFilter, friendFilter]);
 
     const onFollowButtonClick = (id: number) => {
         dispatch(followUserThunk(id));
@@ -46,7 +46,6 @@ const UserContainerFC = ({}: UserContainerProps) => {
                     users={users}
                     onFollowButtonClick={onFollowButtonClick}
                     onUnfollowButtonClick={onUnfollowButtonClick}
-                    // onPageChanged={onPageChanged}
                     currentPage={currentPage}
                     totalUsersCount={totalUsersCount}
                     pageSize={pageSize}
@@ -56,4 +55,4 @@ const UserContainerFC = ({}: UserContainerProps) => {
     )
 }
 
-export default UserContainerFC;
+export default UserContainer;

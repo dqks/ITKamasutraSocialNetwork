@@ -3,6 +3,8 @@ import {changeObjectInArray} from "../utils/changeObjectInArray";
 import {ActionsTypes, RootState, ThunkActionType} from "./reduxStore";
 import {PhotosType} from "../types/types";
 import {createSlice, PayloadAction, ThunkDispatch} from "@reduxjs/toolkit";
+import {ResultCodes} from "../api/result-codes";
+import {ResponseType} from "../api/reponse-type";
 
 export type UserType = {
     name: string,
@@ -13,13 +15,18 @@ export type UserType = {
     followed: boolean
 }
 
+export type UserFilter = {
+    nameFilter: string
+    friendFilter: boolean | null
+}
+
 export type UsersInitialStateType = {
     users: Array<UserType>
     pageSize: number
     totalUsersCount: number
     currentPage: number
     isFetching: boolean
-    searchUserFilter: string
+    filter: UserFilter
     followingInProgress: Array<number>
 }
 
@@ -29,8 +36,11 @@ let initialState: UsersInitialStateType = {
     totalUsersCount: 0,
     currentPage: 1,
     isFetching: false,
-    searchUserFilter: "",
     followingInProgress: [],
+    filter: {
+        nameFilter: "",
+        friendFilter: null
+    }
 };
 
 const usersReducer = createSlice({
@@ -73,8 +83,12 @@ const usersReducer = createSlice({
                 return {payload: {isFetching, userId}}
             }
         },
-        setUserFilter: (state, action : PayloadAction<string>) => {
-            state.searchUserFilter = action.payload;
+        setUserNameFilter: (state,
+            action: PayloadAction<string>) => {
+            state.filter.nameFilter = action.payload;
+        },
+        setFriendFilter: (state, action: PayloadAction<boolean | null>) => {
+            state.filter.friendFilter = action.payload;
         }
     }
 })
@@ -86,11 +100,16 @@ type UsersAppThunk = ThunkActionType<UsersActionsTypes>
 //thunks
 export const requestUsers = (currentPage: number,
     pageSize: number,
-    searchUserFilter = ""): UsersAppThunk => {
+    searchUserFilter = "",
+    friendFilter: boolean | null = null): UsersAppThunk => {
     return async (dispatch) => {
         dispatch(toggleIsFetching(true));
         try {
-            const data = await usersAPI.getUsers(currentPage, pageSize, searchUserFilter);
+            const data = await usersAPI.getUsers(
+                currentPage,
+                pageSize,
+                searchUserFilter,
+                friendFilter);
             if (!data.error) {
                 dispatch(toggleIsFetching(false));
                 dispatch(setUsers(data.items));
@@ -107,12 +126,12 @@ export const requestUsers = (currentPage: number,
 
 const _followUnfollowUser = async (dispatch: ThunkDispatch<RootState, unknown, UsersActionsTypes>,
     userId: number,
-    apiMethod: any,
+    apiMethod: (userId: number) => Promise<ResponseType>,
     actionCreator: (userId: number) => UsersActionsTypes) => {
     dispatch(toggleFollowingInProgress(true, userId));
     try {
         const data = await apiMethod(userId)
-        if (data.resultCode === 0) {
+        if (data.resultCode === ResultCodes.Success) {
             dispatch(actionCreator(userId));
         } else {
             console.error("Unable to follow user")
@@ -143,6 +162,7 @@ export const {
     unfollowUser,
     setTotalCount,
     setCurrentPage,
-    setUserFilter
+    setUserNameFilter,
+    setFriendFilter
 } = usersReducer.actions
 export default usersReducer.reducer;
