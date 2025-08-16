@@ -1,10 +1,9 @@
 import {Field, Form, Formik} from "formik";
 import classes from "./SearchUserForm.module.css"
 import {useAppDispatch, useAppSelector} from "../../../hooks/redux";
-import SearchUserSchema from "../../FormValidation/SearchUserSchema";
-import {setFriendFilter, setUserNameFilter} from "../../../redux/usersReducer";
-import {useEffect} from "react";
+import {setCurrentPage, setFriendFilter, setUserNameFilter} from "../../../redux/usersReducer";
 import {getNameFilter} from "../../../redux/usersSelectors";
+import {useNavigate} from "react-router-dom";
 
 interface SearchUserFormProps {
 }
@@ -15,8 +14,8 @@ type InitialValues = {
 }
 
 const SearchUserForm = ({}: SearchUserFormProps) => {
-    const dispatch = useAppDispatch();
-
+    const dispatch = useAppDispatch()
+    const navigate = useNavigate()
     const userNameFilter = useAppSelector(getNameFilter);
 
     const initialValues: InitialValues = {
@@ -32,21 +31,27 @@ const SearchUserForm = ({}: SearchUserFormProps) => {
     return (
         <Formik
             initialValues={initialValues}
-            onSubmit={(values : InitialValues) => {
+            onSubmit={(values: InitialValues) => {
+                let friendFilter: boolean | null = null;
                 if (values.friendFilter === "allUsers") {
-                    dispatch(setUserNameFilter(values.searchUserFilter))
-                    dispatch(setFriendFilter(null))
+                    friendFilter = null
                 } else if (values.friendFilter === "friendsOnly") {
-                    dispatch(setUserNameFilter(values.searchUserFilter))
-                    dispatch(setFriendFilter(true))
-                } else {
-                    dispatch(setUserNameFilter(values.searchUserFilter))
-                    dispatch(setFriendFilter(false))
+                    friendFilter = true
+                } else if (values.friendFilter === "notFriends") {
+                    friendFilter = false
                 }
+
+                debugger
+
+                navigate({
+                    pathname: "/users",
+                    search: "?currentPage=1" + "&term=" + values.searchUserFilter + "&friend=" + friendFilter
+                })
+
+                dispatch(setCurrentPage(1))
+                dispatch(setUserNameFilter(values.searchUserFilter))
+                dispatch(setFriendFilter(friendFilter))
             }}
-            // validationSchema={SearchUserSchema}
-            // validateOnBlur={false}
-            // validateOnChange={true}
         >
             {({errors}) => {
                 return (

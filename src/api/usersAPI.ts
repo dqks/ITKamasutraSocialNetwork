@@ -11,10 +11,10 @@ export type GetUsersResponse = {
 export const usersAPI = {
     async getUsers(currentPage: number,
         pageSize: number,
-        nameFilter: string,
+        nameFilter: string | null,
         friendFilter: boolean | null) {
         let response = await instance.get
-            <GetUsersResponse>(`users?page=${currentPage}&count=${pageSize}&term=${nameFilter}&friend=${friendFilter}`);
+            <GetUsersResponse>(`users?page=${currentPage}&count=${pageSize}&term=${nameFilter}` + (friendFilter === null ? '' : `&friend=${friendFilter}`));
         return response.data;
     },
 

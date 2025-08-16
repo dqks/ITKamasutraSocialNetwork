@@ -35,7 +35,6 @@ const Profile = ({} : ProfileProps) => {
             <ProfileInfo profile={profile}/>
             <MyPosts/>
         </div>
-
 }
 
 export default Profile;

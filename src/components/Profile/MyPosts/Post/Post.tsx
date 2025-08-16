@@ -13,8 +13,6 @@ const Post = ({likeButtonClick, message, likeCount, id} : PostProps) => {
     let onLikeButtonClick = () => {
         likeButtonClick(id)
     }
-    console.log("POST RENDER")
-
     return (
         <div className={classes.item}>
             <img src={avatar} alt="Logo"/>

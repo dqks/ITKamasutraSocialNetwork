@@ -41,26 +41,26 @@ const App = () => {
                     <Routes>
                         <Route path="/" element={<Navigate to="/profile"/>}/>
                         <Route path={routes.profile}
-                               element={<Profile/>}/>
+                            element={<Profile/>}/>
                         <Route path={routes.dialogs}
-                               element={<Suspense fallback={<div><Preloader/></div>}>
-                                   <Dialogs/>
-                               </Suspense>}/>
+                            element={<Suspense fallback={<div><Preloader/></div>}>
+                                <Dialogs/>
+                            </Suspense>}/>
                         <Route path={routes.news} element={<News/>}/>
                         <Route path={routes.music}
-                               element={<Suspense fallback={<div><Preloader/></div>}>
-                                   <Music/>
-                               </Suspense>}/>
+                            element={<Suspense fallback={<div><Preloader/></div>}>
+                                <Music/>
+                            </Suspense>}/>
                         <Route path={routes.settings} element={<Settings/>}/>
                         <Route path={routes.friends} element={<FriendsPage/>}/>
                         <Route path={routes.users}
-                               element={<Suspense fallback={<div><Preloader/></div>}>
-                                   <UsersPage/>
-                               </Suspense>}/>
+                            element={<Suspense fallback={<div><Preloader/></div>}>
+                                <UsersPage/>
+                            </Suspense>}/>
                         <Route path={routes.login}
-                               element={<Suspense fallback={<div><Preloader/></div>}>
-                                   <Login/>
-                               </Suspense>}/>
+                            element={<Suspense fallback={<div><Preloader/></div>}>
+                                <Login/>
+                            </Suspense>}/>
                         <Route path={routes.notFound} element={<div>404</div>}/>
                     </Routes>
                 </div>

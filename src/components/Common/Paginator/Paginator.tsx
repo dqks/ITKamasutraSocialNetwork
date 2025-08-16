@@ -1,7 +1,5 @@
 import classes from "./Paginator.module.css";
 import React, {memo, useEffect, useState} from "react";
-import {useAppDispatch} from "../../../hooks/redux";
-import {ActionCreatorWithPayload} from "@reduxjs/toolkit";
 
 interface PaginatorProps {
     totalUsersCount: number

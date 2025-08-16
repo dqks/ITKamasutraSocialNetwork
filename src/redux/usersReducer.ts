@@ -100,7 +100,7 @@ type UsersAppThunk = ThunkActionType<UsersActionsTypes>
 //thunks
 export const requestUsers = (currentPage: number,
     pageSize: number,
-    searchUserFilter = "",
+    searchUserFilter : string = "",
     friendFilter: boolean | null = null): UsersAppThunk => {
     return async (dispatch) => {
         dispatch(toggleIsFetching(true));

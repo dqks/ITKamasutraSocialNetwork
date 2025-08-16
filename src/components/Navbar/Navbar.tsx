@@ -28,7 +28,10 @@ const Navbar = ({} : NavbarProps) => {
                     (isActive ? classes.active : undefined)}>Settings</NavLink>
             </div>
             <div className={classes.item}>
-                <NavLink to={"/users"} className={({isActive}) =>
+                <NavLink to={{
+                    pathname: "/users",
+                    search: "currentPage=1"
+                }} className={({isActive}) =>
                     (isActive ? classes.active : undefined)}>
                     <p>Find users</p>
                 </NavLink>
