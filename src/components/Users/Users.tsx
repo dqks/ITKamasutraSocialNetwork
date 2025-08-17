@@ -5,7 +5,6 @@ import Paginator from "../Common/Paginator/Paginator";
 import {setCurrentPage, UserType} from "../../redux/usersReducer";
 import SearchUserForm from "./SearchUserForm/SearchUserForm";
 import {useAppDispatch} from "../../hooks/redux";
-import {useSearchParams} from "react-router-dom";
 import {useQueryFilter} from "../../hooks/useQueryFilter";
 
 interface UsersProps {
@@ -34,7 +33,7 @@ const Users = ({
         onUnfollowButtonClick={onUnfollowButtonClick}/>)
 
     const dispatch = useAppDispatch();
-    const [simplifiedQuery, fullQuery, searchParams] = useQueryFilter()
+    const [setSearchFilter, searchParams] = useQueryFilter()
 
     const setCurrentPageMemo = useCallback((page: number) => {
         if (searchParams.get("term") !== null) {
@@ -44,9 +43,9 @@ const Users = ({
             } else if (searchParams.get("friend") === "false") {
                 friendFilter = false
             }
-            fullQuery(page,searchParams.get("term"), friendFilter)
+            setSearchFilter(false, page, searchParams.get("term"), friendFilter)
         } else {
-            simplifiedQuery(page)
+            setSearchFilter(true, page)
         }
         dispatch(setCurrentPage(page))
     }, [])

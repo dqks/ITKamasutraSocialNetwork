@@ -5,7 +5,8 @@ import {getFriendFilter, getNameFilter} from "../../../redux/usersSelectors";
 import {setFriendValue} from "../../../utils/set-friend-value";
 import {useQueryFilter} from "../../../hooks/useQueryFilter";
 
-interface SearchUserFormProps {}
+interface SearchUserFormProps {
+}
 
 type InitialValues = {
     searchUserFilter: string
@@ -13,7 +14,7 @@ type InitialValues = {
 }
 
 const SearchUserForm = ({}: SearchUserFormProps) => {
-    const [simplifiedQuery, fullQuery] = useQueryFilter()
+    const [setSearchFilter] = useQueryFilter()
     const userNameFilter = useAppSelector(getNameFilter);
     const friendFilter = useAppSelector(getFriendFilter);
 
@@ -23,7 +24,7 @@ const SearchUserForm = ({}: SearchUserFormProps) => {
     }
 
     const onDefaultFilterClick = () => {
-        simplifiedQuery(1, "", null, true)
+        setSearchFilter(true, 1, "", null, true)
     }
 
     return (
@@ -38,9 +39,9 @@ const SearchUserForm = ({}: SearchUserFormProps) => {
                 }
 
                 if (friendFilter === null && values.searchUserFilter === "") {
-                    simplifiedQuery(1, values.searchUserFilter, friendFilter, true)
+                    setSearchFilter(true, 1, values.searchUserFilter, friendFilter, true)
                 } else {
-                    fullQuery(1, values.searchUserFilter, friendFilter, true)
+                    setSearchFilter(false, 1, values.searchUserFilter, friendFilter, true)
                 }
             }}
         >

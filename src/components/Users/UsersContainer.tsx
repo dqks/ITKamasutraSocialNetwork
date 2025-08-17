@@ -16,7 +16,7 @@ import {
     getUsers
 } from "../../redux/usersSelectors";
 import {useAppDispatch, useAppSelector} from "../../hooks/redux";
-import {useSearchParams} from "react-router-dom";
+import {useLocation, useSearchParams} from "react-router-dom";
 
 interface UserContainerProps {
 }
@@ -24,6 +24,15 @@ interface UserContainerProps {
 const UserContainer = ({}: UserContainerProps) => {
     const [searchParams] = useSearchParams()
     const currentPage = Number(searchParams.get("currentPage"))
+
+    const location = useLocation();
+
+    useEffect(() => {
+        return () => {
+            dispatch(setUserNameFilter(""))
+            dispatch(setFriendFilter(null))
+        }
+    }, [location.pathname]);
 
     const dispatch = useAppDispatch();
     const users = useAppSelector(getUsers)
