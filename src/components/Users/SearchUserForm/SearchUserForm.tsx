@@ -1,12 +1,11 @@
 import {Field, Form, Formik} from "formik";
 import classes from "./SearchUserForm.module.css"
-import {useAppDispatch, useAppSelector} from "../../../hooks/redux";
+import {useAppSelector} from "../../../hooks/redux";
 import {getFriendFilter, getNameFilter} from "../../../redux/usersSelectors";
 import {setFriendValue} from "../../../utils/set-friend-value";
 import {useQueryFilter} from "../../../hooks/useQueryFilter";
 
-interface SearchUserFormProps {
-}
+interface SearchUserFormProps {}
 
 type InitialValues = {
     searchUserFilter: string
@@ -14,7 +13,6 @@ type InitialValues = {
 }
 
 const SearchUserForm = ({}: SearchUserFormProps) => {
-    const dispatch = useAppDispatch()
     const [simplifiedQuery, fullQuery] = useQueryFilter()
     const userNameFilter = useAppSelector(getNameFilter);
     const friendFilter = useAppSelector(getFriendFilter);

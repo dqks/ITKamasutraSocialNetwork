@@ -6,6 +6,7 @@ import {setCurrentPage, UserType} from "../../redux/usersReducer";
 import SearchUserForm from "./SearchUserForm/SearchUserForm";
 import {useAppDispatch} from "../../hooks/redux";
 import {useSearchParams} from "react-router-dom";
+import {useQueryFilter} from "../../hooks/useQueryFilter";
 
 interface UsersProps {
     followingInProgress: Array<number>;
@@ -33,13 +34,19 @@ const Users = ({
         onUnfollowButtonClick={onUnfollowButtonClick}/>)
 
     const dispatch = useAppDispatch();
-    const [searchParams, setSearchParams] = useSearchParams()
+    const [simplifiedQuery, fullQuery, searchParams] = useQueryFilter()
 
     const setCurrentPageMemo = useCallback((page: number) => {
-        if (searchParams.get("friend") !== null) {
-            setSearchParams(`?currentPage=${page}&term=${searchParams.get("term")}&friend=${searchParams.get("friend")}`)
+        if (searchParams.get("term") !== null) {
+            let friendFilter: boolean | null = null;
+            if (searchParams.get("friend") === "true") {
+                friendFilter = true
+            } else if (searchParams.get("friend") === "false") {
+                friendFilter = false
+            }
+            fullQuery(page,searchParams.get("term"), friendFilter)
         } else {
-            setSearchParams(`?currentPage=${page}`)
+            simplifiedQuery(page)
         }
         dispatch(setCurrentPage(page))
     }, [])

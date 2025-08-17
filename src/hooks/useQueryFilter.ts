@@ -8,8 +8,8 @@ type QueryFilterParams = () => [
         friend?: boolean | null,
         shouldDispatch?: boolean) => void,
     (currentPage: number,
-        term?: string,
-        friend?: boolean | null,
+        term: string | null,
+        friend: boolean | null,
         shouldDispatch?: boolean) => void,
     searchParams: URLSearchParams
 ]
@@ -18,24 +18,23 @@ export const useQueryFilter : QueryFilterParams = () => {
     const [searchParams, setSearchParams] = useSearchParams()
     const dispatch = useAppDispatch()
 
-
     const simplifiedQuery = (currentPage: number,
         term?: string,
         friend?: boolean | null,
         shouldDispatch?: boolean) => {
         setSearchParams(`?currentPage=${currentPage}`)
-        if (shouldDispatch && term && friend) {
+        if (shouldDispatch && term !== undefined && friend !== undefined) {
             dispatch(setUserNameFilter(term))
             dispatch(setFriendFilter(friend))
         }
     }
 
     const fullQuery = (currentPage: number,
-        term?: string,
-        friend?: boolean | null,
+        term: string | null = '',
+        friend: boolean | null = null,
         shouldDispatch?: boolean) => {
         setSearchParams(`?currentPage=${currentPage}&term=${term}&friend=${friend}`)
-        if (shouldDispatch && term && friend) {
+        if (shouldDispatch && term !== null && friend !== undefined) {
             dispatch(setUserNameFilter(term))
             dispatch(setFriendFilter(friend))
         }
