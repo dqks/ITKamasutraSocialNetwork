@@ -9,15 +9,14 @@ import React, {useEffect} from "react";
 import Users from "./Users";
 import Preloader from "../Common/Preloader/Preloader";
 import {
-    getCurrentPage,
-    getFollowingInProgress, getFriendFilter,
-    getIsFetching, getNameFilter,
+    getFollowingInProgress,
+    getIsFetching,
     getPageSize,
     getTotalUsersCount,
     getUsers
 } from "../../redux/usersSelectors";
 import {useAppDispatch, useAppSelector} from "../../hooks/redux";
-import {useLocation, useNavigate, useParams, useSearchParams} from "react-router-dom";
+import {useSearchParams} from "react-router-dom";
 
 interface UserContainerProps {
 }
@@ -32,31 +31,21 @@ const UserContainer = ({}: UserContainerProps) => {
     const pageSize = useAppSelector(getPageSize)
     const isFetching = useAppSelector(getIsFetching)
     const followingInProgress = useAppSelector(getFollowingInProgress)
-    const nameFilter = useAppSelector(getNameFilter)
-    const friendFilter = useAppSelector(getFriendFilter)
 
     useEffect(() => {
-        const currentPage = Number(searchParams.get("currentPage"))
         const term = searchParams.get("term")
         const friend = searchParams.get("friend")
 
         let friendFilter: boolean | null = null;
-        let nameTerm: string = '';
         if (friend === "true") {
             friendFilter = true
         } else if (friend === "false") {
             friendFilter = false
         }
 
-        if (term === null) {
-            nameTerm = ''
-        }
-        dispatch(requestUsers(currentPage, pageSize, nameTerm, friendFilter))
+        let nameTerm: string = term === null ? '' : term;
 
-        return () => {
-            dispatch(setUserNameFilter(""))
-            dispatch(setFriendFilter(null))
-        }
+        dispatch(requestUsers(currentPage, pageSize, nameTerm, friendFilter))
     }, [searchParams, pageSize]);
 
     const onFollowButtonClick = (id: number) => {

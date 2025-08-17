@@ -5,7 +5,7 @@ import Paginator from "../Common/Paginator/Paginator";
 import {setCurrentPage, UserType} from "../../redux/usersReducer";
 import SearchUserForm from "./SearchUserForm/SearchUserForm";
 import {useAppDispatch} from "../../hooks/redux";
-import {useNavigate} from "react-router-dom";
+import {useSearchParams} from "react-router-dom";
 
 interface UsersProps {
     followingInProgress: Array<number>;
@@ -33,16 +33,16 @@ const Users = ({
         onUnfollowButtonClick={onUnfollowButtonClick}/>)
 
     const dispatch = useAppDispatch();
-
-    const navigate = useNavigate()
+    const [searchParams, setSearchParams] = useSearchParams()
 
     const setCurrentPageMemo = useCallback((page: number) => {
-        navigate({
-            pathname: "/users",
-            search: "?currentPage=" + page
-        })
+        if (searchParams.get("friend") !== null) {
+            setSearchParams(`?currentPage=${page}&term=${searchParams.get("term")}&friend=${searchParams.get("friend")}`)
+        } else {
+            setSearchParams(`?currentPage=${page}`)
+        }
         dispatch(setCurrentPage(page))
-    }, [currentPage])
+    }, [])
     return (
         <div className={classes.body}>
             {users.length > 0

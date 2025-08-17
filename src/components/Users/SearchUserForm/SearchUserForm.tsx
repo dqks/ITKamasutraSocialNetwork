@@ -1,9 +1,9 @@
 import {Field, Form, Formik} from "formik";
 import classes from "./SearchUserForm.module.css"
 import {useAppDispatch, useAppSelector} from "../../../hooks/redux";
-import {setCurrentPage, setFriendFilter, setUserNameFilter} from "../../../redux/usersReducer";
-import {getNameFilter} from "../../../redux/usersSelectors";
-import {useNavigate} from "react-router-dom";
+import {getFriendFilter, getNameFilter} from "../../../redux/usersSelectors";
+import {setFriendValue} from "../../../utils/set-friend-value";
+import {useQueryFilter} from "../../../hooks/useQueryFilter";
 
 interface SearchUserFormProps {
 }
@@ -15,17 +15,17 @@ type InitialValues = {
 
 const SearchUserForm = ({}: SearchUserFormProps) => {
     const dispatch = useAppDispatch()
-    const navigate = useNavigate()
+    const [simplifiedQuery, fullQuery] = useQueryFilter()
     const userNameFilter = useAppSelector(getNameFilter);
+    const friendFilter = useAppSelector(getFriendFilter);
 
     const initialValues: InitialValues = {
         searchUserFilter: userNameFilter,
-        friendFilter: ""
+        friendFilter: setFriendValue(friendFilter),
     }
 
     const onDefaultFilterClick = () => {
-        dispatch(setUserNameFilter(""))
-        dispatch(setFriendFilter(null))
+        simplifiedQuery(1, "", null, true)
     }
 
     return (
@@ -33,24 +33,17 @@ const SearchUserForm = ({}: SearchUserFormProps) => {
             initialValues={initialValues}
             onSubmit={(values: InitialValues) => {
                 let friendFilter: boolean | null = null;
-                if (values.friendFilter === "allUsers") {
-                    friendFilter = null
-                } else if (values.friendFilter === "friendsOnly") {
+                if (values.friendFilter === "friendsOnly") {
                     friendFilter = true
                 } else if (values.friendFilter === "notFriends") {
                     friendFilter = false
                 }
 
-                debugger
-
-                navigate({
-                    pathname: "/users",
-                    search: "?currentPage=1" + "&term=" + values.searchUserFilter + "&friend=" + friendFilter
-                })
-
-                dispatch(setCurrentPage(1))
-                dispatch(setUserNameFilter(values.searchUserFilter))
-                dispatch(setFriendFilter(friendFilter))
+                if (friendFilter === null && values.searchUserFilter === "") {
+                    simplifiedQuery(1, values.searchUserFilter, friendFilter, true)
+                } else {
+                    fullQuery(1, values.searchUserFilter, friendFilter, true)
+                }
             }}
         >
             {({errors}) => {
