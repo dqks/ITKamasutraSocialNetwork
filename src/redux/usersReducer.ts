@@ -87,7 +87,8 @@ const usersReducer = createSlice({
             action: PayloadAction<string>) => {
             state.filter.nameFilter = action.payload;
         },
-        setFriendFilter: (state, action: PayloadAction<boolean | null>) => {
+        setFriendFilter: (state,
+            action: PayloadAction<boolean | null>) => {
             state.filter.friendFilter = action.payload;
         }
     }
@@ -99,20 +100,21 @@ type UsersAppThunk = ThunkActionType<UsersActionsTypes>
 
 //thunks
 export const requestUsers = (currentPage: number,
-    pageSize: number,
-    searchUserFilter : string = "",
+    searchUserFilter: string = "",
     friendFilter: boolean | null = null): UsersAppThunk => {
-    return async (dispatch) => {
+    return async (dispatch, getState) => {
         dispatch(toggleIsFetching(true));
         try {
             const data = await usersAPI.getUsers(
                 currentPage,
-                pageSize,
+                getState().usersPage.pageSize,
                 searchUserFilter,
                 friendFilter);
             if (!data.error) {
                 dispatch(toggleIsFetching(false));
                 dispatch(setUsers(data.items));
+                dispatch(setUserNameFilter(searchUserFilter))
+                dispatch(setFriendFilter(friendFilter))
                 dispatch(setTotalCount(data.totalCount));
                 dispatch(setCurrentPage(currentPage));
             } else {

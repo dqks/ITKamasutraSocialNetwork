@@ -24,7 +24,7 @@ const SearchUserForm = ({}: SearchUserFormProps) => {
     }
 
     const onDefaultFilterClick = () => {
-        setSearchFilter(true, 1, "", null, true)
+        setSearchFilter(true, 1, "", null)
     }
 
     return (
@@ -39,9 +39,9 @@ const SearchUserForm = ({}: SearchUserFormProps) => {
                 }
 
                 if (friendFilter === null && values.searchUserFilter === "") {
-                    setSearchFilter(true, 1, values.searchUserFilter, friendFilter, true)
+                    setSearchFilter(true, 1, values.searchUserFilter, friendFilter)
                 } else {
-                    setSearchFilter(false, 1, values.searchUserFilter, friendFilter, true)
+                    setSearchFilter(false, 1, values.searchUserFilter, friendFilter)
                 }
             }}
         >

@@ -1,10 +1,4 @@
-import {
-    followUserThunk,
-    requestUsers,
-    setFriendFilter,
-    setUserNameFilter,
-    unfollowUserThunk
-} from "../../redux/usersReducer";
+import {followUserThunk, requestUsers, unfollowUserThunk} from "../../redux/usersReducer";
 import React, {useEffect} from "react";
 import Users from "./Users";
 import Preloader from "../Common/Preloader/Preloader";
@@ -16,7 +10,7 @@ import {
     getUsers
 } from "../../redux/usersSelectors";
 import {useAppDispatch, useAppSelector} from "../../hooks/redux";
-import {useLocation, useSearchParams} from "react-router-dom";
+import {useSearchParams} from "react-router-dom";
 
 interface UserContainerProps {
 }
@@ -24,15 +18,6 @@ interface UserContainerProps {
 const UserContainer = ({}: UserContainerProps) => {
     const [searchParams] = useSearchParams()
     const currentPage = Number(searchParams.get("currentPage"))
-
-    const location = useLocation();
-
-    useEffect(() => {
-        return () => {
-            dispatch(setUserNameFilter(""))
-            dispatch(setFriendFilter(null))
-        }
-    }, [location.pathname]);
 
     const dispatch = useAppDispatch();
     const users = useAppSelector(getUsers)
@@ -54,7 +39,7 @@ const UserContainer = ({}: UserContainerProps) => {
 
         let nameTerm: string = term === null ? '' : term;
 
-        dispatch(requestUsers(currentPage, pageSize, nameTerm, friendFilter))
+        dispatch(requestUsers(currentPage, nameTerm, friendFilter))
     }, [searchParams, pageSize]);
 
     const onFollowButtonClick = (id: number) => {
