@@ -43,9 +43,9 @@ const Users = ({
             } else if (searchParams.get("friend") === "false") {
                 friendFilter = false
             }
-            setSearchFilter(false, page, searchParams.get("term"), friendFilter)
+            setSearchFilter(page, searchParams.get("term"), friendFilter)
         } else {
-            setSearchFilter(true, page)
+            setSearchFilter(page)
         }
         dispatch(setCurrentPage(page))
     }, [])

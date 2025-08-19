@@ -1,7 +1,6 @@
 import {useSearchParams} from "react-router-dom";
 
-type QueryFunc = (isSimpleRequest: boolean,
-    currentPage: number,
+type QueryFunc = (currentPage: number,
     term?: string | null,
     friend?: boolean | null) => void;
 
@@ -12,13 +11,17 @@ type QueryFilterParams = () => [
 
 export const useQueryFilter: QueryFilterParams = () => {
     const [searchParams, setSearchParams] = useSearchParams()
-    const setSearchFilter: QueryFunc = (isSimpleRequest,
-        currentPage,
+    const setSearchFilter: QueryFunc = (currentPage,
         term = '',
         friend = null) => {
-        isSimpleRequest
-            ? setSearchParams(`?currentPage=${currentPage}`)
-            : setSearchParams(`?currentPage=${currentPage}&term=${term}&friend=${friend}`)
+        let queryResult = `?currentPage=${currentPage}`
+        if (term !== '') {
+            queryResult += `&term=${term}`
+        }
+        if (friend !== null) {
+            queryResult += `&friend=${friend}`
+        }
+        setSearchParams(queryResult)
     }
     return [setSearchFilter, searchParams]
 }
