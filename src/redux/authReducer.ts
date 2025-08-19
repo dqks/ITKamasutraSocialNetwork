@@ -3,6 +3,7 @@ import {authAPI} from "../api/authAPI";
 import {securityAPI} from "../api/securityAPI";
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {ResultCodeForCaptcha, ResultCodes} from "../api/result-codes";
+import {profileAPI} from "../api/profileAPI";
 
 type InitialStateType = {
     id: number | null,
@@ -10,7 +11,8 @@ type InitialStateType = {
     login: string | null,
     isFetching: boolean,
     isAuth: boolean,
-    captchaUrl: string | null
+    captchaUrl: string | null,
+    avatarUrl: string | null
 }
 
 let initialState: InitialStateType = {
@@ -20,6 +22,7 @@ let initialState: InitialStateType = {
     isFetching: false,
     isAuth: false,
     captchaUrl: null,
+    avatarUrl: null
 };
 
 const authReducer = createSlice({
@@ -42,7 +45,10 @@ const authReducer = createSlice({
         setCaptchaUrl: (state,
             action: PayloadAction<string>) => {
             state.captchaUrl = action.payload
-        }
+        },
+        setCurrentUserAvatar: (state, action: PayloadAction<string| null>) => {
+            state.avatarUrl = action.payload
+        },
     }
 })
 type AuthActionsTypes = ActionsTypes<typeof authReducer.actions>
@@ -54,6 +60,10 @@ export const getAuthUser = (): AuthThunkAction => {
         const data = await authAPI.checkAuth();
         if (data.resultCode === ResultCodes.Success) {
             dispatch(setUserData(data.data));
+            const profileResponse = await profileAPI.getUserProfile(data.data.id)
+            if (profileResponse.data.photos.small) {
+                dispatch(setCurrentUserAvatar(profileResponse.data.photos.small))
+            }
         }
     }
 }
@@ -84,7 +94,7 @@ export const loginUser = (email: string,
                 })
             } else {
                 if (data.resultCode === ResultCodeForCaptcha.CaptchaIsRequired) {
-                    dispatch(getCaptchaURL());
+                    await dispatch(getCaptchaURL());
                 }
                 setFieldValue("generalError", data.messages.join(" "))
                 console.error("Unable to log in", data.messages);
@@ -118,5 +128,5 @@ export const getCaptchaURL = (): AuthThunkAction => {
     }
 }
 
-export const {setUserData, deleteUserData, setCaptchaUrl} = authReducer.actions;
+export const {setUserData, deleteUserData, setCaptchaUrl, setCurrentUserAvatar} = authReducer.actions;
 export default authReducer.reducer;
