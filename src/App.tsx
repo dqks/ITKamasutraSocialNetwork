@@ -1,24 +1,21 @@
 import "./App.css";
-import Header from "./components/Header/Header";
-import Navbar from "./components/Navbar/Navbar";
-import News from "./components/News/News";
-import Settings from "./components/Settings/Settings";
-import {BrowserRouter, Navigate, Route, Routes} from "react-router-dom";
-import React, {Suspense, useEffect} from "react";
-import FriendsPage from "./components/FriendsPage/FriendsPage";
+import {BrowserRouter} from "react-router-dom";
+import React, {useEffect} from "react";
 import {initializeApp} from "./redux/appReducer";
 import Preloader from "./components/Common/Preloader/Preloader";
-import {routes} from "./constants/routes";
-import Profile from "./components/Profile/Profile";
 import {useAppDispatch, useAppSelector} from "./hooks/redux";
 import {getInitialized} from "./redux/appSelectors";
-
-const Dialogs = React.lazy(() => import("./components/Dialogs/Dialogs"));
-const Login = React.lazy(() => import("./components/Login/Login"));
-const Music = React.lazy(() => import("./components/Music/Musics"));
-const UsersPage = React.lazy(() => import("./components/Users/UsersContainer"));
+import {Breadcrumb, Layout, theme} from 'antd';
+import {AppHeader} from "./components/AppHeader/AppHeader";
+import {AppFooter} from "./components/AppFooter/AppFooter";
+import {Navbar} from "./components/Navbar/Navbar";
+import {Main} from "./components/Main";
 
 const App = () => {
+    const {
+        token: {colorBgContainer, borderRadiusLG},
+    } = theme.useToken();
+
     const initialized = useAppSelector(getInitialized);
     const dispatch = useAppDispatch();
     useEffect(() => {
@@ -34,37 +31,20 @@ const App = () => {
     }
     return (
         <BrowserRouter>
-            <div className="app-wrapper">
-                <Header/>
-                <Navbar/>
-                <div className="app-wrapper-content">
-                    <Routes>
-                        <Route path="/" element={<Navigate to="/profile"/>}/>
-                        <Route path={routes.profile}
-                            element={<Profile/>}/>
-                        <Route path={routes.dialogs}
-                            element={<Suspense fallback={<div><Preloader/></div>}>
-                                <Dialogs/>
-                            </Suspense>}/>
-                        <Route path={routes.news} element={<News/>}/>
-                        <Route path={routes.music}
-                            element={<Suspense fallback={<div><Preloader/></div>}>
-                                <Music/>
-                            </Suspense>}/>
-                        <Route path={routes.settings} element={<Settings/>}/>
-                        <Route path={routes.friends} element={<FriendsPage/>}/>
-                        <Route path={routes.users}
-                            element={<Suspense fallback={<div><Preloader/></div>}>
-                                <UsersPage/>
-                            </Suspense>}/>
-                        <Route path={routes.login}
-                            element={<Suspense fallback={<div><Preloader/></div>}>
-                                <Login/>
-                            </Suspense>}/>
-                        <Route path={routes.notFound} element={<div>404</div>}/>
-                    </Routes>
+            <Layout>
+                <AppHeader/>
+                <div style={{padding: '0 48px'}}>
+                    <Breadcrumb
+                        style={{margin: '16px 0'}}
+                        items={[{title: 'Home'}, {title: 'List'}, {title: 'App'}]}
+                    />
+                    <Layout style={{padding: '24px 0', background: colorBgContainer, borderRadius: borderRadiusLG}}>
+                        <Navbar />
+                        <Main />
+                    </Layout>
                 </div>
-            </div>
+                <AppFooter/>
+            </Layout>
         </BrowserRouter>
     );
 };

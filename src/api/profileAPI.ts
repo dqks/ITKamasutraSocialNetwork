@@ -33,8 +33,8 @@ export const profileAPI = {
             }
         });
         return response.data;
-
     },
+
     async saveProfileData(profile: ProfileType) {
         let response = await instance.put<SetProfileDataResponse>('/profile', profile);
         return response.data;
