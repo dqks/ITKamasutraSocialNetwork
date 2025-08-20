@@ -4,6 +4,7 @@ import {Menu, theme} from "antd";
 import SubMenu from "antd/es/menu/SubMenu";
 import {LaptopOutlined, UserOutlined} from "@ant-design/icons";
 import React from "react";
+import {routes} from "../../constants/routes";
 
 interface NavbarProps {
 }
@@ -22,19 +23,19 @@ export const Navbar = ({}: NavbarProps) => {
             >
                 <SubMenu key="sub1" title="My Profile" icon={<UserOutlined/>}>
                     <Menu.Item key="1">
-                        <NavLink to="/profile">Profile</NavLink>
+                        <NavLink to={routes.profile}>Profile</NavLink>
                     </Menu.Item>
                     <Menu.Item key="2">
-                        <NavLink to="/dialogs">Messages</NavLink>
+                        <NavLink to={routes.chat}>Chat</NavLink>
                     </Menu.Item>
                     <Menu.Item key="3">
-                        <NavLink to="/friends">Friends</NavLink>
+                        <NavLink to={routes.friends}>Friends</NavLink>
                     </Menu.Item>
                 </SubMenu>
                 <SubMenu key="sub2" title="Users" icon={<LaptopOutlined/>}>
                     <Menu.Item key="4">
                         <NavLink to={{
-                            pathname: "/users",
+                            pathname: routes.users,
                             search: "currentPage=1"
                         }}>
                             Users

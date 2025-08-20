@@ -5,13 +5,14 @@ import {ResponseType} from "./reponse-type";
 
 type SetProfileStatusResponse = ResponseType<string>
 
-type SetProfilePhotoResponse = ResponseType<{photos: PhotosType}>
+type SetProfilePhotoResponse = ResponseType<{ photos: PhotosType }>
 
 type SetProfileDataResponse = ResponseType<ProfileType>
 
 export const profileAPI = {
-    getUserProfile(userId : number | null) {
-        return instance.get<ProfileType>(`profile/` + userId);
+    getUserProfile(userId: number | null,
+        signal?: AbortSignal) {
+        return instance.get<ProfileType>(`profile/` + userId, {signal});
     },
 
     async setProfileStatus(statusText: string) {
@@ -19,8 +20,9 @@ export const profileAPI = {
         return response.data;
     },
 
-    async getProfileStatus(userId: number) {
-        let response = await instance.get<string>(`profile/status/${userId}`);
+    async getProfileStatus(userId: number,
+        signal?: AbortSignal) {
+        let response = await instance.get<string>(`profile/status/${userId}`, {signal});
         return response.data;
     },
 

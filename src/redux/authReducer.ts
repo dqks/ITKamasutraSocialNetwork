@@ -55,7 +55,7 @@ type AuthActionsTypes = ActionsTypes<typeof authReducer.actions>
 
 type AuthThunkAction = ThunkActionType<AuthActionsTypes>
 
-export const getAuthUser = (): AuthThunkAction => {
+export const getAuthUser = (signal?: AbortSignal): AuthThunkAction => {
     return async (dispatch) => {
         const data = await authAPI.checkAuth();
         if (data.resultCode === ResultCodes.Success) {

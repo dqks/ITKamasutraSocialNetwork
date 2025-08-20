@@ -24,10 +24,15 @@ type AppActionsTypes = ActionsTypes<typeof appReducer.actions> // all action typ
 
 type AppThunk = ThunkActionType<AppActionsTypes>
 
-export const initializeApp = (): AppThunk => {
+export const initializeApp = (signal?: AbortSignal): AppThunk => {
     return async (dispatch) => {
-        await dispatch(getAuthUser());
-        dispatch(initializedSuccess());
+        try {
+            await dispatch(getAuthUser(signal));
+            dispatch(initializedSuccess());
+        } catch (error) {
+            console.log(error);
+        }
+
     }
 }
 

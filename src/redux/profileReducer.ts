@@ -101,11 +101,15 @@ type ProfileActionsTypes = ActionsTypes<typeof profileReducer.actions>
 type ProfileThunkAction = ThunkActionType<ProfileActionsTypes>
 
 //Thunks
-export const getUserProfile = (userId: number | null): ProfileThunkAction => {
+export const getUserProfile = (userId: number | null, signal?: AbortSignal): ProfileThunkAction => {
     return async (dispatch) => {
-        const response = await profileAPI.getUserProfile(userId);
-        if (response.status === 200) {
-            dispatch(setProfile(response.data));
+        try {
+            const response = await profileAPI.getUserProfile(userId, signal);
+            if (response.status === 200) {
+                dispatch(setProfile(response.data));
+            }
+        } catch (error) {
+            console.log(error)
         }
     }
 }
@@ -120,16 +124,19 @@ export const setProfileStatus = (statusText: string): ProfileThunkAction => {
                 console.error("Unable to change status", response.messages)
             }
         } catch (error) {
-            //dispatch
             console.error("Unable to change status")
         }
     }
 }
 
-export const getProfileStatus = (userId: number): ProfileThunkAction => {
+export const getProfileStatus = (userId: number, signal?: AbortSignal): ProfileThunkAction => {
     return async (dispatch) => {
-        const data = await profileAPI.getProfileStatus(userId)
-        dispatch(changeStatus(data));
+        try {
+            const data = await profileAPI.getProfileStatus(userId, signal);
+            dispatch(changeStatus(data));
+        } catch (error) {
+            console.log(error)
+        }
     }
 }
 

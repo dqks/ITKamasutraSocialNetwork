@@ -9,7 +9,7 @@ import {Breadcrumb, Layout, theme} from 'antd';
 import {AppHeader} from "./components/AppHeader/AppHeader";
 import {AppFooter} from "./components/AppFooter/AppFooter";
 import {Navbar} from "./components/Navbar/Navbar";
-import {Main} from "./components/Main";
+import {Main} from "./components/Main/Main";
 
 const App = () => {
     const {
@@ -19,7 +19,11 @@ const App = () => {
     const initialized = useAppSelector(getInitialized);
     const dispatch = useAppDispatch();
     useEffect(() => {
-        dispatch(initializeApp())
+        const abortController = new AbortController();
+        dispatch(initializeApp(abortController.signal))
+        return () => {
+            abortController.abort();
+        }
     }, [dispatch]);
 
     if (!initialized) {
@@ -39,8 +43,8 @@ const App = () => {
                         items={[{title: 'Home'}, {title: 'List'}, {title: 'App'}]}
                     />
                     <Layout style={{padding: '24px 0', background: colorBgContainer, borderRadius: borderRadiusLG}}>
-                        <Navbar />
-                        <Main />
+                        <Navbar/>
+                        <Main/>
                     </Layout>
                 </div>
                 <AppFooter/>

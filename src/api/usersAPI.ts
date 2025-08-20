@@ -12,9 +12,11 @@ export const usersAPI = {
     async getUsers(currentPage: number,
         pageSize: number,
         nameFilter: string | null,
-        friendFilter: boolean | null) {
+        friendFilter: boolean | null,
+        signal?: AbortSignal) {
         let response = await instance.get
-            <GetUsersResponse>(`users?page=${currentPage}&count=${pageSize}&term=${nameFilter}` + (friendFilter === null ? '' : `&friend=${friendFilter}`));
+            <GetUsersResponse>(`users?page=${currentPage}&count=${pageSize}&term=${nameFilter}`
+                + (friendFilter === null ? '' : `&friend=${friendFilter}`),{signal});
         return response.data;
     },
 

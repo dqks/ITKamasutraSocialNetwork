@@ -18,8 +18,8 @@ type LogoutResponseType = {
 }
 
 export const authAPI = {
-    async checkAuth() {
-        let response = await instance.get<CheckAuthResponseType>('auth/me');
+    async checkAuth(signal?: AbortSignal) {
+        let response = await instance.get<CheckAuthResponseType>('auth/me', {signal});
         return response.data;
     },
 

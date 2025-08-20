@@ -1,11 +1,11 @@
 import classes from "./Dialogs.module.css"
 import DialogItem from "./DialogItem/DialogItem";
-import Message from "./Message/Message";
 import {useAuth} from "../../hooks/useAuth";
 import MessageForm from "./MessageForm/MessageForm";
 import {getDialogs, getMessages} from "../../redux/dialogsSelectors";
 import {useAppSelector} from "../../hooks/redux";
 import {DialogType, MessageType} from "../../redux/dialogsReducer";
+import MessageOld from "./MessageOld/MessageOld";
 
 interface DialogProps {}
 
@@ -19,7 +19,7 @@ const Dialogs = ({} : DialogProps) => {
         .map((el : DialogType) => <DialogItem name={el.name} key={el.id} id={el.id}/>)
 
     const messagesArr = messages
-        .map((el : MessageType) => <Message key={el.id} message={el.message}/>)
+        .map((el : MessageType) => <MessageOld key={el.id} message={el.message}/>)
 
     return (
         <div className={classes.dialogs}>

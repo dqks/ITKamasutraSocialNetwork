@@ -1,28 +1,33 @@
 import {Content} from "antd/es/layout/layout";
 import {Navigate, Route, Routes} from "react-router-dom";
-import {routes} from "../constants/routes";
-import Profile from "./Profile/Profile";
+import {routes} from "../../constants/routes";
+import Profile from "../Profile/Profile";
 import React, {Suspense} from "react";
-import Preloader from "./Common/Preloader/Preloader";
-import News from "./News/News";
-import Settings from "./Settings/Settings";
-import FriendsPage from "./FriendsPage/FriendsPage";
+import Preloader from "../Common/Preloader/Preloader";
+import News from "../News/News";
+import Settings from "../Settings/Settings";
+import FriendsPage from "../FriendsPage/FriendsPage";
 
-const Dialogs = React.lazy(() => import("../components/Dialogs/Dialogs"));
-const Login = React.lazy(() => import("../components/Login/Login"));
-const Music = React.lazy(() => import("../components/Music/Musics"));
-const UsersPage = React.lazy(() => import("../components/Users/UsersContainer"));
+const Dialogs = React.lazy(() => import("../Dialogs/Dialogs"));
+const ChatPage = React.lazy(() => import("../../pages/ChatPage/ChatPage"))
+const Login = React.lazy(() => import("../Login/Login"));
+const Music = React.lazy(() => import("../Music/Musics"));
+const UsersPage = React.lazy(() => import("../Users/UsersContainer"));
 
 export const Main = () => {
     return (
         <Content style={{padding: '0 24px', minHeight: 280}}>
             <Routes>
-                <Route path="/" element={<Navigate to="/profile"/>}/>
+                <Route path="/" element={<Navigate to={routes.profile}/>}/>
                 <Route path={routes.profile}
                     element={<Profile/>}/>
                 <Route path={routes.dialogs}
                     element={<Suspense fallback={<div><Preloader/></div>}>
                         <Dialogs/>
+                    </Suspense>}/>
+                <Route path={routes.chat}
+                    element={<Suspense fallback={<div><Preloader/></div>}>
+                        <ChatPage/>
                     </Suspense>}/>
                 <Route path={routes.news} element={<News/>}/>
                 <Route path={routes.music}
@@ -42,6 +47,5 @@ export const Main = () => {
                 <Route path={routes.notFound} element={<div>404</div>}/>
             </Routes>
         </Content>
-
     )
 }

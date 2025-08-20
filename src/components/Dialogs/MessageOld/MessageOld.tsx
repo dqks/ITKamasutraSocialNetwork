@@ -5,7 +5,7 @@ interface MessageProps {
     message: string
 }
 
-const Message = ({message} : MessageProps) => {
+const MessageOld = ({message} : MessageProps) => {
     return (
         <div>
             {message}
@@ -13,4 +13,4 @@ const Message = ({message} : MessageProps) => {
     )
 }
 
-export default memo(Message);
+export default memo(MessageOld);

@@ -27,6 +27,7 @@ const UserContainer = ({}: UserContainerProps) => {
     const followingInProgress = useAppSelector(getFollowingInProgress)
 
     useEffect(() => {
+        const abortController = new AbortController();
         const term = searchParams.get("term")
         const friend = searchParams.get("friend")
 
@@ -39,7 +40,14 @@ const UserContainer = ({}: UserContainerProps) => {
 
         let nameTerm: string = term === null ? '' : term;
 
-        dispatch(requestUsers(currentPage, nameTerm, friendFilter))
+        dispatch(requestUsers(
+            currentPage,
+            nameTerm,
+            friendFilter,
+            abortController.signal))
+        return () => {
+            abortController.abort();
+        }
     }, [searchParams, pageSize]);
 
     const onFollowButtonClick = (id: number) => {

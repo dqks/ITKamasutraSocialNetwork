@@ -7,5 +7,6 @@ export const routes = {
     friends: "/friends",
     users: "/users",
     login: "/login",
-    notFound: "*"
+    notFound: "*",
+    chat: "/chat"
 }
