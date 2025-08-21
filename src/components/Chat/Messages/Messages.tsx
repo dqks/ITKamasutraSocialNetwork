@@ -1,6 +1,7 @@
-import {useEffect, useState} from "react";
 import {Message} from "./Message/Message";
 import classes from "./Messages.module.css";
+import {useAppSelector} from "../../../hooks/redux";
+import {getMessages} from "../../../redux/chatSelectors";
 
 type Message = {
     message: string
@@ -12,22 +13,12 @@ type Message = {
 type ChatMessageType = Array<Message>
 
 type MessagesProps = {
-    wsChannel: WebSocket | null
 }
 
-export const Messages = ({wsChannel}: MessagesProps) => {
-    const [messages, setMessages] = useState<ChatMessageType>([])
+export const Messages = ({}: MessagesProps) => {
 
-    useEffect(() => {
-        const messageHandler = (e: MessageEvent) => {
-            const newMessages = JSON.parse(e.data)
-            setMessages([...messages, ...newMessages])
-        }
-        wsChannel?.addEventListener("message", messageHandler);
-        return () => {
-            wsChannel?.removeEventListener("message", messageHandler);
-        }
-    }, [wsChannel, messages])
+    const messages = useAppSelector(getMessages)
+
     return (
         <div className={classes.wrapper}>
             {messages ?

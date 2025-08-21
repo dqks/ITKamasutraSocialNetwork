@@ -7,6 +7,7 @@ import usersReducer from "./usersReducer";
 import authReducer from "./authReducer";
 import musicReducer from "./musicReducer";
 import appReducer from "./appReducer";
+import chatReducer from "./chatReducer";
 
 let reducers = combineReducers({
     profilePage: profileReducer,
@@ -16,6 +17,7 @@ let reducers = combineReducers({
     musicPage: musicReducer,
     auth: authReducer,
     app: appReducer,
+    chat: chatReducer,
 });
 
 export const store = configureStore({

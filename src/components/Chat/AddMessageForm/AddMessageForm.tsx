@@ -3,36 +3,26 @@ import {Field, Form, Formik} from "formik";
 import MessageFormSchema from "../../FormValidation/MessageFormSchema";
 import classes from "../../Dialogs/MessageForm/MessageForm.module.css";
 import {Button} from "antd";
+import {useAppDispatch} from "../../../hooks/redux";
+import {sendMessage} from "../../../redux/chatReducer";
 
 interface MessageFormValues {
     messageText: string;
 }
 
 type AddMessageFormProps = {
-    wsChannel: WebSocket | null
 }
 
-export const AddMessageForm = ({wsChannel}: AddMessageFormProps) => {
+export const AddMessageForm = ({}: AddMessageFormProps) => {
     const initialValues: MessageFormValues = {messageText: ''};
-    const [readyStatus, setReadyStatus] = useState<"pending" | "ready">("pending");
-
-    useEffect(() => {
-        const openHandler = () => {
-            setReadyStatus("ready");
-        }
-        wsChannel?.addEventListener('open', openHandler)
-        return () => {
-            wsChannel?.removeEventListener('open', openHandler)
-            wsChannel?.close()
-            setReadyStatus("pending")
-        }
-    }, [wsChannel]);
+    // const [readyStatus, setReadyStatus] = useState<"pending" | "ready">("pending");
+    const dispatch = useAppDispatch()
 
     return (
         <Formik initialValues={initialValues}
             onSubmit={(values,
                 actions) => {
-                wsChannel?.send(values.messageText)
+                dispatch(sendMessage(values.messageText))
                 actions.resetForm()
             }}
             validateOnBlur={false}
@@ -44,7 +34,7 @@ export const AddMessageForm = ({wsChannel}: AddMessageFormProps) => {
                         <Field type={"text"} name={"messageText"}
                             className={classes.messageText}
                             size={40}/>
-                        <Button disabled={readyStatus !== "ready"}
+                        <Button disabled={false}
                             htmlType={"submit"} className={classes.sendMessage}>Отправить</Button>
                     </Form>
                 )
