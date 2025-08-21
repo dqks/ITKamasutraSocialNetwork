@@ -1,0 +1,14 @@
+.wrapper {
+    margin: 10px 5px;
+}
+
+.avatar {
+    width: 60px;
+    height: 60px;
+}
+
+.userWrapper {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}

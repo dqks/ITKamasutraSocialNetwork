@@ -1,93 +1,51 @@
+import {AddMessageForm} from "../../components/Chat/AddMessageForm/AddMessageForm";
+import {Messages} from "../../components/Chat/Messages/Messages";
 import {useEffect, useState} from "react";
-
-const wsChannel = new WebSocket("wss://social-network.samuraijs.com/handlers/ChatHandler.ashx")
+import {NotificationPlacement} from "antd/lib/notification/interface";
+import {notification} from "antd";
 
 const ChatPage = () => {
-    return (
-        <div>
-            <Chat/>
-        </div>
-    )
-}
-
-type Message = {
-    message: string
-    photo: string
-    userId: number
-    userName: string
-}
-
-type ChatMessageType = Array<Message>
-
-const Chat = () => {
-    return (
-        <div>
-            <Messages/>
-            <AddMessageForm/>
-        </div>
-    )
-}
-
-const Messages = () => {
-    const [messages, setMessages] = useState<ChatMessageType>([])
-    debugger
+    const [wsChannel, setWsChannel] = useState<WebSocket | null>(null);
+    const [api, contextHolder] = notification.useNotification();
+    const openNotification = (placement: NotificationPlacement) => {
+        api.info({
+            message: `Connection error`,
+            description:
+                'Sorry, we are trying to restore connection.',
+            placement,
+        });
+    };
 
     useEffect(() => {
-        wsChannel.addEventListener("message", (e) => {
-            const newMessages = JSON.parse(e.data)
-            setMessages((prevValue) => [...prevValue, ...newMessages])
-            debugger
-        });
-    }, [])
-    return (
-        <div style={{height: '500px', overflowY: 'auto'}}>
-            {messages ?
-                messages.map((m: Message, index) => <Message key={index} userId={m.userId} userName={m.userName} message={m.message}
-                    photo={m.photo}/>)
-                : null}
-        </div>
-    )
-}
+        let ws: WebSocket;
 
-type MessageProps = {
-    userId: number
-    message: string
-    photo: string
-    userName: string
-}
-
-const Message = ({message, photo, userName}: MessageProps) => {
-    return (
-        <div>
-            <div>
-                <img src={photo} alt="Avatar" style={{width: "50px", height: "50px"}}/>
-                <span>{userName}</span>
-            </div>
-            <p>
-                <b>
-                    {message}
-                </b>
-            </p>
-        </div>
-    )
-}
-
-const AddMessageForm = () => {
-    const [messageText, setMessageText] = useState('')
-
-    const sendMessage = () => {
-        if (!messageText) {
-            return;
+        const closeHandler = () => {
+            setTimeout(createChannel, 3000)
+            openNotification("topRight")
         }
-        wsChannel.send(messageText)
-        setMessageText(' ')
-    }
+
+        const createChannel = () => {
+            ws?.removeEventListener("close", closeHandler)
+            ws?.close()
+            ws = new WebSocket("wss://social-network.samuraijs.com/handlers/ChatHandler.ashx")
+            setWsChannel(ws)
+            ws.addEventListener("close", closeHandler)
+        }
+
+        createChannel()
+        return () => {
+            ws.removeEventListener("close", closeHandler)
+            ws.close()
+        }
+    }, []);
     return (
         <div>
-            <input onChange={(e) => setMessageText(e.currentTarget.value)} value={messageText} type="text" name="sendMessage" id="sendMessage"/>
-            <button onClick={sendMessage}>Send</button>
+            {contextHolder}
+            <Messages wsChannel={wsChannel}/>
+            <AddMessageForm wsChannel={wsChannel}/>
         </div>
     )
 }
+
 
 export default ChatPage;
