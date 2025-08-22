@@ -2,3 +2,10 @@
     height: 550px;
     overflow: auto;
 }
+
+.preloaderWrapper {
+    margin: 100px auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

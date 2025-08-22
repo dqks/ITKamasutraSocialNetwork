@@ -1,4 +1,5 @@
 import classes from "./Message.module.css"
+import React from "react";
 
 type MessageProps = {
     userId: number
@@ -7,7 +8,7 @@ type MessageProps = {
     userName: string
 }
 
-export const Message = ({message, photo, userName}: MessageProps) => {
+export const Message = React.memo(({message, photo, userName}: MessageProps) => {
     return (
         <div className={classes.wrapper}>
             <div className={classes.userWrapper}>
@@ -21,4 +22,4 @@ export const Message = ({message, photo, userName}: MessageProps) => {
             </p>
         </div>
     )
-}
+})

@@ -1,23 +1,22 @@
-import React, {useEffect, useState} from "react";
+import React from "react";
 import {Field, Form, Formik} from "formik";
 import MessageFormSchema from "../../FormValidation/MessageFormSchema";
 import classes from "../../Dialogs/MessageForm/MessageForm.module.css";
 import {Button} from "antd";
-import {useAppDispatch} from "../../../hooks/redux";
+import {useAppDispatch, useAppSelector} from "../../../hooks/redux";
 import {sendMessage} from "../../../redux/chatReducer";
+import {getReadyStatus} from "../../../redux/chatSelectors";
 
 interface MessageFormValues {
     messageText: string;
 }
 
-type AddMessageFormProps = {
-}
+type AddMessageFormProps = {}
 
 export const AddMessageForm = ({}: AddMessageFormProps) => {
     const initialValues: MessageFormValues = {messageText: ''};
-    // const [readyStatus, setReadyStatus] = useState<"pending" | "ready">("pending");
+    const readyStatus = useAppSelector(getReadyStatus);
     const dispatch = useAppDispatch()
-
     return (
         <Formik initialValues={initialValues}
             onSubmit={(values,
@@ -34,7 +33,7 @@ export const AddMessageForm = ({}: AddMessageFormProps) => {
                         <Field type={"text"} name={"messageText"}
                             className={classes.messageText}
                             size={40}/>
-                        <Button disabled={false}
+                        <Button disabled={readyStatus !== "ready"}
                             htmlType={"submit"} className={classes.sendMessage}>Отправить</Button>
                     </Form>
                 )
