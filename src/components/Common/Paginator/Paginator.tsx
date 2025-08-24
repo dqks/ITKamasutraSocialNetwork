@@ -6,7 +6,7 @@ interface PaginatorProps {
     pageSize: number
     currentPage: number
     portionSize: number
-    setCurrentPage: (page : number) => void // action creator
+    setCurrentPage: (page: number) => void // action creator
 
 }
 
@@ -33,14 +33,14 @@ const Paginator = ({
         if (currentPortion - 1 < 1) {
             return;
         }
-        setCurrentPortion(currentPortion - 1);
+        setCurrentPortion((value) => value - 1);
     }
 
     const onNextPageButtonClick = () => {
         if (currentPortion === portionCount) {
             return;
         }
-        setCurrentPortion(currentPortion + 1);
+        setCurrentPortion((value) => value + 1);
     }
 
     let pages = []

@@ -75,17 +75,17 @@ const messagesClearedHandlerCreator = (dispatch: Dispatch<any>) => {
 export const startMessagesListening = (): ChatThunkAction => {
     return async (dispatch) => {
         chatAPI.start()
-        chatAPI.subscribe("MessageReceived", newMessageHandlerCreator(dispatch))
-        chatAPI.subscribe("StatusChanged", statusChangedHandlerCreator(dispatch))
-        chatAPI.subscribe("MessagesCleared", messagesClearedHandlerCreator(dispatch))
+        chatAPI.subscribe({type: "MessageReceived", callback: newMessageHandlerCreator(dispatch)})
+        chatAPI.subscribe({type: "StatusChanged", callback: statusChangedHandlerCreator(dispatch)})
+        chatAPI.subscribe({type: "MessagesCleared", callback: messagesClearedHandlerCreator(dispatch)})
     }
 }
 
 export const stopMessagesListening = (): ChatThunkAction => {
     return async (dispatch) => {
-        chatAPI.unsubscribe("StatusChanged", statusChangedHandlerCreator(dispatch))
-        chatAPI.unsubscribe("MessageReceived", newMessageHandlerCreator(dispatch))
-        chatAPI.unsubscribe("MessagesCleared", messagesClearedHandlerCreator(dispatch))
+        chatAPI.unsubscribe({type: "MessageReceived", callback: newMessageHandlerCreator(dispatch)})
+        chatAPI.unsubscribe({type: "StatusChanged", callback: statusChangedHandlerCreator(dispatch)})
+        chatAPI.unsubscribe({type: "StatusChanged", callback: statusChangedHandlerCreator(dispatch)})
         dispatch(clearMessages())
         chatAPI.stop()
     }

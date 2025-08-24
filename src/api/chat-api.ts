@@ -53,19 +53,32 @@ const createChannel = () => {
 }
 
 //Types for subscribers
-type EventsNames = "MessageReceived" | "StatusChanged" | "MessagesCleared"
+type MessagesReceivedCallbackType = (messages: MessageAPIType[]) => void
+type StatusChangedCallbackType = (status: StatusType) => void
+type MessagesClearedCallbackType = () => void
 
-type MessagesReceivedSubscriberType = (messages: MessageAPIType[]) => void
-type StatusChangedSubscriberType = (status: StatusType) => void
-type MessagesClearedSubscriberType = () => void
 
-type CallbackType = MessagesReceivedSubscriberType | StatusChangedSubscriberType | MessagesClearedSubscriberType
-
-let subscribers = {
-    "MessageReceived": [] as MessagesReceivedSubscriberType[],
-    "StatusChanged": [] as StatusChangedSubscriberType[],
-    "MessagesCleared": [] as MessagesClearedSubscriberType[]
+const subscribers = {
+    "MessageReceived": [] as MessagesReceivedCallbackType[],
+    "StatusChanged": [] as StatusChangedCallbackType[],
+    "MessagesCleared": [] as MessagesClearedCallbackType[]
 }
+
+type MessageReceivedObjType = {
+    type: "MessageReceived"
+    callback: MessagesReceivedCallbackType
+}
+type StatusChangedObjType = {
+    type: "StatusChanged"
+    callback: StatusChangedCallbackType
+}
+type MessagesClearedObjType = {
+    type: "MessagesCleared"
+    callback: MessagesClearedCallbackType
+}
+
+type SubscribeType = MessageReceivedObjType | StatusChangedObjType | MessagesClearedObjType
+
 //Methods for Thunks
 export const chatAPI = {
     start() {
@@ -80,14 +93,27 @@ export const chatAPI = {
         subscribers.MessagesCleared = []
     },
 
-    subscribe(eventName: EventsNames, callback: CallbackType) {
-        // @ts-ignore
-        subscribers[eventName].push(callback)
+    subscribe(subscribeObj: SubscribeType) {
+        if (subscribeObj.type === "MessageReceived") {
+            subscribers["MessageReceived"].push(subscribeObj.callback)
+        } else if (subscribeObj.type === "StatusChanged") {
+            subscribers["StatusChanged"].push(subscribeObj.callback)
+        } else if (subscribeObj.type === "MessagesCleared") {
+            subscribers["MessagesCleared"].push(subscribeObj.callback)
+        }
     },
 
-    unsubscribe(eventName: EventsNames, callback: CallbackType) {
-        // @ts-ignore
-        subscribers[eventName] = subscribers[eventName].filter(el => el !== callback)
+    unsubscribe(subscribeObj: SubscribeType) {
+        if (subscribeObj.type === "MessageReceived") {
+            subscribers["MessageReceived"] = subscribers["MessageReceived"]
+            .filter(el => el !== subscribeObj.callback)
+        } else if (subscribeObj.type === "StatusChanged") {
+            subscribers["StatusChanged"] = subscribers["StatusChanged"]
+            .filter(el => el !== subscribeObj.callback)
+        } else if (subscribeObj.type === "MessagesCleared") {
+            subscribers["MessagesCleared"] = subscribers["MessagesCleared"]
+            .filter(el => el !== subscribeObj.callback)
+        }
     },
 
     sendMessage(messageText: string) {

@@ -65,7 +65,7 @@ const profileReducer = createSlice({
             action: PayloadAction<number>) => {
             const post = state.postData.find(post => post.id === action.payload);
             if (post) {
-                post.likeCount++;
+                post.likeCount = post.likeCount + 1;
             }
         },
         setProfile: (state,
